@@ -1,5 +1,5 @@
 import {types,options} from './variables.mjs'
-import {randindex,last,distPos,range,randin,findName} from './functions.mjs'
+import {randindex,last,distPos,range,randin,findName,findId} from './functions.mjs'
 import {unit} from './unit.mjs'
 export class team{
     constructor(operation,type){
@@ -24,7 +24,10 @@ export class team{
             type:this.type,
             player:this.player,
             name:this.name,
-            prisoners:this.prisoners,
+            cities:this.cities.map(city=>city.id),
+            cores:this.cores.map(core=>core.id),
+            units:this.units.map(unit=>unit.id),
+            spawn:this.spawn,
         }
         return composite
     }
@@ -32,7 +35,15 @@ export class team{
         this.type=composite.type
         this.player=composite.player
         this.name=composite.name
-        this.prisoners=composite.prisoners
+        this.cities=composite.cities
+        this.cores=composite.cores
+        this.units=composite.units
+        this.spawn=composite.spawn
+    }
+    loadBar(){
+        this.cities=this.cities.map(city=>this.operation.cities[findId(city,this.operation.cities)])
+        this.cores=this.cores.map(core=>this.operation.cities[findId(core,this.operation.cities)])
+        this.units=this.units.map(unit=>this.operation.units[findId(unit,this.operation.units)])
     }
     initialPatrols(){
         this.spawn.base.strength=this.cores.reduce((acc,core)=>acc+(core.type==1?0.5:1),0)
@@ -77,11 +88,17 @@ export class team{
                 }else if(this.cities.length<=this.cores.length*0.5&&this.spawn.types.boss==0){
                     this.spawn.types.boss=1
                     let possible=[]
-                    this.cities.forEach((cit,index)=>{
-                        if(distPos(cit,this.operation.units[0])>150){
-                            possible.push(index)
+                    for(let a=0,la=6;a<la;a++){
+                        if(possible.length==0){
+                            this.cities.forEach((cit,index)=>{
+                                if(a==5||distPos(cit,this.operation.units[0])>[600,300,150,100,50][a]){
+                                    possible.push(index)
+                                }
+                            })
+                        }else{
+                            break
                         }
-                    })
+                    }
                     let cit=[this.cities[randin(possible)]]
                     this.operation.units.push(new unit(this.operation,false,cit[0].position.x,cit[0].position.y+60,this.operation.id.unit,this.type,3,round((this.spawn.base.strength*8+random(20,40))*options.difficulty)*100))
                     this.operation.id.unit++

@@ -1,5 +1,5 @@
 import {graphics,dev,types,listing,options,constants} from './variables.mjs'
-import {findList,findName,distPos,randin,randindex,floor,random,mapVec,dirPos,constrain} from './functions.mjs'
+import {findList,findTerm0,distPos,randin,randindex,floor,random,mapVec,dirPos,constrain,last} from './functions.mjs'
 import {lsin,lcos} from './graphics.mjs'
 import {calc} from './calc.mjs'
 import {ui} from './ui.mjs'
@@ -33,13 +33,19 @@ export class operation{
         this.initialComponents()
         constants.init=true
     }
-    /*save(){
+    save(){
         let composite={
             map:types.map[this.map].term,
             zoom:this.zoom,
+            time:this.time,
+            resources:this.resources,
+            edge:this.edge,
+            id:this.id,
             cities:[],
             units:[],
             teams:[],
+            ref:this.ref,
+            scale:this.scale,
             scene:this.scene,
             ui:this.ui.save(),
             transitionManager:this.transitionManager.save()
@@ -55,27 +61,35 @@ export class operation{
     load(result){
         let composite=JSON.parse(result)
 
-        let map=findTerm(composite.map,types.map)
-        let reselect=false
+        let map=findTerm0(composite.map,types.map)
         if(map!=this.map){
-            reselect=true
             this.loadMap(map)
         }
         this.map=map
+        this.nextMap=map
         this.zoom=composite.zoom
+        this.time=composite.time
+        this.resources=composite.resources
+        this.edge=composite.edge
+        this.id=composite.id
+        this.ref=composite.ref
+        this.scale=composite.scale
         this.scene=composite.scene
         if(composite.cities!=undefined){
             this.cities=[]
-            composite.cities.forEach(cit=>{this.cities.push(new city(this,0,{},false));last(this.cities).load(cit)})
+            composite.cities.forEach(cit=>{this.cities.push(new city(this,0,0,{},false));last(this.cities).load(cit)})
         }
         if(composite.units!=undefined){
             this.units=[]
-            composite.units.forEach(uni=>{this.units.push(new unit(this,false,0,0,0));last(this.units).load(uni)})
+            composite.units.forEach(uni=>{this.units.push(new unit(this,false,0,0,0,0,0,0));last(this.units).load(uni)})
         }
         if(composite.teams!=undefined){
-            composite.teams.forEach(tea=>{let index=[types.teamRef[tea.name]];if(index>=0){this.teams[index]=new team(this,0);this.teams[index].load(tea)}})
+            this.teams=[]
+            composite.teams.forEach(tea=>{this.teams.push(new team(this,0));last(this.teams).load(tea)})
         }
-        this.cities.forEach(city=>city.setCore())
+        this.cities.forEach(city=>city.loadBar())
+        this.units.forEach(unit=>unit.loadBar())
+        this.teams.forEach(team=>team.loadBar())
         
         this.ui.load(composite.ui)
         this.transitionManager.load(composite.transitionManager)
@@ -95,7 +109,7 @@ export class operation{
         input.scene=scene
         input.click()
         input.addEventListener('change',function(){this.operation.loadStp(this,this.scene)},false)
-    }*/
+    }
     transitionComplete(scene){
         switch(this.scene){
             case `setup`:
@@ -337,7 +351,7 @@ export class operation{
                             pos.y=this.units[0].position.y+1200*lcos(dir)
                         }
                         this.units.push(new unit(this,false,pos.x,pos.y+60,this.id.unit,this.ref.team[`Royal Army`],4,
-                            round(this.teams.reduce((acc,team)=>acc+(team.spawn.aggress<2?team.spawn.base.strength:0),0)*4*options.difficulty)*100
+                            round(this.teams.reduce((acc,team)=>acc+(team.spawn.aggress<2?team.spawn.base.strength:0),0)*5*options.difficulty)*100
                         ))
                         this.id.unit++
                     }

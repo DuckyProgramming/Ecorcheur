@@ -1,5 +1,5 @@
 import {types,graphics,options} from './variables.mjs'
-import {distPos,smoothAnim,moveTowardVec,inBoxBox,basicCollideBoxBox,last,randin} from './functions.mjs'
+import {distPos,smoothAnim,moveTowardVec,inBoxBox,basicCollideBoxBox,last,randin,findId} from './functions.mjs'
 import {lsin,lcos} from './graphics.mjs'
 export class unit{
     constructor(operation,player,x,y,id,team,type,value){
@@ -12,7 +12,7 @@ export class unit{
         this.value=value
         this.base={value:this.value}
         this.last={x:x,y:y}
-        this.goal={position:{x:x,y:y},deviation:{x:random(-10,10),y:random(-10,10)},city:-1,unit:-1,mode:0,time:0,damaged:false,victor:false}
+        this.goal={position:{x:x,y:y},deviation:{x:random(-10,10),y:random(-10,10)},city:-1,nodes:[],unit:-1,mode:0,time:0,tick:0,damaged:false,victor:false}
         this.retreat={speed:1,direction:0}
         this.remove=false
         this.fade={main:0,trigger:true}
@@ -23,33 +23,64 @@ export class unit{
         this.height=0
         this.fortified={trigger:false,city:0}
     }
-    /*save(){
+    save(){
         let composite={
             player:this.player,
+            position:this.position,
+            id:this.id,
             team:this.team,
             type:this.type,
             value:this.value,
-            position:this.position,
-            goal:this.goal,
+            base:this.base,
+            last:this.last,
+            goal:{
+                position:this.goal.position,
+                devition:this.goal.deviation,
+                city:this.goal.city==-1?this.goal.city:this.goal.city.id,
+                nodes:this.goal.nodes.map(node=>node.id),
+                unit:this.goal.unit==-1?this.goal.unit:this.goal.unit.id,
+                mode:this.goal.mode,
+                time:this.goal.time,
+                tick:this.goal.tick,
+                damaged:this.goal.damaged,
+                victor:this.goal.victor
+            },
             retreat:this.retreat,
             remove:this.remove,
+            fade:this.fade,
             speed:this.speed,
             time:this.time,
+            fortified:{
+                trigger:this.fortified.trigger,
+                city:this.fortified.city==0?-1:this.fortified.city.id
+            }
         }
         return composite
     }
     load(composite){
         this.player=composite.player
+        this.position=composite.position
+        this.id=composite.id
         this.team=composite.team
         this.type=composite.type
         this.value=composite.value
-        this.position=composite.position
+        this.base=composite.base
+        this.last=composite.last
         this.goal=composite.goal
         this.retreat=composite.retreat
         this.remove=composite.remove
+        this.fade=composite.fade
         this.speed=composite.speed
         this.time=composite.time
-    }*/
+        this.fortified=composite.fortified
+        this.img=[graphics.load.team[types.team[this.team].loadIndex],graphics.load.unit[this.type]]
+    }
+    loadBar(){
+        this.goal.city=this.goal.city==-1?-1:this.operation.cities[findId(this.goal.city,this.operation.cities)]
+        this.goal.nodes=this.goal.nodes.map(node=>this.operation.cities[findId(node,this.operation.cities)])
+        this.goal.unit=this.goal.unit==-1?-1:this.operation.units[findId(this.goal.unit,this.operation.units)]
+        this.fortified.city=this.fortified.city==-1?0:this.operation.cities[findId(this.fortified.city,this.operation.cities)]
+    }
     display(layer,scene){
         switch(scene){
             case `main`:

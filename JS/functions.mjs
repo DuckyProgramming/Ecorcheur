@@ -170,6 +170,15 @@ export function findName(name,list){
     throw new Error(`findName Fail: ${name}`)
 	return -1
 }
+export function findId(id,list){
+	for(let a=0,la=list.length;a<la;a++){
+		if(list[a].id==id){
+			return a
+		}
+	}
+    throw new Error(`findId Fail: ${id}`)
+	return -1
+}
 export function findName2(name,list){
 	for(let a=0,la=list.length;a<la;a++){
 		if(
@@ -189,6 +198,15 @@ export function findTerm(term,list){
 		}
 	}
     throw new Error(`findTerm Fail: ${term}`)
+	return -1
+}
+export function findTerm0(term,list){
+	for(let a=0,la=list.length;a<la;a++){
+		if(list[a].term[0]==term[0]){
+			return a
+		}
+	}
+    throw new Error(`findTerm0 Fail: ${term}`)
 	return -1
 }
 export function updateMouse(layer,scale){

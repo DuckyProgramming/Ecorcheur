@@ -29,11 +29,12 @@ export class ui{
         */
         this.initial()
     }
-    /*save(){
+    save(){
         let composite={
             tabs:this.tabs,
             select:this.select,
             battle:this.battle,
+            plunder:this.plunder,
         }
         return composite
     }
@@ -41,7 +42,8 @@ export class ui{
         this.tabs=composite.tabs
         this.select=composite.select
         this.battle=composite.battle
-    }*/
+        this.plunder=composite.plunder
+    }
     initial(){
         for(let a=0,la=8;a<la;a++){
             this.tabs.anim.push(0)
@@ -525,6 +527,28 @@ export class ui{
                 layer.text(`Enter`,60,tick+15)
                 tick+=50
 
+                layer.noStroke()
+                layer.fill(120)
+                layer.rect(0,tick+25,160,40,10)
+                layer.fill(0)
+                layer.textSize(15)
+                layer.text(`Save`,0,tick+25)
+                layer.textSize(10)
+                layer.text(count,60,tick+15)
+                tick+=50
+                count++
+
+                layer.noStroke()
+                layer.fill(120)
+                layer.rect(0,tick+25,160,40,10)
+                layer.fill(0)
+                layer.textSize(15)
+                layer.text(`Load`,0,tick+25)
+                layer.textSize(10)
+                layer.text(count,60,tick+15)
+                tick+=50
+                count++
+
                 layer.pop()
             break
         }
@@ -659,6 +683,11 @@ export class ui{
                                     this.moveTab(0)
                                     cit.fade.trigger=false
                                     this.operation.teams[cit.rule].cityDestroyed(cit)
+                                    if(cit.fortified.unit!=0){
+                                        this.operation.units[0].value+=cit.fortified.unit.value
+                                        cit.fortified.unit.fade.trigger=false
+                                        cit.fortified.unit=0
+                                    }
                                 }
                             }
                             tick+=50
@@ -763,6 +792,15 @@ export class ui{
                 if(inPointBox(rel,boxify(0,tick+25,160,40))){
                     this.operation.transitionManager.begin(`main`)
                 }
+                tick+=50
+                if(inPointBox(rel,boxify(0,tick+25,160,40))){
+                    this.operation.saveCol()
+                }
+                tick+=50
+                if(inPointBox(rel,boxify(0,tick+25,160,40))){
+                    this.operation.loadCol(`map`)
+                }
+                tick+=50
             break
         }
     }
@@ -867,6 +905,11 @@ export class ui{
                                 this.moveTab(0)
                                 cit.fade.trigger=false
                                 this.operation.teams[cit.rule].cityDestroyed(cit)
+                                if(cit.fortified.unit!=0){
+                                    this.operation.units[0].value+=cit.fortified.unit.value
+                                    cit.fortified.unit.fade.trigger=false
+                                    cit.fortified.unit=0
+                                }
                             }
                         }
                         count++
@@ -974,6 +1017,14 @@ export class ui{
                 if(key==`Enter`){
                     this.operation.transitionManager.begin(`main`)
                 }
+                if(key==count.toString()){
+                    this.operation.saveCol()
+                }
+                count++
+                if(key==count.toString()){
+                    this.operation.loadCol(`map`)
+                }
+                count++
             break
         }
     }
