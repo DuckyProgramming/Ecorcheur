@@ -309,7 +309,7 @@ export class unit{
                 let pix=round(this.position.x/this.operation.scale)*graphics.load.map[this.operation.map][0].height+round(this.position.y/this.operation.scale)
                 if(
                     graphics.load.water[floor(pix/8)][pix%8]==0&&
-                    !this.operation.cities.some(cit=>distPos(cit,this)<50)
+                    !this.operation.cities.some(cit=>distPos(cit,this)<60)
                 ){
                     this.speed.water++
                     mult*=min(0.6,0.1+this.speed.water*5/300)

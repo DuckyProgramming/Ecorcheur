@@ -485,3 +485,7 @@ export function nameColor(name){
     }
 }
 //main
+export function checkCity(){
+    print(`Checking Order`)
+    types.map.forEach(map=>map.city.forEach((chunk,index)=>{for(let a=1,la=chunk.length;a<la;a++){if(chunk[a].loc[1]<chunk[a-1].loc[1]){print(map.name,index,chunk[a-1].name,chunk[a].name)}}}))
+}

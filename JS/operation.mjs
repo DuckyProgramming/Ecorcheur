@@ -159,7 +159,7 @@ export class operation{
                 }
                 leftover.push(...groups[a][b].cities)
             }
-            for(let b=0,lb=80+a*120-this.cities.length;b<lb;b++){
+            for(let b=0,lb=60+a*120-this.cities.length;b<lb;b++){
                 this.addCity(leftover.splice(randindex(leftover),1)[0],a==1?floor(random(0,2))==0:true)
             }
         }
@@ -362,7 +362,7 @@ export class operation{
         let rel
         switch(this.scene){
             case `main`:
-                rel={position:{x:(mouse.position.x+this.zoom.position.x-layer.width*0.5)/options.scale,y:(mouse.position.y+this.zoom.position.y-layer.height*0.5)/options.scale}}
+                rel={position:{x:(mouse.position.x+this.zoom.position.x-layer.width*0.5+this.ui.width*0.5)/options.scale,y:(mouse.position.y+this.zoom.position.y-layer.height*0.5)/options.scale}}
                 this.cities.forEach(city=>city.onClick(layer,mouse,this.scene,rel))
                 this.ui.onClick(layer,mouse,this.scene)
             break

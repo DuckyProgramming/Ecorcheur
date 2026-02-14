@@ -114,7 +114,8 @@ export class team{
                     break
                 }
             }else{
-                this.spawn.strength+=this.cities.reduce((acc,city)=>acc+(city.type==1?0.5:1),0)*1000*options.difficulty
+                let num=this.cities.reduce((acc,city)=>acc+(city.type==1?0.5:1),0)
+                this.spawn.strength+=(num-num*2/50)*1000*options.difficulty
                 if(this.spawn.strength>=this.spawn.next.value){
                     let success=false
                     let cit

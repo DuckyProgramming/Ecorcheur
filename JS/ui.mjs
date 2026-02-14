@@ -71,7 +71,7 @@ export class ui{
                     }
                 }
                 if(last(this.battle.result.winner)==1){
-                    if(random(0,1)<=1-this.battle.enemy.value/this.battle.enemy.base.value*2){
+                    if(random(0,1)<=1-this.battle.enemy.value/this.battle.enemy.base.value*(this.battle.enemy.type==4?4:2)){
                         this.battle.enemy.fade.trigger=false
                         this.operation.teams[this.battle.enemy.team].unitDestroyed(this.battle.enemy)
                         if(this.battle.enemy.type==3){
@@ -163,11 +163,11 @@ export class ui{
                     this.plunder.prisoners=round(this.battle.result.casualties[1][0].number/100*random(0.05,0.2))*100
                 break
                 case 2:
-                    this.plunder.money=round(this.battle.result.casualties[1][0].number*random(0.075,0.3))
+                    this.plunder.money=round(this.battle.result.casualties[1][0].number*random(0.1,0.4))
                     this.plunder.prisoners=round(this.battle.result.casualties[1][0].number/100*random(0.1,0.4))*100+(this.battle.enemy.value-this.battle.result.casualties[1][0].number)
                 break
                 case 3:
-                    this.plunder.money=round(this.battle.result.casualties[1][0].number*random(0.125,0.5))
+                    this.plunder.money=round(this.battle.result.casualties[1][0].number*random(0.1875,0.75))
                     this.plunder.prisoners=round(this.battle.result.casualties[1][0].number/100*random(0.1,0.4))*100+(this.battle.enemy.value-this.battle.result.casualties[1][0].number)
                 break
             }
@@ -551,7 +551,7 @@ export class ui{
                     switch(this.tabs.active){
                         case 0:
                             if(mouse.position.x<layer.width-this.width){
-                                this.operation.units[0].goal.position.x=constrain(mouse.position.x-layer.width*0.5+this.operation.zoom.position.x,0,this.operation.edge.x)
+                                this.operation.units[0].goal.position.x=constrain(mouse.position.x-layer.width*0.5+this.width*0.5+this.operation.zoom.position.x,0,this.operation.edge.x)
                                 this.operation.units[0].goal.position.y=constrain(mouse.position.y-layer.height*0.5+this.operation.zoom.position.y,0,this.operation.edge.y)
                             }
                             tick+=115
