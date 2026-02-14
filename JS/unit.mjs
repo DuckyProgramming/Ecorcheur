@@ -150,8 +150,10 @@ export class unit{
                                     this.operation.units.push(new unit(this.operation,false,this.goal.city.position.x,this.goal.city.position.y,this.operation.id.unit,this.team,0,this.value))
                                     this.operation.id.unit++
                                     this.operation.teams[this.team].units.push(last(this.operation.units))
+                                    if(this.goal.city.fortified.trigger){
+                                        last(this.operation.units).fortified.trigger=true
+                                    }
                                     last(this.operation.units).fortified.city=this.goal.city
-                                    last(this.operation.units).fortified.trigger=true
                                     this.goal.city.fortified.unit=last(this.operation.units)
                                 }
                             }
@@ -263,10 +265,15 @@ export class unit{
                                 this.goal.mode=0
                                 this.goal.city=-1
                             }
-                            this.goal.position.x=this.operation.units[0].position.x
-                            this.goal.position.y=this.operation.units[0].position.y
-                            this.operation.units[0].last.x=this.operation.units[0].position.x
-                            this.operation.units[0].last.y=this.operation.units[0].position.y
+                            if(this.operation.teams[this.team].spawn.aggress==2&&this.value<=this.operation.units[0].value*0.75){
+                                this.goal.position.x=this.position.x*2-this.operation.units[0].position.x
+                                this.goal.position.y=this.position.y*2-this.operation.units[0].position.y
+                            }else{
+                                this.goal.position.x=this.operation.units[0].position.x
+                                this.goal.position.y=this.operation.units[0].position.y
+                                this.operation.units[0].last.x=this.operation.units[0].position.x
+                                this.operation.units[0].last.y=this.operation.units[0].position.y
+                            }
                         break
                     }
                 break

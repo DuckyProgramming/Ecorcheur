@@ -17,7 +17,7 @@ export class operation{
             map:{x:0,y:0},
             scaling:0,
         }
-        this.time={active:false,total:18000,base:18000,pass:0,final:false}
+        this.time={general:0,active:false,total:18000,base:18000,pass:0,final:false,raid:0}
         this.resources={money:500,food:500}
         this.prisoners={lost:0,gained:0}
         this.edge={x:0,y:0}
@@ -168,19 +168,15 @@ export class operation{
         this.cities.forEach(city=>city.setCore())
         this.teams.forEach(team=>team.initialPatrols())
 
-        let cit=[randin(this.cities),randin(this.cities),randin(this.cities)]
-        while(cit[0].id==cit[1].id||cit[0].id==cit[2].id||cit[1].id==cit[2].id){
-            cit=[randin(this.cities),randin(this.cities),randin(this.cities)]
-        }
-        let interp=[random(0.2,0.8),random(0.2,0.8)]
-        let loc=mapVec(mapVec(cit[0].position,cit[1].position,interp[0]),cit[2].position,interp[1])
+        let cit=[randin(this.cities)]
+        cit.push(randin(this.cities.filter(city=>distPos(cit[0],city)<1200)))
+        let interp=random(0.2,0.8)
+        let loc=mapVec(cit[0].position,cit[1].position,interp)
         while(this.units.some(unit=>distPos(unit,{position:loc})<100)){
-            cit=[randin(this.cities),randin(this.cities),randin(this.cities)]
-            while(cit[0].id==cit[1].id||cit[0].id==cit[2].id||cit[1].id==cit[2].id){
-                cit=[randin(this.cities),randin(this.cities),randin(this.cities)]
-            }
-            interp=[random(0.2,0.8),random(0.2,0.8)]
-            loc=mapVec(mapVec(cit[0].position,cit[1].position,interp[0]),cit[2].position,interp[1])
+            cit=[randin(this.cities)]
+            cit.push(randin(this.cities.filter(city=>distPos(cit[0],city)<1200)))
+            interp=random(0.2,0.8)
+            loc=mapVec(cit[0].position,cit[1].position,interp)
         }
         this.units.splice(0,0,new unit(this,true,loc.x,loc.y,this.id.unit,this.ref.team[`Player`],2,2000))
         this.id.unit++
@@ -206,7 +202,9 @@ export class operation{
         this.time.pass=0
     }
     tick(){
-        if(this.resources.food<=0){
+        if(this.time.raid){
+            this.time.raid=false
+        }else if(this.resources.food<=0){
             this.units[0].value-=ceil(this.units[0].value/2000)*100
             if(this.units[0].value<=0){
                 this.units[0].fade.trigger=false
@@ -276,6 +274,7 @@ export class operation{
                 layer.scale(this.zoom.scaling)
                 layer.translate(-this.edge.x*0.5-this.zoom.map.x,-this.edge.y*0.5-this.zoom.map.y)
                 layer.image(graphics.load.map[this.map][0],this.edge.x*0.5,this.edge.y*0.5,this.edge.x,this.edge.y)
+                layer.image(graphics.load.map[this.map][1],this.edge.x*0.5,this.edge.y*0.5,this.edge.x,this.edge.y)
                 this.cities.forEach(city=>city.display(layer,this.scene))
                 this.units[0].display(layer,this.scene)
                 layer.pop()
@@ -287,6 +286,7 @@ export class operation{
     update(layer){
         switch(this.scene){
             case `main`:
+                this.time.general++
                 for(let a=0,la=this.cities.length;a<la;a++){
                     this.cities[a].update(layer,this.scene)
                     this.cities[a].index=a

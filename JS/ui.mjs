@@ -71,7 +71,7 @@ export class ui{
                     }
                 }
                 if(last(this.battle.result.winner)==1){
-                    if(random(0,1)<=1-this.battle.enemy.value/this.battle.enemy.base.value*(this.battle.enemy.type==4?4:2)){
+                    if(random(0,1)<=1-this.battle.enemy.value/this.battle.enemy.base.value*(this.battle.enemy.type+1)){
                         this.battle.enemy.fade.trigger=false
                         this.operation.teams[this.battle.enemy.team].unitDestroyed(this.battle.enemy)
                         if(this.battle.enemy.type==3){
@@ -130,8 +130,10 @@ export class ui{
     collectUnits(player,enemy){
         this.battle.player=player
         this.battle.enemy=enemy
-        this.operation.calc.sides[0].force=[{team:player.team,type:0,number:player.value,dist:player.retreat.speed>1?2:0}]
-        this.operation.calc.sides[1].force=[{team:enemy.team,type:0,number:enemy.value,dist:enemy.retreat.speed>1?2:0}]
+        this.operation.calc.sides[0].salient=player.retreat.speed>1?(player.speed.water>0?2:1):0
+        this.operation.calc.sides[1].salient=enemy.retreat.speed>1?(enemy.speed.water>0?2:1):0
+        this.operation.calc.sides[0].force=[{team:player.team,type:0,number:player.value,dist:0}]
+        this.operation.calc.sides[1].force=[{team:enemy.team,type:0,number:enemy.value,dist:0}]
         switch(this.battle.circumstance){
             case 0:
                 this.operation.calc.sides[1].strategy=1
@@ -652,6 +654,7 @@ export class ui{
                                 this.operation.resources.money+=cit.resources.raid.amount
                                 cit.resources.raid.trigger=true
                                 this.operation.time.pass=60
+                                this.operation.time.raid=true
                                 if(cit.resources.raid.instances<=0){
                                     this.moveTab(0)
                                     cit.fade.trigger=false
@@ -859,6 +862,7 @@ export class ui{
                             this.operation.resources.money+=cit.resources.raid.amount
                             cit.resources.raid.trigger=true
                             this.operation.time.pass=60
+                            this.operation.time.raid=true
                             if(cit.resources.raid.instances<=0){
                                 this.moveTab(0)
                                 cit.fade.trigger=false

@@ -23,7 +23,7 @@ export var types={
     ],map:[
         {
             name:[`Kingdom of Arles`,`Base`],
-            term:[`main`],
+            term:[`main`,`text`],
             city:[
                 [
                     {name:`Basel`,type:5,loc:[2465,1022],rule:`League of Cities`},

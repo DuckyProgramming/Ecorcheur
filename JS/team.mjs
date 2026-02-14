@@ -104,7 +104,7 @@ export class team{
     tick(){
         if(this.spawn.aggress==1){
             if(this.spawn.next.type==0){
-                this.spawn.next.type=this.spawn.types.patrol<this.spawn.base.types.patrol?floor(random(1,3)):2
+                this.spawn.next.type=this.spawn.types.patrol<this.spawn.base.types.patrol?floor(random(1,2.5)):2
                 switch(this.spawn.next.type){
                     case 1:
                         this.spawn.next.value=round(random(5,20)*(1+this.cities.reduce((acc,city)=>acc+(city.type==1?0.5:1),0)*0.05)*options.difficulty)*100
@@ -122,10 +122,10 @@ export class team{
                     let possible
                     switch(this.spawn.next.type){
                         case 1:
-                            possible=range(0,this.cities.length)
+                            possible=range(0,this.cities.length).filter(cit=>distPos(this.cities[cit],this.operation.units[0])>300)
                             this.units.forEach(unit=>{
                                 if(unit.type==1){
-                                    possible=possible.filter(cit=>!unit.goal.nodes.map(node=>node.id).includes(cit.id))
+                                    possible=possible.filter(cit=>!unit.goal.nodes.map(node=>node.id).includes(this.cities[cit].id))
                                 }
                             })
                             if(possible.length>=2){
