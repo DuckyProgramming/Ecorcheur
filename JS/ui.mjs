@@ -132,8 +132,8 @@ export class ui{
     collectUnits(player,enemy){
         this.battle.player=player
         this.battle.enemy=enemy
-        this.operation.calc.sides[0].salient=player.retreat.speed>1?(player.speed.water>0?2:1):0
-        this.operation.calc.sides[1].salient=enemy.retreat.speed>1?(enemy.speed.water>0?2:1):0
+        this.operation.calc.sides[0].salient=player.retreat.speed>1?(player.speed.lastWater>0?2:1):0
+        this.operation.calc.sides[1].salient=enemy.retreat.speed>1?(enemy.speed.lastWater>0?2:1):0
         this.operation.calc.sides[0].force=[{team:player.team,type:0,number:player.value,dist:0}]
         this.operation.calc.sides[1].force=[{team:enemy.team,type:0,number:enemy.value,dist:0}]
         switch(this.battle.circumstance){
@@ -142,10 +142,13 @@ export class ui{
             break
             case 1:
                 this.operation.calc.sides[0].strategy=1
+                if(this.battle.enemy.speed.lastWater>0){
+                    this.operation.calc.terrain.list.push(1)
+                }
             break
             case 2:
                 this.operation.calc.sides[1].strategy=1
-                this.operation.calc.terrain.list.push(4)
+                this.operation.calc.terrain.list.push(3)
             break
             case 3:
                 this.operation.calc.sides[1].strategy=1
@@ -156,6 +159,12 @@ export class ui{
         this.battle.result=this.operation.calc.calc()
         this.operation.calc.reset()
         this.battle.result.casualties.forEach(set=>set.forEach(item=>item.number=round(item.number/100+random(-0.5,0.5))*100))
+        if(this.battle.result.casualties[0][0].number>=this.battle.player.value){
+            this.battle.result.winner[this.battle.result.winner.length-1]=2
+        }
+        if(this.battle.result.casualties[1][0].number>=this.battle.enemy.value){
+            this.battle.result.winner[this.battle.result.winner.length-1]=1
+        }
         if(last(this.battle.result.winner)==1){
             switch(this.battle.circumstance){
                 case 0:
@@ -180,8 +189,6 @@ export class ui{
         }
     }
     instantBattle(player,enemy,circumstance){
-        this.battle.player=player
-        this.battle.enemy=enemy
         this.operation.calc.sides[0].force=[{team:player.team,type:0,number:player.value,dist:player.retreat.speed>1?2:0}]
         this.operation.calc.sides[1].force=[{team:enemy.team,type:0,number:enemy.value,dist:enemy.retreat.speed>1?2:0}]
         switch(circumstance){
@@ -204,6 +211,12 @@ export class ui{
         let result=this.operation.calc.calc()
         this.operation.calc.reset()
         result.casualties.forEach(set=>set.forEach(item=>item.number=round(item.number/100+random(-0.5,0.5))*100))
+        if(result.casualties[0][0].number>=player.value){
+            result.winner[result.winner.length-1]=2
+        }
+        if(result.casualties[1][0].number>=enemy.value){
+            result.winner[result.winner.length-1]=1
+        }
         return result
     }
     display(layer,scene){
@@ -634,6 +647,7 @@ export class ui{
                             if(inPointBox(rel,boxify(0,tick+25,160,40))){
                                 this.moveTab(4)
                                 this.battle.circumstance=3
+                                this.battle.enemy.fortified.city.fortified.sieged+=0.25
                                 this.collectUnits(this.operation.units[0],this.battle.enemy)
                                 if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0){
                                     this.operation.teams[this.battle.enemy.team].spawn.aggress=1
@@ -861,6 +875,7 @@ export class ui{
                         if(key==count.toString()){
                             this.moveTab(4)
                             this.battle.circumstance=3
+                            this.battle.enemy.fortified.city.fortified.sieged+=0.25
                             this.collectUnits(this.operation.units[0],this.battle.enemy)
                             if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0){
                                 this.operation.teams[this.battle.enemy.team].spawn.aggress=1

@@ -11,7 +11,6 @@ export class calc{
             {name:'No Terrain',defend:[1,1.2],safe:1,attrition:[1,1]},
             {name:'River',defend:[1.35,1.35],safe:0.9,attrition:[1.25,1.25]},
             {name:'Wall',defend:[3,3],safe:0.5,attrition:[0.75,0.5]},
-            {name:'Sea',defend:[1.8,1.8],safe:0.7,attrition:[1.5,1.5]},
             {name:'Village',defend:[1.25,1.25],safe:0.9,attrition:[0.75,0.5]},
         ]
         this.distSet=[
@@ -27,6 +26,7 @@ export class calc{
             {name:'Incapable',ab:'I',mult:0.175},
             {name:'Shattered',ab:'SH',mult:0.135},
             {name:'Vanished',ab:'V',mult:0.105},
+            {name:'Horrific',ab:'H',mult:0.085},
         ]
     }
     reset(){

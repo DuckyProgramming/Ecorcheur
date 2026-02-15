@@ -16,7 +16,7 @@ export class unit{
         this.retreat={speed:1,direction:0}
         this.remove=false
         this.fade={main:0,trigger:true}
-        this.speed={activation:0,max:[0,random(2.5,3),random(2.25,2.5),2,1.5][type],water:0,stun:0}
+        this.speed={activation:0,max:[0,random(2.5,3),random(2.25,2.5),2,1.5][type],water:0,lastWater:0,stun:0}
         this.time=0
         this.img=[graphics.load.team[types.team[this.team].loadIndex],graphics.load.unit[this.type]]
         this.width=0
@@ -248,7 +248,7 @@ export class unit{
                                         this.goal.position.x=this.position.x
                                         this.goal.position.y=this.position.y
                                         if(this.time%150==0){
-                                            if(floor(random(0,5))==0){
+                                            if(floor(random(0,4))==0){
                                                 let result=this.operation.ui.instantBattle(this,this.goal.city.fortified.unit,(this.fortified.trigger?3:2))
                                                 this.value-=result.casualties[0][0].number
                                                 this.goal.city.fortified.unit.value-=result.casualties[1][0].number
@@ -292,18 +292,56 @@ export class unit{
                             }
                         break
                         case 1:
-                            if(distPos(this,this.operation.units[0])>600){
+                            if(this.operation.teams[this.team].spawn.aggress==2&&this.value<=this.operation.units[0].value*0.75){
+                                this.goal.mode=2
+                                this.goal.city=this.operation.teams[this.team].cores.sort((a,b)=>distPos(a,this)-distPos(b,this))[0]
+                            }else if(distPos(this,this.operation.units[0])>600){
                                 this.goal.mode=0
                                 this.goal.city=-1
                             }
-                            if(this.operation.teams[this.team].spawn.aggress==2&&this.value<=this.operation.units[0].value*0.75){
-                                this.goal.position.x=this.position.x*2-this.operation.units[0].position.x
-                                this.goal.position.y=this.position.y*2-this.operation.units[0].position.y
+                            this.goal.position.x=this.operation.units[0].position.x
+                            this.goal.position.y=this.operation.units[0].position.y
+                            this.operation.units[0].last.x=this.operation.units[0].position.x
+                            this.operation.units[0].last.y=this.operation.units[0].position.y
+                        break
+                        case 2:
+                            if(!(this.goal.city.fortified.unit==0||this.goal.city.fortified.unit.team!=this.operation.units[0].team)&&distPos(this,this.goal.city)<60){
+                                this.goal.position.x=this.position.x
+                                this.goal.position.y=this.position.y
+                                if(this.time%150==0){
+                                    if(floor(random(0,4))==0){
+                                        let result=this.operation.ui.instantBattle(this,this.goal.city.fortified.unit,(this.fortified.trigger?3:2))
+                                        this.value-=result.casualties[0][0].number
+                                        this.goal.city.fortified.unit.value-=result.casualties[1][0].number
+                                        if(last(result.winner)==1){
+                                            this.operation.prisoners.lost+=this.goal.city.fortified.unit.value
+                                            this.goal.city.fortified.unit.fade.trigger=false
+                                            this.goal.city.fortified.unit=0
+                                            this.goal.city=-1
+                                        }
+                                    }else{
+                                        this.goal.city.fortified.sieged++
+                                        this.goal.city.fortified.siegeActive=true
+                                    }
+                                }
+                            }else if(this.goal.city.fortified.unit==0&&distPos(this,this.goal.city)<1&&this.fade.trigger){
+                                this.fade.trigger=false
+                                this.operation.teams[this.team].unitDestroyed(this)
+                                this.operation.units.push(new unit(this.operation,false,this.goal.city.position.x,this.goal.city.position.y,this.operation.id.unit,this.team,0,this.value))
+                                this.operation.id.unit++
+                                this.operation.teams[this.team].units.push(last(this.operation.units))
+                                if(this.goal.city.fortified.trigger){
+                                    last(this.operation.units).fortified.trigger=true
+                                }
+                                last(this.operation.units).fortified.city=this.goal.city
+                                this.goal.city.fortified.unit=last(this.operation.units)
+                            }else if(distPos(this,this.goal.city)<1&&this.fade.trigger){
+                                this.fade.trigger=false
+                                this.operation.teams[this.team].unitDestroyed(this)
+                                this.goal.city.fortified.unit.value+=this.value
                             }else{
-                                this.goal.position.x=this.operation.units[0].position.x
-                                this.goal.position.y=this.operation.units[0].position.y
-                                this.operation.units[0].last.x=this.operation.units[0].position.x
-                                this.operation.units[0].last.y=this.operation.units[0].position.y
+                                this.goal.position.x=this.goal.city.position.x
+                                this.goal.position.y=this.goal.city.position.y
                             }
                         break
                     }
@@ -350,9 +388,13 @@ export class unit{
                     !this.operation.cities.some(cit=>distPos(cit,this)<60)
                 ){
                     this.speed.water++
+                    this.speed.lastWater=15
                     mult*=min(0.6,0.1+this.speed.water*5/300)
                 }else{
                     this.speed.water=0
+                    if(this.speed.lastWater>0){
+                        this.speed.lastWater--
+                    }
                 }
                 this.position=moveTowardVec(this,this.goal,this.speed.activation*(this.speed.max+this.retreat.speed)*mult)
                 if(this.player){
