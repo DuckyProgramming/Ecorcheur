@@ -82,7 +82,7 @@ export class city{
             switch(this.type){
                 case 2: case 6:
                     if(this.operation.time.total>0){
-                        this.operation.time.total+=1800
+                        this.operation.time.total+=2160
                     }
                 break
             }

@@ -155,7 +155,7 @@ export class unit{
         }else if(!this.player){
             switch(this.type){
                 case 1:
-                    if(this.goal.damaged&&this.time%150==0&&this.operation.teams[this.team].units.length>1){
+                    if(this.goal.damaged&&this.time%150==0&&this.operation.teams[this.team].units.length>1&&this.goal.mode!=2){
                         this.goal.unit=this.operation.teams[this.team].units[0]
                         for(let a=1,la=this.operation.teams[this.team].units.length;a<la;a++){
                             if(distPos(this,this.operation.teams[this.team].units[a])<distPos(this,this.goal.unit)&&this.operation.teams[this.team].units[a]!=this||this.goal.unit==this){
@@ -223,14 +223,18 @@ export class unit{
                             }
                         break
                         case 2:
-                            if(distPos(this,this.goal.unit)<1&&this.fade.trigger){
-                                this.fade.trigger=false
-                                this.operation.teams[this.team].unitDestroyed(this)
-                                this.goal.unit.value+=this.value
-                                this.goal.unit.goal.damaged=false
+                            if(!this.goal.unit.fade.trigger){
+                                this.goal.mode=0
+                            }else{
+                                if(distPos(this,this.goal.unit)<1&&this.fade.trigger){
+                                    this.fade.trigger=false
+                                    this.operation.teams[this.team].unitDestroyed(this)
+                                    this.goal.unit.value+=this.value
+                                    this.goal.unit.goal.damaged=false
+                                }
+                                this.goal.position.x=this.goal.unit.position.x
+                                this.goal.position.y=this.goal.unit.position.y
                             }
-                            this.goal.position.x=this.goal.unit.position.x
-                            this.goal.position.y=this.goal.unit.position.y
                         break
                     }
                 break
