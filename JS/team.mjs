@@ -11,7 +11,7 @@ export class team{
         this.cores=[]
         this.units=[]
         this.spawn={
-            strength:0,next:{type:0,value:0},aggress:this.name==`Free Company`?1:0,
+            activation:0,strength:0,next:{type:0,value:0},aggress:this.name==`Free Company`?1:0,
             types:{garrisonIndex:0,patrol:0,field:0,boss:0},
             base:{
                 types:{patrol:0,field:0},
@@ -145,7 +145,8 @@ export class team{
                     }
                 }
             }else{
-                let num=this.cities.reduce((acc,city)=>acc+(city.type==1?0.5:1),0)
+                this.spawn.activation=min(1,this.spawn.activation+0.1)
+                let num=this.cities.reduce((acc,city)=>acc+(city.type==1?0.5:1),0)*this.spawn.activation
                 this.spawn.strength+=(num-num**2/50)*1000*options.difficulty
                 if(this.spawn.strength>=this.spawn.next.value){
                     let success=false

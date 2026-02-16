@@ -17,7 +17,7 @@ export class operation{
             map:{x:0,y:0},
             scaling:0,
         }
-        this.time={general:0,active:false,total:18000,base:18000,pass:0,final:false,raid:0}
+        this.time={general:0,active:false,total:21600,base:21600,pass:0,final:false,raid:0}
         this.resources={money:500,food:500}
         this.prisoners={lost:0,gained:0}
         this.edge={x:0,y:0}
@@ -351,7 +351,7 @@ export class operation{
                             pos.y=this.units[0].position.y+1200*lcos(dir)
                         }
                         this.units.push(new unit(this,false,pos.x,pos.y+60,this.id.unit,this.ref.team[`Royal Army`],4,
-                            round(this.teams.reduce((acc,team)=>acc+(team.spawn.aggress<2?team.spawn.base.strength:0),0)*5*options.difficulty)*100
+                            round(this.teams.reduce((acc,team)=>acc+(team.spawn.aggress<2?team.spawn.base.strength:0),0)*6*options.difficulty)*100
                         ))
                         this.id.unit++
                     }

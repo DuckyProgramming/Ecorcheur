@@ -241,8 +241,10 @@ export class ui{
                                 layer.fill(0)
                                 layer.textSize(24)
                                 layer.text(`Deniers:\n${this.operation.resources.money}`,0,40)
-                                layer.text(`Food:\n${this.operation.resources.food}`,0,100)
+                                layer.text(`Food:\n${this.operation.resources.food} (-${round(this.operation.units[0].value/100)})`,0,100)
                                 layer.text(`Time:`,0,145)
+                                layer.textSize(16)
+                                layer.text(this.operation.time.total>0?`${floor(this.operation.time.total/1440)}:${floor(this.operation.time.total/24)%60<10?`0`:``}${floor(this.operation.time.total/24)%60}`:`0:00`,0,190)
                                 layer.stroke(0)
                                 layer.strokeWeight(1)
                                 layer.noFill()
@@ -251,7 +253,7 @@ export class ui{
                                     layer.fill(0)
                                     layer.rect(-80+80*constrain(this.operation.time.total/this.operation.time.base,0,1),170,160*constrain(this.operation.time.total/this.operation.time.base,0,1),10,4)
                                 }
-                                tick+=115
+                                tick+=125
 
                                 layer.noStroke()
                                 for(let a=0,la=3;a<la;a++){
@@ -518,8 +520,10 @@ export class ui{
                 layer.fill(0)
                 layer.textSize(24)
                 layer.text(`Deniers:\n${this.operation.resources.money}`,0,40)
-                layer.text(`Food:\n${this.operation.resources.food}`,0,100)
+                layer.text(`Food:\n${this.operation.resources.food} (-${round(this.operation.units[0].value/100)})`,0,100)
                 layer.text(`Time:`,0,145)
+                layer.textSize(16)
+                layer.text(this.operation.time.total>0?`${floor(this.operation.time.total/1440)}:${floor(this.operation.time.total/24)%60<10?`0`:``}${floor(this.operation.time.total/24)%60}`:`0:00`,0,190)
                 layer.stroke(0)
                 layer.strokeWeight(1)
                 layer.noFill()
@@ -528,7 +532,7 @@ export class ui{
                     layer.fill(0)
                     layer.rect(-80+80*constrain(this.operation.time.total/this.operation.time.base,0,1),170,160*constrain(this.operation.time.total/this.operation.time.base,0,1),10,4)
                 }
-                tick+=115
+                tick+=125
 
                 layer.noStroke()
                 layer.fill(120)
@@ -593,7 +597,7 @@ export class ui{
                                 this.operation.units[0].goal.position.x=constrain(mouse.position.x-layer.width*0.5+this.width*0.5+this.operation.zoom.position.x,0,this.operation.edge.x)
                                 this.operation.units[0].goal.position.y=constrain(mouse.position.y-layer.height*0.5+this.operation.zoom.position.y,0,this.operation.edge.y)
                             }
-                            tick+=115
+                            tick+=125
                             if(inPointBox(rel,boxify(0,tick+25,160,40))){
                                 this.operation.time.pass=60
                             }
@@ -802,7 +806,7 @@ export class ui{
             break
             case `map`:
                 rel={position:{x:mouse.position.x-layer.width+this.width*0.5,y:mouse.position.y}}
-                tick=190
+                tick=200
                 if(inPointBox(rel,boxify(0,tick+25,160,40))){
                     this.operation.transitionManager.begin(`main`)
                 }

@@ -294,7 +294,12 @@ export class unit{
                         case 1:
                             if(this.operation.teams[this.team].spawn.aggress==2&&this.value<=this.operation.units[0].value*0.75){
                                 this.goal.mode=2
-                                this.goal.city=this.operation.teams[this.team].cores.sort((a,b)=>distPos(a,this)-distPos(b,this))[0]
+                                this.goal.city=this.operation.teams[this.team].cores[0]
+                                for(let a=1,la=this.operation.teams[this.team].cores.length;a<la;a++){
+                                    if(distPos(this,this.operation.teams[this.team].cores[a])+(this.operation.teams[this.team].cores[a].fortified.trigger?0:600)<distPos(this,this.goal.city)+(this.goal.city.fortified.trigger?0:600)){
+                                        this.goal.city=this.operation.teams[this.team].cores[a]
+                                    }
+                                }
                             }else if(distPos(this,this.operation.units[0])>600){
                                 this.goal.mode=0
                                 this.goal.city=-1
