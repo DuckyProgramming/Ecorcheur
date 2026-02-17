@@ -83,7 +83,7 @@ export class ui{
                 if(this.battle.enemy.value<=0){
                     this.battle.enemy.fade.trigger=false
                     this.operation.teams[this.battle.enemy.team].unitDestroyed(this.battle.enemy)
-                    if(this.battle.enemy.type==3){
+                    if(this.battle.enemy.type==3||this.battle.enemy.type==4){
                         this.operation.teams[this.battle.enemy.team].spawn.aggress=2
                     }
                 }
@@ -91,7 +91,7 @@ export class ui{
                     if(random(0,1)<=1-this.battle.enemy.value/this.battle.enemy.base.value*(this.battle.enemy.type+1)){
                         this.battle.enemy.fade.trigger=false
                         this.operation.teams[this.battle.enemy.team].unitDestroyed(this.battle.enemy)
-                        if(this.battle.enemy.type==3){
+                        if(this.battle.enemy.type==3||this.battle.enemy.type==4){
                             this.operation.teams[this.battle.enemy.team].spawn.aggress=2
                         }
                     }else{
@@ -285,7 +285,7 @@ export class ui{
                                 layer.text(`Food:\n${this.operation.resources.food} (-${round(this.operation.units[0].value/100)})`,0,100)
                                 layer.text(`Time:`,0,145)
                                 layer.textSize(16)
-                                layer.text(formatTime(this.operation.time.total*2.5),0,190)
+                                layer.text(formatTime(max(0,this.operation.time.total)*2.5),0,190)
                                 layer.stroke(0)
                                 layer.strokeWeight(1)
                                 layer.noFill()
@@ -564,7 +564,7 @@ export class ui{
                 layer.text(`Food:\n${this.operation.resources.food} (-${round(this.operation.units[0].value/100)})`,0,100)
                 layer.text(`Time:`,0,145)
                 layer.textSize(16)
-                layer.text(formatTime(this.operation.time.total*2.5),0,190)
+                layer.text(formatTime(max(0,this.operation.time.total)*2.5),0,190)
                 layer.stroke(0)
                 layer.strokeWeight(1)
                 layer.noFill()
@@ -618,16 +618,14 @@ export class ui{
                 let set=this.operation.teams.filter(team=>team.spawn.aggress!=2&&team.spawn.base.strength>0)
                 let collect=this.operation.teams.filter(team=>team.spawn.aggress==2&&team.spawn.base.strength>0).reduce((acc,team)=>acc+team.spawn.base.strength,0)
                 for(let a=0,la=set.length;a<la;a++){
-                    if(set[a].spawn.agress!=2){
-                        layer.fill(...nameColor(set[a].name))
-                        if(a==0){
-                            layer.rect(0,tick+40+360*collect/total+2,35,4,2)
-                            layer.rect(0,tick+40+360*(set[a].spawn.base.strength*0.5+collect)/total+1,35,360*set[a].spawn.base.strength/total-2)
-                        }else{
-                            layer.rect(0,tick+40+360*(set[a].spawn.base.strength*0.5+collect)/total,35,360*set[a].spawn.base.strength/total)
-                        }
-                        collect+=set[a].spawn.base.strength
+                    layer.fill(...nameColor(set[a].name))
+                    if(a==0){
+                        layer.rect(0,tick+40+360*collect/total+2,35,4,2)
+                        layer.rect(0,tick+40+360*(set[a].spawn.base.strength*0.5+collect)/total+1,35,360*set[a].spawn.base.strength/total-2)
+                    }else{
+                        layer.rect(0,tick+40+360*(set[a].spawn.base.strength*0.5+collect)/total,35,360*set[a].spawn.base.strength/total)
                     }
+                    collect+=set[a].spawn.base.strength
                 }
 
                 layer.pop()
@@ -660,6 +658,7 @@ export class ui{
                 }
                 if(inPointBox(rel,boxify(0,535,240,50))){
                     this.operation.transitionManager.begin(`main`)
+                    this.operation.initialElements()
                     this.operation.initialComponents()
                 }
             break
@@ -694,7 +693,7 @@ export class ui{
                             if(inPointBox(rel,boxify(0,tick+25,160,40))){
                                 this.moveTab(4)
                                 this.collectUnits(this.operation.units[0],this.battle.enemy)
-                                if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0){
+                                if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
                                     this.operation.teams[this.battle.enemy.team].spawn.aggress=1
                                 }
                             }
@@ -713,7 +712,7 @@ export class ui{
                                 this.moveTab(4)
                                 this.battle.circumstance=2
                                 this.collectUnits(this.operation.units[0],this.battle.enemy)
-                                if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0){
+                                if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
                                     this.operation.teams[this.battle.enemy.team].spawn.aggress=1
                                 }
                             }
@@ -730,7 +729,7 @@ export class ui{
                                 this.battle.circumstance=3
                                 this.battle.enemy.fortified.city.fortified.sieged+=0.25
                                 this.collectUnits(this.operation.units[0],this.battle.enemy)
-                                if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0){
+                                if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
                                     this.operation.teams[this.battle.enemy.team].spawn.aggress=1
                                 }
                             }
@@ -739,7 +738,7 @@ export class ui{
                                 this.operation.time.pass=60
                                 this.battle.enemy.fortified.city.fortified.sieged++
                                 this.battle.enemy.fortified.city.fortified.siegeActive=true
-                                if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0){
+                                if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
                                     this.operation.teams[this.battle.enemy.team].spawn.aggress=1
                                 }
                             }
@@ -911,6 +910,7 @@ export class ui{
                 }
                 if(key==`Enter`){
                     this.operation.transitionManager.begin(`main`)
+                    this.operation.initialElements()
                     this.operation.initialComponents()
                 }
             break
@@ -937,7 +937,7 @@ export class ui{
                         if(key==count.toString()){
                             this.moveTab(2)
                             this.collectUnits(this.operation.units[0],this.battle.enemy)
-                            if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0){
+                            if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
                                 this.operation.teams[this.battle.enemy.team].spawn.aggress=1
                             }
                         }
@@ -954,7 +954,7 @@ export class ui{
                             this.moveTab(4)
                             this.battle.circumstance=2
                             this.collectUnits(this.operation.units[0],this.battle.enemy)
-                            if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0){
+                            if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
                                 this.operation.teams[this.battle.enemy.team].spawn.aggress=1
                             }
                         }
@@ -970,7 +970,7 @@ export class ui{
                             this.battle.circumstance=3
                             this.battle.enemy.fortified.city.fortified.sieged+=0.25
                             this.collectUnits(this.operation.units[0],this.battle.enemy)
-                            if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0){
+                            if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
                                 this.operation.teams[this.battle.enemy.team].spawn.aggress=1
                             }
                         }
@@ -979,7 +979,7 @@ export class ui{
                             this.operation.time.pass=60
                             this.battle.enemy.fortified.city.fortified.sieged++
                             this.battle.enemy.fortified.city.fortified.siegeActive=true
-                            if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0){
+                            if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
                                 this.operation.teams[this.battle.enemy.team].spawn.aggress=1
                             }
                         }

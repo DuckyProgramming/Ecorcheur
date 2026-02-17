@@ -131,7 +131,6 @@ export class operation{
         types.teamRef={}
 
         types.team.forEach(team=>team.loadIndex=findList(team.term,listing.team))
-        this.initialElements()
 
         this.edge.x=graphics.load.map[this.map][0].width*this.scale,
         this.edge.y=graphics.load.map[this.map][0].height*this.scale
@@ -187,7 +186,7 @@ export class operation{
         this.teams.forEach(team=>team.initialPatrols())
 
         let cit=[randin(this.cities)]
-        cit.push(randin(this.cities.filter(city=>distPos(cit[0],city)<1200)))
+        cit.push(randin(this.cities.filter(city=>distPos(cit[0],city)<1200&&city!=cit[0])))
         let interp=random(0.2,0.8)
         let loc=mapVec(cit[0].position,cit[1].position,interp)
         while(this.units.some(unit=>distPos(unit,{position:loc})<100)){
@@ -363,6 +362,7 @@ export class operation{
                             pos.x=this.units[0].position.x+1200*lsin(dir)
                             pos.y=this.units[0].position.y+1200*lcos(dir)
                         }
+                        this.teams[this.ref.team[`Royal Army`]].spawn.aggress=1
                         this.units.push(new unit(this,false,pos.x,pos.y+60,this.id.unit,this.ref.team[`Royal Army`],4,
                             round(this.teams.reduce((acc,team)=>acc+(team.spawn.aggress<2?team.spawn.base.strength:0),0)*6*options.difficulty)*100
                         ))

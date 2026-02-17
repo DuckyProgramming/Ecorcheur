@@ -155,87 +155,118 @@ export class unit{
         }else if(!this.player){
             switch(this.type){
                 case 1:
-                    if(this.goal.damaged&&this.time%150==0&&this.operation.teams[this.team].units.length>1&&this.goal.mode!=2){
-                        this.goal.unit=this.operation.teams[this.team].units[0]
-                        for(let a=1,la=this.operation.teams[this.team].units.length;a<la;a++){
-                            if(distPos(this,this.operation.teams[this.team].units[a])<distPos(this,this.goal.unit)&&this.operation.teams[this.team].units[a]!=this||this.goal.unit==this){
-                                this.goal.unit=this.operation.teams[this.team].units[a]
-                            }
-                        }
-                        this.goal.mode=2
-                    }
-                    switch(this.goal.mode){
-                        case 0:
-                            if(distPos(this,this.operation.units[0])<450&&this.operation.teams[this.team].spawn.aggress>0){
-                                this.goal.mode=1
-                            }
-                            if(this.goal.city!=-1&&this.goal.city.fade.trigger&&this.goal.city.fortified.unit==0){
-                                this.goal.position.x=this.goal.city.position.x
-                                this.goal.position.y=this.goal.city.position.y
-                            }
-                            if(distGoal<=1){
-                                this.goal.time++
-                                if(this.goal.city!=-1&&this.fade.trigger&&this.goal.city.fade.trigger&&this.goal.city.fortified.unit==0&&distPos(this,this.goal.city)<1){
-                                    this.fade.trigger=false
-                                    this.operation.teams[this.team].unitDestroyed(this)
-                                    this.operation.units.push(new unit(this.operation,false,this.goal.city.position.x,this.goal.city.position.y,this.operation.id.unit,this.team,0,this.value))
-                                    this.operation.id.unit++
-                                    this.operation.teams[this.team].units.push(last(this.operation.units))
-                                    if(this.goal.city.fortified.trigger){
-                                        last(this.operation.units).fortified.trigger=true
-                                    }
-                                    last(this.operation.units).fortified.city=this.goal.city
-                                    this.goal.city.fortified.unit=last(this.operation.units)
+                    if(this.operation.teams[this.team].name==`Royal Army`){
+                        switch(this.goal.mode){
+                            case 0:
+                                if(distPos(this,this.operation.units[0])<(this.operation.teams[this.team].spawn.aggress==2?450:600)&&(this.goal.victor||this.goal.damaged||this.operation.teams[this.team].spawn.aggress>0)){
+                                    this.goal.mode=1
                                 }
-                            }
-                            if(this.goal.city==-1||this.goal.time>=30){
-                                for(let a=0,la=this.operation.teams[this.team].cores.length;a<la;a++){
-                                    if(this.operation.teams[this.team].cores[a].fade.trigger&&this.operation.teams[this.team].cores[a].fortified.unit==0&&distPos(this,this.operation.teams[this.team].cores[a])<600){
-                                        this.goal.nodes[this.goal.tick]=this.operation.teams[this.team].cores[a]
-                                    }
+                            break
+                            case 1:
+                                if(distPos(this,this.operation.units[0])>(this.operation.teams[this.team].spawn.aggress==2?450:600)){
+                                    this.goal.mode=0
+                                    this.goal.city=-1
                                 }
-                                this.goal.time=0
-                                this.goal.city=this.goal.nodes[this.goal.tick]
-                                this.goal.tick=1-this.goal.tick
-                                this.goal.position.x=this.goal.city.position.x
-                                this.goal.position.y=this.goal.city.position.y+(this.goal.city.fortified.unit==0?0:60)
-                            }
-                        break
-                        case 1:
-                            if(distPos(this,this.operation.units[0])>600){
-                                this.goal.mode=0
-                                this.goal.city=-1
-                            }
-                            switch(this.operation.teams[this.team].spawn.aggress){
-                                case 1:
-                                    if((this.value<=this.operation.units[0].value*0.5&&!this.goal.victor||this.goal.damaged)&&this.operation.teams[this.team].name!=`Free Company`){
+                                switch(this.operation.teams[this.team].spawn.aggress){
+                                    case 0: case 1:
+                                        if((this.value<=this.operation.units[0].value*0.5&&!this.goal.victor||this.goal.damaged)&&this.operation.teams[this.team].name!=`Free Company`){
+                                            this.goal.position.x=this.position.x*2-this.operation.units[0].position.x
+                                            this.goal.position.y=this.position.y*2-this.operation.units[0].position.y
+                                        }else{
+                                            this.goal.position.x=this.operation.units[0].position.x
+                                            this.goal.position.y=this.operation.units[0].position.y
+                                        }
+                                    break
+                                    case 2:
                                         this.goal.position.x=this.position.x*2-this.operation.units[0].position.x
                                         this.goal.position.y=this.position.y*2-this.operation.units[0].position.y
-                                    }else{
-                                        this.goal.position.x=this.operation.units[0].position.x
-                                        this.goal.position.y=this.operation.units[0].position.y
-                                    }
-                                break
-                                case 2:
-                                    this.goal.position.x=this.position.x*2-this.operation.units[0].position.x
-                                    this.goal.position.y=this.position.y*2-this.operation.units[0].position.y
-                                break
-                            }
-                        break
-                        case 2:
-                            if(!this.goal.unit.fade.trigger){
-                                this.goal.mode=0
-                            }else{
-                                if(distPos(this,this.goal.unit)<1&&this.fade.trigger){
-                                    this.fade.trigger=false
-                                    this.operation.teams[this.team].unitDestroyed(this)
-                                    this.goal.unit.value+=this.value
-                                    this.goal.unit.goal.damaged=false
+                                    break
                                 }
-                                this.goal.position.x=this.goal.unit.position.x
-                                this.goal.position.y=this.goal.unit.position.y
+                            break
+                        }
+                    }else{
+                        if(this.goal.damaged&&this.time%150==0&&this.operation.teams[this.team].units.length>1&&this.goal.mode!=2){
+                            this.goal.unit=this.operation.teams[this.team].units[0]
+                            for(let a=1,la=this.operation.teams[this.team].units.length;a<la;a++){
+                                if(distPos(this,this.operation.teams[this.team].units[a])<distPos(this,this.goal.unit)&&this.operation.teams[this.team].units[a]!=this||this.goal.unit==this){
+                                    this.goal.unit=this.operation.teams[this.team].units[a]
+                                }
                             }
-                        break
+                            this.goal.mode=2
+                        }
+                        switch(this.goal.mode){
+                            case 0:
+                                if(distPos(this,this.operation.units[0])<450&&this.operation.teams[this.team].spawn.aggress>0){
+                                    this.goal.mode=1
+                                }
+                                if(this.goal.city!=-1&&this.goal.city.fade.trigger&&this.goal.city.fortified.unit==0){
+                                    this.goal.position.x=this.goal.city.position.x
+                                    this.goal.position.y=this.goal.city.position.y
+                                }
+                                if(distGoal<=1){
+                                    this.goal.time++
+                                    if(this.goal.city!=-1&&this.fade.trigger&&this.goal.city.fade.trigger&&this.goal.city.fortified.unit==0&&distPos(this,this.goal.city)<1){
+                                        this.fade.trigger=false
+                                        this.operation.teams[this.team].unitDestroyed(this)
+                                        this.operation.units.push(new unit(this.operation,false,this.goal.city.position.x,this.goal.city.position.y,this.operation.id.unit,this.team,0,this.value))
+                                        this.operation.id.unit++
+                                        this.operation.teams[this.team].units.push(last(this.operation.units))
+                                        if(this.goal.city.fortified.trigger){
+                                            last(this.operation.units).fortified.trigger=true
+                                        }
+                                        last(this.operation.units).fortified.city=this.goal.city
+                                        this.goal.city.fortified.unit=last(this.operation.units)
+                                    }
+                                }
+                                if(this.goal.city==-1||this.goal.time>=30){
+                                    for(let a=0,la=this.operation.teams[this.team].cores.length;a<la;a++){
+                                        if(this.operation.teams[this.team].cores[a].fade.trigger&&this.operation.teams[this.team].cores[a].fortified.unit==0&&distPos(this,this.operation.teams[this.team].cores[a])<600){
+                                            this.goal.nodes[this.goal.tick]=this.operation.teams[this.team].cores[a]
+                                        }
+                                    }
+                                    this.goal.time=0
+                                    this.goal.city=this.goal.nodes[this.goal.tick]
+                                    this.goal.tick=1-this.goal.tick
+                                    this.goal.position.x=this.goal.city.position.x
+                                    this.goal.position.y=this.goal.city.position.y+(this.goal.city.fortified.unit==0?0:60)
+                                }
+                            break
+                            case 1:
+                                if(distPos(this,this.operation.units[0])>600){
+                                    this.goal.mode=0
+                                    this.goal.city=-1
+                                }
+                                switch(this.operation.teams[this.team].spawn.aggress){
+                                    case 1:
+                                        if((this.value<=this.operation.units[0].value*0.5&&!this.goal.victor||this.goal.damaged)&&this.operation.teams[this.team].name!=`Free Company`){
+                                            this.goal.position.x=this.position.x*2-this.operation.units[0].position.x
+                                            this.goal.position.y=this.position.y*2-this.operation.units[0].position.y
+                                        }else{
+                                            this.goal.position.x=this.operation.units[0].position.x
+                                            this.goal.position.y=this.operation.units[0].position.y
+                                        }
+                                    break
+                                    case 2:
+                                        this.goal.position.x=this.position.x*2-this.operation.units[0].position.x
+                                        this.goal.position.y=this.position.y*2-this.operation.units[0].position.y
+                                    break
+                                }
+                            break
+                            case 2:
+                                if(!this.goal.unit.fade.trigger){
+                                    this.goal.mode=0
+                                }else{
+                                    if(distPos(this,this.goal.unit)<1&&this.fade.trigger){
+                                        this.fade.trigger=false
+                                        this.operation.teams[this.team].unitDestroyed(this)
+                                        this.goal.unit.value+=this.value
+                                        this.goal.unit.goal.damaged=false
+                                    }
+                                    this.goal.position.x=this.goal.unit.position.x
+                                    this.goal.position.y=this.goal.unit.position.y
+                                }
+                            break
+                        }
                     }
                 break
                 case 2:
@@ -296,7 +327,7 @@ export class unit{
                             }
                         break
                         case 1:
-                            if(this.operation.teams[this.team].spawn.aggress==2&&this.value<=this.operation.units[0].value*0.75){
+                            if(this.operation.teams[this.team].spawn.aggress==2&&this.value<=this.operation.units[0].value*0.75&&this.operation.teams[this.team].name!=`Free Company`){
                                 this.goal.mode=2
                                 this.goal.city=this.operation.teams[this.team].cores[0]
                                 for(let a=1,la=this.operation.teams[this.team].cores.length;a<la;a++){
