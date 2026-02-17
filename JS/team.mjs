@@ -72,7 +72,7 @@ export class team{
                 }
             }
             possible.splice(remover,1)
-            this.operation.units.push(new unit(this.operation,false,cit[0].position.x,cit[0].position.y+60,this.operation.id.unit,this.type,1,round(random(5,20)*(1+this.spawn.base.strength*0.05))*options.difficulty*100))
+            this.operation.units.push(new unit(this.operation,false,cit[0].position.x,cit[0].position.y+60,this.operation.id.unit,this.type,1,round(random(5,20)*(1+this.spawn.base.strength*0.05)*options.difficulty)*100))
             this.operation.id.unit++
             this.units.push(last(this.operation.units))
             last(this.operation.units).goal.nodes=[cit[0],cit[1]]

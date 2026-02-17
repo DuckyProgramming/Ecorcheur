@@ -18,7 +18,7 @@ export class operation{
             scaling:0,
         }
         this.time={general:0,active:false,total:21600,base:21600,pass:0,final:false,raid:0}
-        this.resources={money:500,food:500}
+        this.resources={money:1000,food:500}
         this.prisoners={lost:0,gained:0}
         this.edge={x:0,y:0}
         this.id={city:0,unit:0}
@@ -27,10 +27,9 @@ export class operation{
         this.teams=[]
         this.ref={team:{}}
         this.scale=2.5
-        this.scene=`main`
+        this.scene=`title`
         this.initial()
         this.loadMap(this.map)
-        this.initialComponents()
         constants.init=true
     }
     save(){
@@ -92,6 +91,7 @@ export class operation{
         this.teams.forEach(team=>team.loadBar())
         
         this.ui.load(composite.ui)
+        this.ui.loadBar()
         this.transitionManager.load(composite.transitionManager)
     }
     loadStp(input,scene){
@@ -173,8 +173,12 @@ export class operation{
                 }
                 leftover.push(...groups[a][b].cities)
             }
-            for(let b=0,lb=60+a*120-this.cities.length;b<lb;b++){
-                this.addCity(leftover.splice(randindex(leftover),1)[0],a==1?floor(random(0,2))==0:true)
+            if(options.allCity){
+                leftover.forEach(city=>this.addCity(city,a==1?floor(random(0,2))==0:true))
+            }else{
+                for(let b=0,lb=60+a*120-this.cities.length;b<lb;b++){
+                    this.addCity(leftover.splice(randindex(leftover),1)[0],a==1?floor(random(0,2))==0:true)
+                }
             }
         }
     }
@@ -230,6 +234,16 @@ export class operation{
     }
     display(layer){
         switch(this.scene){
+            case `title`:
+                this.zoom.scaling=max((layer.width-this.ui.width)/this.edge.x,layer.height/this.edge.y)/0.6
+                layer.push()
+                layer.translate((layer.width-this.ui.width)*0.5,layer.height*0.5)
+                layer.scale(this.zoom.scaling)
+                layer.translate(-this.edge.x*0.5+800,-this.edge.y*0.5)
+                layer.image(graphics.load.map[this.map][0],this.edge.x*0.5,this.edge.y*0.5,this.edge.x,this.edge.y)
+                layer.image(graphics.load.map[this.map][1],this.edge.x*0.5,this.edge.y*0.5,this.edge.x,this.edge.y)
+                layer.pop()
+            break
             case `main`:
                 if(dev.water){
                     for(let a=0,la=360;a<la;a++){
@@ -375,12 +389,12 @@ export class operation{
     onClick(layer,mouse){
         let rel
         switch(this.scene){
+            case `map`: case `title`:
+                this.ui.onClick(layer,mouse,this.scene)
+            break
             case `main`:
                 rel={position:{x:(mouse.position.x+this.zoom.position.x-layer.width*0.5+this.ui.width*0.5)/options.scale,y:(mouse.position.y+this.zoom.position.y-layer.height*0.5)/options.scale}}
                 this.cities.forEach(city=>city.onClick(layer,mouse,this.scene,rel))
-                this.ui.onClick(layer,mouse,this.scene)
-            break
-            case `map`:
                 this.ui.onClick(layer,mouse,this.scene)
             break
         }

@@ -1,5 +1,5 @@
-import {dev,types} from './variables.mjs'
-import {last,smoothAnim,random,round,inPointBox,boxify,dirPos} from './functions.mjs'
+import {dev,types,options} from './variables.mjs'
+import {last,smoothAnim,random,round,inPointBox,boxify,dirPos,nameColor} from './functions.mjs'
 import {unit} from './unit.mjs'
 export class ui{
     constructor(operation){
@@ -33,7 +33,12 @@ export class ui{
         let composite={
             tabs:this.tabs,
             select:this.select,
-            battle:this.battle,
+            battle:{
+                player:this.battle.player==0?-1:this.battle.player.id,
+                enemy:this.battle.enemy==0?-1:this.battle.enemy.id,
+                result:this.battle.result,
+                circumstance:this.battle.circumstance,
+            },
             plunder:this.plunder,
         }
         return composite
@@ -43,6 +48,10 @@ export class ui{
         this.select=composite.select
         this.battle=composite.battle
         this.plunder=composite.plunder
+    }
+    loaBar(){
+        this.battle.player=this.battle.player==-1?0:this.operation.units[findId(this.battle.player,this.operation.units)]
+        this.battle.enemy=this.battle.enemy==-1?0:this.operation.units[findId(this.battle.enemy,this.operation.units)]
     }
     initial(){
         for(let a=0,la=8;a<la;a++){
@@ -55,6 +64,12 @@ export class ui{
         if(this.tabs.record.length>100){
             delete this.tabs.record[0]
             this.tabs.record.splice(0,1)
+        }
+        switch(this.tabs.active){
+            case 0: case 5: case 6: case 7:
+                this.battle.player=0
+                this.battle.enemy=0
+            break
         }
     }
     accept(){
@@ -224,6 +239,32 @@ export class ui{
         let tick=0
         let count=0
         switch(scene){
+            case `title`:
+                layer.push()
+                layer.translate(layer.width*0.5,0)
+                layer.fill(150)
+                layer.rect(0,450,300,280,20)
+                layer.fill(0)
+                layer.textSize(48)
+                layer.text(`Écorcheur`,0,375)
+                layer.textSize(24)
+                layer.text(`DuckyProgramming`,0,420)
+                layer.fill(120)
+                layer.rect(0,475,240,50,10)
+                layer.rect(0,535,240,50,10)
+                layer.fill(100)
+                layer.rect(0,475,3,50)
+                layer.fill(0)
+                layer.rect(-95,475,18,2.4)
+                layer.rect(95,475,18,2.4)
+                layer.rect(95,475,2.4,18)
+                layer.textSize(20)
+                layer.text(`Difficulty: ${options.difficulty}`,0,475)
+                layer.text(`Begin`,0,535)
+                layer.textSize(10)
+                layer.text(`Enter`,100,520)
+                layer.pop()
+            break
             case `main`:
                 layer.fill(120)
                 layer.rect(layer.width-this.width*0.5,layer.height*0.5,this.width,layer.height)
@@ -544,7 +585,6 @@ export class ui{
                 layer.text(`Enter`,60,tick+15)
                 tick+=50
 
-                layer.noStroke()
                 layer.fill(120)
                 layer.rect(0,tick+25,160,40,10)
                 layer.fill(0)
@@ -555,7 +595,6 @@ export class ui{
                 tick+=50
                 count++
 
-                layer.noStroke()
                 layer.fill(120)
                 layer.rect(0,tick+25,160,40,10)
                 layer.fill(0)
@@ -565,6 +604,31 @@ export class ui{
                 layer.text(count,60,tick+15)
                 tick+=50
                 count++
+
+                layer.fill(0)
+                layer.textSize(24)
+                layer.text(`Royal Army:`,0,tick+20)
+                layer.stroke(0)
+                layer.strokeWeight(1)
+                layer.rect(-20,tick+221,4,362,2)
+                layer.rect(20,tick+221,4,362,2)
+                layer.rect(0,tick+402,44,4,2)
+                layer.noStroke()
+                let total=this.operation.teams.reduce((acc,team)=>acc+team.spawn.base.strength,0)
+                let set=this.operation.teams.filter(team=>team.spawn.aggress!=2&&team.spawn.base.strength>0)
+                let collect=this.operation.teams.filter(team=>team.spawn.aggress==2&&team.spawn.base.strength>0).reduce((acc,team)=>acc+team.spawn.base.strength,0)
+                for(let a=0,la=set.length;a<la;a++){
+                    if(set[a].spawn.agress!=2){
+                        layer.fill(...nameColor(set[a].name))
+                        if(a==0){
+                            layer.rect(0,tick+40+360*collect/total+2,35,4,2)
+                            layer.rect(0,tick+40+360*(set[a].spawn.base.strength*0.5+collect)/total+1,35,360*set[a].spawn.base.strength/total-2)
+                        }else{
+                            layer.rect(0,tick+40+360*(set[a].spawn.base.strength*0.5+collect)/total,35,360*set[a].spawn.base.strength/total)
+                        }
+                        collect+=set[a].spawn.base.strength
+                    }
+                }
 
                 layer.pop()
             break
@@ -586,6 +650,19 @@ export class ui{
         let rel
         let tick
         switch(scene){
+            case `title`:
+                rel={position:{x:mouse.position.x-layer.width*0.5,y:mouse.position.y}}
+                if(inPointBox(rel,boxify(-60,475,120,50))&&options.difficulty>0.2){
+                    options.difficulty=round(options.difficulty*10-1)/10
+                }
+                if(inPointBox(rel,boxify(60,475,120,50))&&options.difficulty<2){
+                    options.difficulty=round(options.difficulty*10+1)/10
+                }
+                if(inPointBox(rel,boxify(0,535,240,50))){
+                    this.operation.transitionManager.begin(`main`)
+                    this.operation.initialComponents()
+                }
+            break
             case `main`:
                 rel={position:{x:mouse.position.x-layer.width+this.width*0.5,y:mouse.position.y}}
                 let cit
@@ -623,11 +700,11 @@ export class ui{
                             }
                             tick+=50
                             if(inPointBox(rel,boxify(0,tick+25,160,40))){
-                                this.moveTab(0)
                                 this.battle.enemy.speed.stun=30
                                 this.operation.time.pass=60
                                 this.operation.units[0].retreat.speed=3
                                 this.operation.units[0].retreat.direction=dirPos(this.battle.enemy,this.operation.units[0])
+                                this.moveTab(0)
                             }
                             tick+=50
                         break
@@ -642,8 +719,8 @@ export class ui{
                             }
                             tick+=50
                             if(inPointBox(rel,boxify(0,tick+25,160,40))){
-                                this.moveTab(0)
                                 this.battle.enemy.speed.stun=30
+                                this.moveTab(0)
                             }
                             tick+=50
                         break
@@ -668,8 +745,8 @@ export class ui{
                             }
                             tick+=50
                             if(inPointBox(rel,boxify(0,tick+25,160,40))){
-                                this.moveTab(0)
                                 this.battle.enemy.speed.stun=30
+                                this.moveTab(0)
                             }
                             tick+=50
                         break
@@ -825,6 +902,18 @@ export class ui{
     onKey(layer,key,scene){
         let count=1
         switch(scene){
+            case `title`:
+                if(key==`-`&&options.difficulty>0.2){
+                    options.difficulty=round(options.difficulty*10-1)/10
+                }
+                if(key==`+`&&options.difficulty<2){
+                    options.difficulty=round(options.difficulty*10+1)/10
+                }
+                if(key==`Enter`){
+                    this.operation.transitionManager.begin(`main`)
+                    this.operation.initialComponents()
+                }
+            break
             case `main`:
                 let cit
                 switch(this.tabs.active){
@@ -854,8 +943,8 @@ export class ui{
                         }
                         count++
                         if(key==count.toString()){
-                            this.moveTab(0)
                             this.battle.enemy.speed.stun=30
+                            this.moveTab(0)
                             this.operation.units[0].retreat.speed=3
                         }
                         count++
@@ -896,8 +985,8 @@ export class ui{
                         }
                         count++
                         if(key==count.toString()){
-                            this.moveTab(0)
                             this.battle.enemy.speed.stun=30
+                            this.moveTab(0)
                         }
                         count++
                     break

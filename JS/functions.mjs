@@ -406,7 +406,7 @@ export function nameColor(name){
             return [206,165,158]
         case `Lorraine`: case `Haut-Lorraine`: case `Kettler`: case `Ibelin`:
             return [229,152,152]
-        case `Albon`: case `Cisjurania`: case `Dauphiné`: case `Bellingshausen`: case `Fauquembergues`:
+        case `Albon`: case `Cisjurania`: case `Dauphiné`: case `Bellingshausen`: case `Fauquembergues`: case `Elder Albon`:
             return [228,153,70]
         case `Rouergue`: case `Drôme`: case `Ascania`: case `Dampierre`:
             return [128,159,112]
@@ -432,11 +432,15 @@ export function nameColor(name){
             return [218,24,30]
         case `Geneva`:
             return [225,44,83]
+        case `Lyon`:
+            return [238,77,37]
+        case `Besançon`:
+            return [245,31,50]
         case `Ecclesiastical`: case `Bishop of Ösel-Wiek`: case `Bishop of Dorpat`: case `Bishop of Courland`:
             return [162,88,172]
         case `La Marck-Arenberg`:
             return [41,150,163]
-        case `Orange`: case `Isenberg`:
+        case `Isenberg`:
             return [254,135,133]
         case `Gruyères`:
             return [193,144,112]
@@ -498,6 +502,16 @@ export function nameColor(name){
             return [128,196,178]
         case `Cordano`:
             return [81,165,97]
+        case `Junior Albon`:
+            return [255,150,128]
+        case `Orange`:
+            return [238,110,37]
+        case `Raron`:
+            return [234,109,125]
+        case `Freie Ämter`:
+            return [193,120,155]
+        case `Mirabel`:
+            return [245,127,110]
         default:
             return [150,150,150]
     }
@@ -506,4 +520,11 @@ export function nameColor(name){
 export function checkCity(){
     print(`Checking Order`)
     types.map.forEach(map=>map.city.forEach((chunk,index)=>{for(let a=1,la=chunk.length;a<la;a++){if(chunk[a].loc[1]<chunk[a-1].loc[1]||chunk[a].loc[1]==chunk[a-1].loc[1]&&chunk[a].loc[0]<chunk[a-1].loc[0]){print(map.name,index,chunk[a-1].name,chunk[a].name)}}}))
+}
+export function orderTeam(){
+    let totals=[]
+    types.map[0].team.forEach(team=>totals.push({name:team.name,strength:0}))
+    types.map[0].city.forEach(set=>set.forEach(city=>totals[findName(city.rule,totals)].strength+=(city.type==1?0.5:1)))
+    print(totals)
+    totals.sort((a,b)=>a.strength-b.strength).forEach(total=>print(total.name))
 }
