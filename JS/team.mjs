@@ -145,8 +145,8 @@ export class team{
                     }
                 }
             }else{
-                this.spawn.activation=min(1,this.spawn.activation+0.1)
-                let num=this.cities.reduce((acc,city)=>acc+(city.type==1?0.5:1),0)*this.spawn.activation
+                this.spawn.activation++
+                let num=min(this.cities.reduce((acc,city)=>acc+(city.type==1?0.5:1),0),this.spawn.activation)
                 this.spawn.strength+=(num-num**2/50)*1000*options.difficulty
                 if(this.spawn.strength>=this.spawn.next.value){
                     let success=false
