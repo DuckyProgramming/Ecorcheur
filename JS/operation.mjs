@@ -239,9 +239,8 @@ export class operation{
                 layer.push()
                 layer.translate((layer.width-this.ui.width)*0.5,layer.height*0.5)
                 layer.scale(this.zoom.scaling)
-                layer.translate(-this.edge.x*0.5+800,-this.edge.y*0.5)
-                layer.image(graphics.load.map[this.map][0],this.edge.x*0.5,this.edge.y*0.5,this.edge.x,this.edge.y)
-                layer.image(graphics.load.map[this.map][1],this.edge.x*0.5,this.edge.y*0.5,this.edge.x,this.edge.y)
+                layer.translate(-this.edge.x*0.5+800,-this.edge.y*0.5-2700+abs(this.time.general%2400-1200)*4.5)
+                layer.image(graphics.load.map[this.map][2],this.edge.x*0.5,this.edge.y*0.5,this.edge.x,this.edge.y)
                 layer.pop()
             break
             case `main`:
@@ -312,9 +311,9 @@ export class operation{
         this.transitionManager.display(layer)
     }
     update(layer){
+        this.time.general++
         switch(this.scene){
             case `main`:
-                this.time.general++
                 for(let a=0,la=this.cities.length;a<la;a++){
                     this.cities[a].update(layer,this.scene)
                     this.cities[a].index=a

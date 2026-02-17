@@ -23,7 +23,7 @@ export var types={
     ],map:[
         {
             name:[`Kingdom of Arles`,`Base`],
-            term:[`main`,`text`],
+            term:[`main`,`text`,`full`],
             city:[
                 [
                     {name:`Basel`,type:5,loc:[2465,1022],rule:`League of Cities`},
@@ -435,5 +435,5 @@ export var types={
 export var dev={water:false}
 export var options={strength:1,unitSize:1,scale:1,difficulty:1,allCity:false}
 export var graphics={main:0,load:{map:[],city:[],team:[],unit:[]}}
-export var constants={trig:[[],[]],int:false}
+export var constants={trig:[[],[]],init:false}
 export var inputs={mouse:{base:{x:0,y:0},rel:{x:0,y:0},previous:{base:{x:0,y:0},rel:{x:0,y:0}}}}

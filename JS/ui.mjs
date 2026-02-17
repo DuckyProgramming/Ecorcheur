@@ -1,5 +1,5 @@
 import {dev,types,options} from './variables.mjs'
-import {last,smoothAnim,random,round,inPointBox,boxify,dirPos,nameColor} from './functions.mjs'
+import {last,smoothAnim,random,round,inPointBox,boxify,dirPos,nameColor,formatTime} from './functions.mjs'
 import {unit} from './unit.mjs'
 export class ui{
     constructor(operation){
@@ -285,7 +285,7 @@ export class ui{
                                 layer.text(`Food:\n${this.operation.resources.food} (-${round(this.operation.units[0].value/100)})`,0,100)
                                 layer.text(`Time:`,0,145)
                                 layer.textSize(16)
-                                layer.text(this.operation.time.total>0?`${floor(this.operation.time.total/1440)}:${floor(this.operation.time.total/24)%60<10?`0`:``}${floor(this.operation.time.total/24)%60}`:`0:00`,0,190)
+                                layer.text(formatTime(this.operation.time.total*2.5),0,190)
                                 layer.stroke(0)
                                 layer.strokeWeight(1)
                                 layer.noFill()
@@ -564,7 +564,7 @@ export class ui{
                 layer.text(`Food:\n${this.operation.resources.food} (-${round(this.operation.units[0].value/100)})`,0,100)
                 layer.text(`Time:`,0,145)
                 layer.textSize(16)
-                layer.text(this.operation.time.total>0?`${floor(this.operation.time.total/1440)}:${floor(this.operation.time.total/24)%60<10?`0`:``}${floor(this.operation.time.total/24)%60}`:`0:00`,0,190)
+                layer.text(formatTime(this.operation.time.total*2.5),0,190)
                 layer.stroke(0)
                 layer.strokeWeight(1)
                 layer.noFill()
