@@ -1005,257 +1005,259 @@ export class ui{
             break
             case `main`:
                 let cit
-                switch(this.tabs.active){
-                    case 0:
-                        if(key==count.toString()){
-                            this.operation.time.pass=60
-                        }
-                        count++
-                        if(key==count.toString()){
-                            this.moveTab(6)
-                            this.select.num=0
-                            this.select.editNum=false
-                        }
-                        count++
-                        if(key==count.toString()){
-                            this.operation.transitionManager.begin(`map`)
-                        }
-                        count++
-                    break
-                    case 1:
-                        if(key==count.toString()){
-                            this.moveTab(4)
-                            this.collectUnits(this.operation.units[0],this.battle.enemy)
-                            if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
-                                this.operation.teams[this.battle.enemy.team].spawn.aggress=1
+                if(this.operation.time.pass<=0&&!this.select.trigger){
+                    switch(this.tabs.active){
+                        case 0:
+                            if(key==count.toString()){
+                                this.operation.time.pass=60
                             }
-                        }
-                        count++
-                        if(key==count.toString()&&this.battle.enemy.type!=4){
-                            this.battle.enemy.speed.stun=30
-                            this.operation.time.pass=60
-                            this.operation.units[0].retreat.speed=3
-                            this.operation.units[0].retreat.direction=dirPos(this.battle.enemy,this.operation.units[0])
-                            this.moveTab(0)
-                        }
-                        count++
-                    break
-                    case 2:
-                        if(key==count.toString()){
-                            this.moveTab(4)
-                            this.battle.circumstance=2
-                            this.collectUnits(this.operation.units[0],this.battle.enemy)
-                            if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
-                                this.operation.teams[this.battle.enemy.team].spawn.aggress=1
+                            count++
+                            if(key==count.toString()){
+                                this.moveTab(6)
+                                this.select.num=0
+                                this.select.editNum=false
                             }
-                        }
-                        count++
-                        if(key==count.toString()&&this.battle.storeEnemy.fortified.city.fortified.bribe>0&&this.operation.resources.money>=round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.enemy.value)){
-                            this.operation.resources.money-=round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.enemy.value)
-                            this.battle.enemy.fade.trigger=false
-                            this.operation.units.push(new unit(this.operation,false,this.battle.enemy.position.x,this.battle.enemy.position.y,this.operation.id.unit,this.operation.units[0].team,0,this.battle.enemy.value))
-                            this.battle.enemy.fortified.city.fortified.unit=last(this.operation.units)
-                            if(this.battle.enemy.fortified.city.fortified.trigger){
-                                last(this.operation.units).fortified.trigger=true
+                            count++
+                            if(key==count.toString()){
+                                this.operation.transitionManager.begin(`map`)
                             }
-                            this.operation.id.unit++
-                            if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
-                                this.operation.teams[this.battle.enemy.team].spawn.aggress=1
-                            }
-                            this.select.city=this.battle.enemy.fortified.city.index
-                            this.operation.cities[this.select.city].taken()
-                            this.operation.teams[this.battle.enemy.team].unitDestroyed(this.battle.enemy)
-                            this.moveTab(5)
-                        }
-                        count++
-                        if(key==count.toString()){
-                            this.battle.enemy.speed.stun=30
-                            this.moveTab(0)
-                        }
-                        count++
-                    break
-                    case 3:
-                        if(key==count.toString()){
-                            this.moveTab(4)
-                            this.battle.circumstance=3
-                            this.battle.enemy.fortified.city.fortified.sieged+=0.25
-                            this.collectUnits(this.operation.units[0],this.battle.enemy)
-                            if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
-                                this.operation.teams[this.battle.enemy.team].spawn.aggress=1
-                            }
-                        }
-                        count++
-                        if(key==count.toString()){
-                            this.operation.time.pass=60
-                            this.battle.enemy.fortified.city.fortified.sieged++
-                            this.battle.enemy.fortified.city.fortified.siegeActive=true
-                            if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
-                                this.operation.teams[this.battle.enemy.team].spawn.aggress=1
-                            }
-                        }
-                        count++
-                        if(key==count.toString()&&this.battle.storeEnemy.fortified.city.fortified.bribe>0&&this.operation.resources.money>=round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.enemy.value)){
-                            this.operation.resources.money-=round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.enemy.value)
-                            this.battle.enemy.fade.trigger=false
-                            this.operation.units.push(new unit(this.operation,false,this.battle.enemy.position.x,this.battle.enemy.position.y,this.operation.id.unit,this.operation.units[0].team,0,this.battle.enemy.value))
-                            this.battle.enemy.fortified.city.fortified.unit=last(this.operation.units)
-                            if(this.battle.enemy.fortified.city.fortified.trigger){
-                                last(this.operation.units).fortified.trigger=true
-                            }
-                            this.operation.id.unit++
-                            if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
-                                this.operation.teams[this.battle.enemy.team].spawn.aggress=1
-                            }
-                            this.select.city=this.battle.enemy.fortified.city.index
-                            this.operation.cities[this.select.city].taken()
-                            this.operation.teams[this.battle.enemy.team].unitDestroyed(this.battle.enemy)
-                            this.moveTab(5)
-                        }
-                        count++
-                        if(key==count.toString()){
-                            this.battle.enemy.speed.stun=30
-                            this.moveTab(0)
-                        }
-                        count++
-                    break
-                    case 4:
-                        if(key==`Enter`){
-                            this.accept()
-                        }
-                    break
-                    case 5:
-                        if(key==`Escape`){
-                            this.moveTab(0)
-                        }
-                        cit=this.operation.cities[this.select.city]
-                        if(key==count.toString()){
-                            this.moveTab(7)
-                            this.select.num=0
-                            this.select.editNum=false
-                        }
-                        count++
-                        if(key==count.toString()&&cit.resources.raid.instances>0){
-                            cit.resources.raid.instances--
-                            this.operation.resources.money+=cit.resources.raid.amount
-                            cit.resources.raid.trigger=true
-                            this.operation.time.pass=60
-                            this.operation.time.raid=true
-                            if(cit.resources.raid.instances<=0){
-                                this.moveTab(0)
-                                cit.fade.trigger=false
-                                this.operation.teams[cit.rule].cityDestroyed(cit)
-                                if(cit.fortified.unit!=0){
-                                    this.operation.units[0].value+=cit.fortified.unit.value
-                                    cit.fortified.unit.fade.trigger=false
-                                    cit.fortified.unit=0
+                            count++
+                        break
+                        case 1:
+                            if(key==count.toString()){
+                                this.moveTab(4)
+                                this.collectUnits(this.operation.units[0],this.battle.enemy)
+                                if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
+                                    this.operation.teams[this.battle.enemy.team].spawn.aggress=1
                                 }
                             }
-                        }
-                        count++
-                        if(!cit.resources.raid.trigger){
-                            if(key==count.toString()&&this.operation.resources.money>=cit.resources.manpower.cost&&cit.resources.manpower.instances>0){
-                                cit.resources.manpower.instances--
-                                cit.resources.manpower.tick=floor(random(4,9))
-                                this.operation.resources.money-=cit.resources.manpower.cost
-                                this.operation.units[0].value+=cit.resources.manpower.amount
-                                this.operation.time.pass=15
-                            }
                             count++
-                            if(key==count.toString()&&this.operation.resources.money>=cit.resources.food.cost&&cit.resources.food.instances>0){
-                                cit.resources.food.instances--
-                                cit.resources.food.tick=floor(random(4,9))
-                                this.operation.resources.money-=cit.resources.food.cost
-                                this.operation.resources.food+=cit.resources.food.amount
-                                this.operation.time.pass=15
-                            }
-                            count++
-                        }
-                    break
-                    case 6:
-                        if(this.select.editNum){
-                            if(`1234567890`.includes(key)){
-                                this.select.num=min(1000000,this.select.num*10+int(key)*100)
-                            }else if(key==`Backspace`){
-                                this.select.num=floor(this.select.num/1000)*100
-                            }
-                        }
-                        if(key==`Escape`){
-                            this.moveTab(0)
-                        }
-                        if(key.toUpperCase()==`ABCDEFGHIJKLMNOPQRSTUVWXYZ`[count-1]){
-                            this.select.editNum=!this.select.editNum
-                        }
-                        count++
-                        if(this.select.num>0&&this.operation.prisoners.gained>0){
-                            if(key.toUpperCase()==`ABCDEFGHIJKLMNOPQRSTUVWXYZ`[count-1]&&this.operation.prisoners.lost>0){
-                                let num=min(min(this.operation.prisoners.gained,this.select.num),this.operation.prisoners.lost)
-                                this.operation.prisoners.gained-=num
-                                this.operation.prisoners.lost-=num
-                                this.operation.units[0].value+=num
+                            if(key==count.toString()&&this.battle.enemy.type!=4){
+                                this.battle.enemy.speed.stun=30
+                                this.operation.time.pass=60
+                                this.operation.units[0].retreat.speed=3
+                                this.operation.units[0].retreat.direction=dirPos(this.battle.enemy,this.operation.units[0])
                                 this.moveTab(0)
                             }
                             count++
-                            if(key.toUpperCase()==`ABCDEFGHIJKLMNOPQRSTUVWXYZ`[count-1]){
-                                let num=min(this.operation.prisoners.gained,this.select.num)
-                                this.operation.prisoners.gained-=num
-                                this.operation.units[0].value+=floor(num/250)*100
-                                this.moveTab(0)
+                        break
+                        case 2:
+                            if(key==count.toString()){
+                                this.moveTab(4)
+                                this.battle.circumstance=2
+                                this.collectUnits(this.operation.units[0],this.battle.enemy)
+                                if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
+                                    this.operation.teams[this.battle.enemy.team].spawn.aggress=1
+                                }
                             }
                             count++
-                            if(key.toUpperCase()==`ABCDEFGHIJKLMNOPQRSTUVWXYZ`[count-1]){
-                                let num=min(this.operation.prisoners.gained,this.select.num)
-                                this.operation.prisoners.gained-=num
-                                this.operation.resources.money+=num/5
-                                this.moveTab(0)
-                            }
-                            count++
-                        }
-                    break
-                    case 7:
-                        if(this.select.editNum){
-                            if(`1234567890`.includes(key)){
-                                this.select.num=min(1000000,this.select.num*10+int(key)*100)
-                            }else if(key==`Backspace`){
-                                this.select.num=floor(this.select.num/1000)*100
-                            }
-                        }
-                        if(key==`Escape`){
-                            this.moveTab(5)
-                        }
-                        cit=this.operation.cities[this.select.city]
-                        if(key.toUpperCase()==`ABCDEFGHIJKLMNOPQRSTUVWXYZ`[count-1]){
-                            this.select.editNum=!this.select.editNum
-                        }
-                        count++
-                        if(key.toUpperCase()==`ABCDEFGHIJKLMNOPQRSTUVWXYZ`[count-1]){
-                            let num=min(this.select.num,this.operation.units[0].value-100)
-                            if(cit.fortified.unit!=0){
-                                cit.fortified.unit.value+=num
-                            }else{
-                                this.operation.units.push(new unit(this.operation,false,cit.position.x,cit.position.y,this.operation.id.unit,this.operation.units[0].team,0,num))
-                                cit.fortified.unit=last(this.operation.units)
-                                if(cit.fortified.trigger){
+                            if(key==count.toString()&&this.battle.storeEnemy.fortified.city.fortified.bribe>0&&this.operation.resources.money>=round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.enemy.value)){
+                                this.operation.resources.money-=round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.enemy.value)
+                                this.battle.enemy.fade.trigger=false
+                                this.operation.units.push(new unit(this.operation,false,this.battle.enemy.position.x,this.battle.enemy.position.y,this.operation.id.unit,this.operation.units[0].team,0,this.battle.enemy.value))
+                                this.battle.enemy.fortified.city.fortified.unit=last(this.operation.units)
+                                if(this.battle.enemy.fortified.city.fortified.trigger){
                                     last(this.operation.units).fortified.trigger=true
                                 }
                                 this.operation.id.unit++
-                            }
-                            this.operation.units[0].value-=num
-                        }
-                        count++
-                        if(cit.fortified.unit!=0){
-                            if(key.toUpperCase()==`ABCDEFGHIJKLMNOPQRSTUVWXYZ`[count-1]){
-                                let num=min(this.select.num,cit.fortified.unit.value)
-                                if(num<cit.fortified.unit.value){
-                                    cit.fortified.unit.value-=num
-                                }else{
-                                    cit.fortified.unit.fade.trigger=false
-                                    cit.fortified.unit=0
+                                if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
+                                    this.operation.teams[this.battle.enemy.team].spawn.aggress=1
                                 }
-                                this.operation.units[0].value+=num
+                                this.select.city=this.battle.enemy.fortified.city.index
+                                this.operation.cities[this.select.city].taken()
+                                this.operation.teams[this.battle.enemy.team].unitDestroyed(this.battle.enemy)
+                                this.moveTab(5)
                             }
                             count++
-                        }
-                    break
+                            if(key==count.toString()){
+                                this.battle.enemy.speed.stun=30
+                                this.moveTab(0)
+                            }
+                            count++
+                        break
+                        case 3:
+                            if(key==count.toString()){
+                                this.moveTab(4)
+                                this.battle.circumstance=3
+                                this.battle.enemy.fortified.city.fortified.sieged+=0.25
+                                this.collectUnits(this.operation.units[0],this.battle.enemy)
+                                if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
+                                    this.operation.teams[this.battle.enemy.team].spawn.aggress=1
+                                }
+                            }
+                            count++
+                            if(key==count.toString()){
+                                this.operation.time.pass=60
+                                this.battle.enemy.fortified.city.fortified.sieged++
+                                this.battle.enemy.fortified.city.fortified.siegeActive=true
+                                if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
+                                    this.operation.teams[this.battle.enemy.team].spawn.aggress=1
+                                }
+                            }
+                            count++
+                            if(key==count.toString()&&this.battle.storeEnemy.fortified.city.fortified.bribe>0&&this.operation.resources.money>=round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.enemy.value)){
+                                this.operation.resources.money-=round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.enemy.value)
+                                this.battle.enemy.fade.trigger=false
+                                this.operation.units.push(new unit(this.operation,false,this.battle.enemy.position.x,this.battle.enemy.position.y,this.operation.id.unit,this.operation.units[0].team,0,this.battle.enemy.value))
+                                this.battle.enemy.fortified.city.fortified.unit=last(this.operation.units)
+                                if(this.battle.enemy.fortified.city.fortified.trigger){
+                                    last(this.operation.units).fortified.trigger=true
+                                }
+                                this.operation.id.unit++
+                                if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
+                                    this.operation.teams[this.battle.enemy.team].spawn.aggress=1
+                                }
+                                this.select.city=this.battle.enemy.fortified.city.index
+                                this.operation.cities[this.select.city].taken()
+                                this.operation.teams[this.battle.enemy.team].unitDestroyed(this.battle.enemy)
+                                this.moveTab(5)
+                            }
+                            count++
+                            if(key==count.toString()){
+                                this.battle.enemy.speed.stun=30
+                                this.moveTab(0)
+                            }
+                            count++
+                        break
+                        case 4:
+                            if(key==`Enter`){
+                                this.accept()
+                            }
+                        break
+                        case 5:
+                            if(key==`Escape`){
+                                this.moveTab(0)
+                            }
+                            cit=this.operation.cities[this.select.city]
+                            if(key==count.toString()){
+                                this.moveTab(7)
+                                this.select.num=0
+                                this.select.editNum=false
+                            }
+                            count++
+                            if(key==count.toString()&&cit.resources.raid.instances>0){
+                                cit.resources.raid.instances--
+                                this.operation.resources.money+=cit.resources.raid.amount
+                                cit.resources.raid.trigger=true
+                                this.operation.time.pass=60
+                                this.operation.time.raid=true
+                                if(cit.resources.raid.instances<=0){
+                                    this.moveTab(0)
+                                    cit.fade.trigger=false
+                                    this.operation.teams[cit.rule].cityDestroyed(cit)
+                                    if(cit.fortified.unit!=0){
+                                        this.operation.units[0].value+=cit.fortified.unit.value
+                                        cit.fortified.unit.fade.trigger=false
+                                        cit.fortified.unit=0
+                                    }
+                                }
+                            }
+                            count++
+                            if(!cit.resources.raid.trigger){
+                                if(key==count.toString()&&this.operation.resources.money>=cit.resources.manpower.cost&&cit.resources.manpower.instances>0){
+                                    cit.resources.manpower.instances--
+                                    cit.resources.manpower.tick=floor(random(4,9))
+                                    this.operation.resources.money-=cit.resources.manpower.cost
+                                    this.operation.units[0].value+=cit.resources.manpower.amount
+                                    this.operation.time.pass=15
+                                }
+                                count++
+                                if(key==count.toString()&&this.operation.resources.money>=cit.resources.food.cost&&cit.resources.food.instances>0){
+                                    cit.resources.food.instances--
+                                    cit.resources.food.tick=floor(random(4,9))
+                                    this.operation.resources.money-=cit.resources.food.cost
+                                    this.operation.resources.food+=cit.resources.food.amount
+                                    this.operation.time.pass=15
+                                }
+                                count++
+                            }
+                        break
+                        case 6:
+                            if(this.select.editNum){
+                                if(`1234567890`.includes(key)){
+                                    this.select.num=min(1000000,this.select.num*10+int(key)*100)
+                                }else if(key==`Backspace`){
+                                    this.select.num=floor(this.select.num/1000)*100
+                                }
+                            }
+                            if(key==`Escape`){
+                                this.moveTab(0)
+                            }
+                            if(key.toUpperCase()==`ABCDEFGHIJKLMNOPQRSTUVWXYZ`[count-1]){
+                                this.select.editNum=!this.select.editNum
+                            }
+                            count++
+                            if(this.select.num>0&&this.operation.prisoners.gained>0){
+                                if(key.toUpperCase()==`ABCDEFGHIJKLMNOPQRSTUVWXYZ`[count-1]&&this.operation.prisoners.lost>0){
+                                    let num=min(min(this.operation.prisoners.gained,this.select.num),this.operation.prisoners.lost)
+                                    this.operation.prisoners.gained-=num
+                                    this.operation.prisoners.lost-=num
+                                    this.operation.units[0].value+=num
+                                    this.moveTab(0)
+                                }
+                                count++
+                                if(key.toUpperCase()==`ABCDEFGHIJKLMNOPQRSTUVWXYZ`[count-1]){
+                                    let num=min(this.operation.prisoners.gained,this.select.num)
+                                    this.operation.prisoners.gained-=num
+                                    this.operation.units[0].value+=floor(num/250)*100
+                                    this.moveTab(0)
+                                }
+                                count++
+                                if(key.toUpperCase()==`ABCDEFGHIJKLMNOPQRSTUVWXYZ`[count-1]){
+                                    let num=min(this.operation.prisoners.gained,this.select.num)
+                                    this.operation.prisoners.gained-=num
+                                    this.operation.resources.money+=num/5
+                                    this.moveTab(0)
+                                }
+                                count++
+                            }
+                        break
+                        case 7:
+                            if(this.select.editNum){
+                                if(`1234567890`.includes(key)){
+                                    this.select.num=min(1000000,this.select.num*10+int(key)*100)
+                                }else if(key==`Backspace`){
+                                    this.select.num=floor(this.select.num/1000)*100
+                                }
+                            }
+                            if(key==`Escape`){
+                                this.moveTab(5)
+                            }
+                            cit=this.operation.cities[this.select.city]
+                            if(key.toUpperCase()==`ABCDEFGHIJKLMNOPQRSTUVWXYZ`[count-1]){
+                                this.select.editNum=!this.select.editNum
+                            }
+                            count++
+                            if(key.toUpperCase()==`ABCDEFGHIJKLMNOPQRSTUVWXYZ`[count-1]){
+                                let num=min(this.select.num,this.operation.units[0].value-100)
+                                if(cit.fortified.unit!=0){
+                                    cit.fortified.unit.value+=num
+                                }else{
+                                    this.operation.units.push(new unit(this.operation,false,cit.position.x,cit.position.y,this.operation.id.unit,this.operation.units[0].team,0,num))
+                                    cit.fortified.unit=last(this.operation.units)
+                                    if(cit.fortified.trigger){
+                                        last(this.operation.units).fortified.trigger=true
+                                    }
+                                    this.operation.id.unit++
+                                }
+                                this.operation.units[0].value-=num
+                            }
+                            count++
+                            if(cit.fortified.unit!=0){
+                                if(key.toUpperCase()==`ABCDEFGHIJKLMNOPQRSTUVWXYZ`[count-1]){
+                                    let num=min(this.select.num,cit.fortified.unit.value)
+                                    if(num<cit.fortified.unit.value){
+                                        cit.fortified.unit.value-=num
+                                    }else{
+                                        cit.fortified.unit.fade.trigger=false
+                                        cit.fortified.unit=0
+                                    }
+                                    this.operation.units[0].value+=num
+                                }
+                                count++
+                            }
+                        break
+                    }
                 }
             break
             case `map`:
