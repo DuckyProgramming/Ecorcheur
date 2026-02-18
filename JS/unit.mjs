@@ -136,6 +136,7 @@ export class unit{
             if(this.speed.stun<=0){
                 this.operation.ui.moveTab(this.type==0?(this.fortified.trigger?3:2):1)
                 this.operation.ui.battle.enemy=this
+                this.operation.ui.battle.storeEnemy=this
                 this.operation.ui.battle.circumstance=this.operation.units[0].speed.activation>0?0:1
                 this.operation.halt()
                 return
@@ -216,6 +217,7 @@ export class unit{
                                         }
                                         last(this.operation.units).fortified.city=this.goal.city
                                         this.goal.city.fortified.unit=last(this.operation.units)
+                                        this.goal.city.fortified.original=false
                                     }
                                 }
                                 if(this.goal.city==-1||this.goal.time>=30){
@@ -284,7 +286,7 @@ export class unit{
                                         this.goal.position.y=this.position.y
                                         if(this.time%150==0){
                                             if(floor(random(0,4))==0){
-                                                let result=this.operation.ui.instantBattle(this,this.goal.city.fortified.unit,(this.fortified.trigger?3:2))
+                                                let result=this.operation.ui.instantBattle(this,this.goal.city.fortified.unit,(this.goal.city.fortified.trigger?3:2))
                                                 this.value-=result.casualties[0][0].number
                                                 this.goal.city.fortified.unit.value-=result.casualties[1][0].number
                                                 if(last(result.winner)==1){
@@ -375,6 +377,7 @@ export class unit{
                                 }
                                 last(this.operation.units).fortified.city=this.goal.city
                                 this.goal.city.fortified.unit=last(this.operation.units)
+                                this.goal.city.fortified.original=false
                             }else if(distPos(this,this.goal.city)<1&&this.fade.trigger){
                                 this.fade.trigger=false
                                 this.operation.teams[this.team].unitDestroyed(this)

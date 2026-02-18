@@ -9,7 +9,7 @@ export class city{
         this.type=data.type
         this.rule=this.operation.ref.team[data.rule]
         this.owner=this.operation.ref.team[data.rule]
-        this.fortified={trigger:fortified,unit:0,sieged:0,siegeActive:false,taken:false}
+        this.fortified={trigger:fortified,unit:0,sieged:0,siegeActive:false,taken:false,original:true,bribe:floor(random(0,4))==0?0:(fortified?random(0.75,1.25):random(0.6,1))}
         this.fade={main:0,trigger:true,map:0}
         this.index=0
         this.remove=false
@@ -64,7 +64,7 @@ export class city{
         this.resources={
             manpower:{amount:floor(random(5*mult[0],9*mult[0]+1))*100,instances:floor(random(4*mult[1],7*mult[1]+1)),tick:0},
             food:{amount:floor(random(80*mult[2],100*mult[2]+1)),instances:floor(random(5*mult[3],10*mult[3]+1)),tick:0},
-            raid:{trigger:false,amount:floor(random(150*mult[4],240*mult[4]+1)),instances:floor(random(3*mult[5],5*mult[5]+1)),tick:0}
+            raid:{trigger:false,amount:floor(random(160*mult[4],260*mult[4]+1)),instances:floor(random(3*mult[5],5*mult[5]+1)),tick:0}
         }
         this.resources.manpower.cost=floor(random(0.3*this.resources.manpower.amount,0.5*this.resources.manpower.amount+1))
         this.resources.manpower.base={instances:this.resources.manpower.instances}

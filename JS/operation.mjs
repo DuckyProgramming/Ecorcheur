@@ -167,7 +167,7 @@ export class operation{
                 }
             }
             for(let b=0,lb=groups[a].length;b<lb;b++){
-                if(a==0||!groups[0].some(group=>group.rule==groups[a][b].rule)){
+                if(a==0&&floor(random(0,4))!=0||a==1&&!groups[0].some(group=>group.rule==groups[a][b].rule)){
                     this.addCity(groups[a][b].cities.splice(randindex(groups[a][b].cities),1)[0],true)
                 }
                 leftover.push(...groups[a][b].cities)

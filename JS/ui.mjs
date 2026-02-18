@@ -1,5 +1,5 @@
 import {dev,types,options} from './variables.mjs'
-import {last,smoothAnim,random,round,inPointBox,boxify,dirPos,nameColor,formatTime} from './functions.mjs'
+import {last,smoothAnim,random,round,inPointBox,boxify,dirPos,mergeColor,nameColor,formatTime} from './functions.mjs'
 import {unit} from './unit.mjs'
 export class ui{
     constructor(operation){
@@ -18,7 +18,7 @@ export class ui{
         7 - reorganize
         */
         this.select={city:-1,trigger:false,num:0,editNum:false}
-        this.battle={player:0,enemy:0,result:0,circumstance:0}
+        this.battle={player:0,enemy:0,storeEnemy:0,result:0,circumstance:0}
         this.plunder={money:0,prisoners:0}
         /*
         circumstance:
@@ -318,7 +318,7 @@ export class ui{
                                     layer.rect(0,tick+25,160,40,10)
                                     layer.fill(0)
                                     layer.textSize(15)
-                                    layer.text([`Battle`,`Retreat`][a],0,tick+25)
+                                    layer.text([`Battle`,this.battle.storeEnemy.type==4?`No Retreat`:`Retreat`][a],0,tick+25)
                                     layer.textSize(10)
                                     layer.text(count,70,tick+15)
                                     tick+=50
@@ -329,33 +329,81 @@ export class ui{
                                 layer.fill(0)
                                 layer.textSize(24)
                                 layer.text(`Enemy\nVillage`,0,40)
-                                for(let a=0,la=2;a<la;a++){
-                                    layer.fill(120)
-                                    layer.rect(0,tick+25,160,40,10)
-                                    layer.fill(0)
-                                    layer.textSize(15)
-                                    layer.text([`Battle`,`Exit`][a],0,tick+25)
-                                    layer.textSize(10)
-                                    layer.text(count,70,tick+15)
-                                    tick+=50
-                                    count++
-                                }
+                                layer.textSize(18)
+                                layer.text(`Deniers: ${this.operation.resources.money}`,0,tick+12.5)
+                                tick+=25
+
+                                layer.fill(120)
+                                layer.rect(0,tick+25,160,40,10)
+                                layer.fill(0)
+                                layer.textSize(15)
+                                layer.text(`Battle`,0,tick+25)
+                                layer.textSize(10)
+                                layer.text(count,70,tick+15)
+                                tick+=50
+                                count++
+
+                                layer.fill(120)
+                                layer.rect(0,tick+30,160,50,10)
+                                layer.fill(0)
+                                layer.textSize(15)
+                                layer.text(`Bribe`,0,tick+25)
+                                layer.textSize(12)
+                                layer.text(this.battle.storeEnemy.fortified.city.fortified.bribe==0?`Declined`:`Costs ${round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.storeEnemy.value)} Deniers`,0,tick+40)
+                                layer.textSize(10)
+                                layer.text(count,70,tick+15)
+                                tick+=60
+                                count++
+
+                                layer.fill(120)
+                                layer.rect(0,tick+25,160,40,10)
+                                layer.fill(0)
+                                layer.textSize(15)
+                                layer.text(`Exit`,0,tick+25)
+                                layer.textSize(10)
+                                layer.text(count,70,tick+15)
+                                tick+=50
+                                count++
                             break
                             case 3:
                                 layer.fill(0)
                                 layer.textSize(24)
                                 layer.text(`Enemy\nFort`,0,40)
-                                for(let a=0,la=3;a<la;a++){
+                                layer.textSize(18)
+                                layer.text(`Deniers: ${this.operation.resources.money}`,0,tick+12.5)
+                                tick+=25
+                                for(let a=0,la=2;a<la;a++){
                                     layer.fill(120)
                                     layer.rect(0,tick+25,160,40,10)
                                     layer.fill(0)
                                     layer.textSize(15)
-                                    layer.text([`Storm`,`Besiege`,`Exit`][a],0,tick+25)
+                                    layer.text([`Storm`,`Besiege`][a],0,tick+25)
                                     layer.textSize(10)
                                     layer.text(count,70,tick+15)
                                     tick+=50
                                     count++
                                 }
+                                layer.fill(120)
+                                layer.rect(0,tick+30,160,50,10)
+                                layer.fill(0)
+                                layer.textSize(15)
+                                layer.text(`Bribe`,0,tick+25)
+                                layer.textSize(12)
+                                layer.text(this.battle.storeEnemy.fortified.city.fortified.bribe==0?`Declined`:`Costs ${round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.storeEnemy.value)} Deniers`,0,tick+40)
+                                layer.textSize(10)
+                                layer.text(count,70,tick+15)
+                                tick+=60
+                                count++
+
+                                layer.fill(120)
+                                layer.rect(0,tick+25,160,40,10)
+                                layer.fill(0)
+                                layer.textSize(15)
+                                layer.text(`Exit`,0,tick+25)
+                                layer.textSize(10)
+                                layer.text(count,70,tick+15)
+                                tick+=50
+                                count++
                             break
                             case 4:
                                 layer.fill(0)
@@ -605,26 +653,29 @@ export class ui{
                 tick+=50
                 count++
 
+                let height=480
                 layer.fill(0)
                 layer.textSize(24)
                 layer.text(`Royal Army:`,0,tick+20)
                 layer.stroke(0)
                 layer.strokeWeight(1)
-                layer.rect(-20,tick+221,4,362,2)
-                layer.rect(20,tick+221,4,362,2)
-                layer.rect(0,tick+402,44,4,2)
+                layer.rect(-20,tick+40+height/2+1,4,height+2,2)
+                layer.rect(20,tick+40+height/2+1,4,height+2,2)
+                layer.rect(0,tick+40+height+2,44,4,2)
                 layer.noStroke()
                 let total=this.operation.teams.reduce((acc,team)=>acc+team.spawn.base.strength,0)
                 let set=this.operation.teams.filter(team=>team.spawn.aggress!=2&&team.spawn.base.strength>0)
                 let collect=this.operation.teams.filter(team=>team.spawn.aggress==2&&team.spawn.base.strength>0).reduce((acc,team)=>acc+team.spawn.base.strength,0)
                 for(let a=0,la=set.length;a<la;a++){
-                    layer.fill(...nameColor(set[a].name))
+                    layer.fill(...mergeColor(nameColor(set[a].name),[255,255,255],0.1))
                     if(a==0){
-                        layer.rect(0,tick+40+360*collect/total+2,35,4,2)
-                        layer.rect(0,tick+40+360*(set[a].spawn.base.strength*0.5+collect)/total+1,35,360*set[a].spawn.base.strength/total-2)
+                        layer.rect(0,tick+40+height*collect/total+2,35,4,2)
+                        layer.rect(0,tick+40+height*(set[a].spawn.base.strength*0.5+collect)/total+1,35,height*set[a].spawn.base.strength/total-2)
                     }else{
-                        layer.rect(0,tick+40+360*(set[a].spawn.base.strength*0.5+collect)/total,35,360*set[a].spawn.base.strength/total)
+                        layer.rect(0,tick+40+height*(set[a].spawn.base.strength*0.5+collect)/total,35,height*set[a].spawn.base.strength/total)
                     }
+                    layer.fill(0)
+                    layer.rect(0,tick+40+height*(set[a].spawn.base.strength+collect)/total-0.5,35,2)
                     collect+=set[a].spawn.base.strength
                 }
 
@@ -698,7 +749,7 @@ export class ui{
                                 }
                             }
                             tick+=50
-                            if(inPointBox(rel,boxify(0,tick+25,160,40))){
+                            if(inPointBox(rel,boxify(0,tick+25,160,40))&&this.battle.enemy.type!=4){
                                 this.battle.enemy.speed.stun=30
                                 this.operation.time.pass=60
                                 this.operation.units[0].retreat.speed=3
@@ -708,6 +759,7 @@ export class ui{
                             tick+=50
                         break
                         case 2:
+                            tick+=25
                             if(inPointBox(rel,boxify(0,tick+25,160,40))){
                                 this.moveTab(4)
                                 this.battle.circumstance=2
@@ -717,6 +769,24 @@ export class ui{
                                 }
                             }
                             tick+=50
+                            if(inPointBox(rel,boxify(0,tick+25,160,40))&&this.battle.storeEnemy.fortified.city.fortified.bribe>0&&this.operation.resources.money>=round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.enemy.value)){
+                                this.operation.resources.money-=round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.enemy.value)
+                                this.battle.enemy.fade.trigger=false
+                                this.operation.units.push(new unit(this.operation,false,this.battle.enemy.position.x,this.battle.enemy.position.y,this.operation.id.unit,this.operation.units[0].team,0,this.battle.enemy.value))
+                                this.battle.enemy.fortified.city.fortified.unit=last(this.operation.units)
+                                if(this.battle.enemy.fortified.city.fortified.trigger){
+                                    last(this.operation.units).fortified.trigger=true
+                                }
+                                this.operation.id.unit++
+                                if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
+                                    this.operation.teams[this.battle.enemy.team].spawn.aggress=1
+                                }
+                                this.select.city=this.battle.enemy.fortified.city.index
+                                this.operation.cities[this.select.city].taken()
+                                this.operation.teams[this.battle.enemy.team].unitDestroyed(this.battle.enemy)
+                                this.moveTab(5)
+                            }
+                            tick+=60
                             if(inPointBox(rel,boxify(0,tick+25,160,40))){
                                 this.battle.enemy.speed.stun=30
                                 this.moveTab(0)
@@ -724,6 +794,7 @@ export class ui{
                             tick+=50
                         break
                         case 3:
+                            tick+=25
                             if(inPointBox(rel,boxify(0,tick+25,160,40))){
                                 this.moveTab(4)
                                 this.battle.circumstance=3
@@ -743,6 +814,24 @@ export class ui{
                                 }
                             }
                             tick+=50
+                            if(inPointBox(rel,boxify(0,tick+25,160,40))&&this.battle.storeEnemy.fortified.city.fortified.bribe>0&&this.operation.resources.money>=round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.enemy.value)){
+                                this.operation.resources.money-=round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.enemy.value)
+                                this.battle.enemy.fade.trigger=false
+                                this.operation.units.push(new unit(this.operation,false,this.battle.enemy.position.x,this.battle.enemy.position.y,this.operation.id.unit,this.operation.units[0].team,0,this.battle.enemy.value))
+                                this.battle.enemy.fortified.city.fortified.unit=last(this.operation.units)
+                                if(this.battle.enemy.fortified.city.fortified.trigger){
+                                    last(this.operation.units).fortified.trigger=true
+                                }
+                                this.operation.id.unit++
+                                if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
+                                    this.operation.teams[this.battle.enemy.team].spawn.aggress=1
+                                }
+                                this.select.city=this.battle.enemy.fortified.city.index
+                                this.operation.cities[this.select.city].taken()
+                                this.operation.teams[this.battle.enemy.team].unitDestroyed(this.battle.enemy)
+                                this.moveTab(5)
+                            }
+                            tick+=60
                             if(inPointBox(rel,boxify(0,tick+25,160,40))){
                                 this.battle.enemy.speed.stun=30
                                 this.moveTab(0)
@@ -935,17 +1024,19 @@ export class ui{
                     break
                     case 1:
                         if(key==count.toString()){
-                            this.moveTab(2)
+                            this.moveTab(4)
                             this.collectUnits(this.operation.units[0],this.battle.enemy)
                             if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
                                 this.operation.teams[this.battle.enemy.team].spawn.aggress=1
                             }
                         }
                         count++
-                        if(key==count.toString()){
+                        if(key==count.toString()&&this.battle.enemy.type!=4){
                             this.battle.enemy.speed.stun=30
-                            this.moveTab(0)
+                            this.operation.time.pass=60
                             this.operation.units[0].retreat.speed=3
+                            this.operation.units[0].retreat.direction=dirPos(this.battle.enemy,this.operation.units[0])
+                            this.moveTab(0)
                         }
                         count++
                     break
@@ -959,7 +1050,26 @@ export class ui{
                             }
                         }
                         count++
+                        if(key==count.toString()&&this.battle.storeEnemy.fortified.city.fortified.bribe>0&&this.operation.resources.money>=round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.enemy.value)){
+                            this.operation.resources.money-=round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.enemy.value)
+                            this.battle.enemy.fade.trigger=false
+                            this.operation.units.push(new unit(this.operation,false,this.battle.enemy.position.x,this.battle.enemy.position.y,this.operation.id.unit,this.operation.units[0].team,0,this.battle.enemy.value))
+                            this.battle.enemy.fortified.city.fortified.unit=last(this.operation.units)
+                            if(this.battle.enemy.fortified.city.fortified.trigger){
+                                last(this.operation.units).fortified.trigger=true
+                            }
+                            this.operation.id.unit++
+                            if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
+                                this.operation.teams[this.battle.enemy.team].spawn.aggress=1
+                            }
+                            this.select.city=this.battle.enemy.fortified.city.index
+                            this.operation.cities[this.select.city].taken()
+                            this.operation.teams[this.battle.enemy.team].unitDestroyed(this.battle.enemy)
+                            this.moveTab(5)
+                        }
+                        count++
                         if(key==count.toString()){
+                            this.battle.enemy.speed.stun=30
                             this.moveTab(0)
                         }
                         count++
@@ -984,6 +1094,24 @@ export class ui{
                             }
                         }
                         count++
+                        if(key==count.toString()&&this.battle.storeEnemy.fortified.city.fortified.bribe>0&&this.operation.resources.money>=round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.enemy.value)){
+                            this.operation.resources.money-=round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.enemy.value)
+                            this.battle.enemy.fade.trigger=false
+                            this.operation.units.push(new unit(this.operation,false,this.battle.enemy.position.x,this.battle.enemy.position.y,this.operation.id.unit,this.operation.units[0].team,0,this.battle.enemy.value))
+                            this.battle.enemy.fortified.city.fortified.unit=last(this.operation.units)
+                            if(this.battle.enemy.fortified.city.fortified.trigger){
+                                last(this.operation.units).fortified.trigger=true
+                            }
+                            this.operation.id.unit++
+                            if(this.operation.teams[this.battle.enemy.team].spawn.aggress==0&&this.operation.teams[this.battle.enemy.team].name!=`Royal Army`){
+                                this.operation.teams[this.battle.enemy.team].spawn.aggress=1
+                            }
+                            this.select.city=this.battle.enemy.fortified.city.index
+                            this.operation.cities[this.select.city].taken()
+                            this.operation.teams[this.battle.enemy.team].unitDestroyed(this.battle.enemy)
+                            this.moveTab(5)
+                        }
+                        count++
                         if(key==count.toString()){
                             this.battle.enemy.speed.stun=30
                             this.moveTab(0)
@@ -996,6 +1124,9 @@ export class ui{
                         }
                     break
                     case 5:
+                        if(key==`Escape`){
+                            this.moveTab(0)
+                        }
                         cit=this.operation.cities[this.select.city]
                         if(key==count.toString()){
                             this.moveTab(7)
@@ -1048,6 +1179,9 @@ export class ui{
                                 this.select.num=floor(this.select.num/1000)*100
                             }
                         }
+                        if(key==`Escape`){
+                            this.moveTab(0)
+                        }
                         if(key.toUpperCase()==`ABCDEFGHIJKLMNOPQRSTUVWXYZ`[count-1]){
                             this.select.editNum=!this.select.editNum
                         }
@@ -1084,6 +1218,9 @@ export class ui{
                             }else if(key==`Backspace`){
                                 this.select.num=floor(this.select.num/1000)*100
                             }
+                        }
+                        if(key==`Escape`){
+                            this.moveTab(5)
                         }
                         cit=this.operation.cities[this.select.city]
                         if(key.toUpperCase()==`ABCDEFGHIJKLMNOPQRSTUVWXYZ`[count-1]){
