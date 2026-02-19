@@ -219,7 +219,7 @@ export class ui{
             break
             case 3:
                 this.operation.calc.sides[1].strategy=1
-                this.operation.calc.sides[1].force[0].dist=constrain(ceil(this.battle.enemy.fortified.city.fortified.sieged),0,this.operation.calc.distSet.length-1)
+                this.operation.calc.sides[1].force[0].dist=constrain(ceil(enemy.fortified.city.fortified.sieged),0,this.operation.calc.distSet.length-1)
                 this.operation.calc.terrain.list.push(2)
             break
         }
@@ -759,6 +759,9 @@ export class ui{
                             tick+=50
                         break
                         case 2:
+                            if(mouse.position.x<layer.width-this.width){
+                                this.moveTab(0)
+                            }
                             tick+=25
                             if(inPointBox(rel,boxify(0,tick+25,160,40))){
                                 this.moveTab(4)
@@ -794,6 +797,9 @@ export class ui{
                             tick+=50
                         break
                         case 3:
+                            if(mouse.position.x<layer.width-this.width){
+                                this.moveTab(0)
+                            }
                             tick+=25
                             if(inPointBox(rel,boxify(0,tick+25,160,40))){
                                 this.moveTab(4)
@@ -1042,6 +1048,9 @@ export class ui{
                             count++
                         break
                         case 2:
+                            if(key==`Escape`){
+                                this.moveTab(0)
+                            }
                             if(key==count.toString()){
                                 this.moveTab(4)
                                 this.battle.circumstance=2
@@ -1076,6 +1085,9 @@ export class ui{
                             count++
                         break
                         case 3:
+                            if(key==`Escape`){
+                                this.moveTab(0)
+                            }
                             if(key==count.toString()){
                                 this.moveTab(4)
                                 this.battle.circumstance=3

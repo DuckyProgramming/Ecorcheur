@@ -364,7 +364,7 @@ export class operation{
                         }
                         this.teams[this.ref.team[`Royal Army`]].spawn.aggress=1
                         this.units.push(new unit(this,false,pos.x,pos.y+60,this.id.unit,this.ref.team[`Royal Army`],4,
-                            round(this.teams.reduce((acc,team)=>acc+(team.spawn.aggress<2?team.spawn.base.strength:0),0)*6*options.difficulty)*100
+                            (round(this.teams.reduce((acc,team)=>acc+(team.spawn.aggress<2?team.spawn.base.strength:0),0)+5)*6*options.difficulty)*100
                         ))
                         this.id.unit++
                     }

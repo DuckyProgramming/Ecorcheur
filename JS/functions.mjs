@@ -428,7 +428,7 @@ export function nameColor(name){
             return [108,173,184]
         case `Minor`:
             return [220,201,166]
-        case `Burghers`: case `Alsace`: case `League of Cities`: case `Cheb`: case `Riga`:
+        case `Burghers`: case `Alsace`: case `League of Cities`: case `Cheb`: case `Riga`: case `Geneva`: case `Lyon`: case `Besançon`:
             return [218,24,30]
         case `Geneva`:
             return [225,44,83]
@@ -436,7 +436,7 @@ export function nameColor(name){
             return [238,77,37]
         case `Besançon`:
             return [245,31,50]
-        case `Ecclesiastical`: case `Bishop of Ösel-Wiek`: case `Bishop of Dorpat`: case `Bishop of Courland`:
+        case `Ecclesiastical`: case `Bishop of Ösel-Wiek`: case `Bishop of Dorpat`: case `Bishop of Courland`: case `Archbishop of Besançon`: case `Archbishop of Vienne`: case `Archbishop of Arles`:
             return [162,88,172]
         case `La Marck-Arenberg`:
             return [41,150,163]
@@ -508,6 +508,8 @@ export function nameColor(name){
             return [238,110,37]
         case `Raron`:
             return [234,109,125]
+        case `La Baume`:
+            return [103,100,162]
         case `Freie Ämter`:
             return [193,120,155]
         case `Mirabel`:

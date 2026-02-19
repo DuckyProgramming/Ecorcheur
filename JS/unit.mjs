@@ -166,7 +166,7 @@ export class unit{
                             case 1:
                                 if(distPos(this,this.operation.units[0])>(this.operation.teams[this.team].spawn.aggress==2?450:600)){
                                     this.goal.mode=0
-                                    this.goal.city=-1
+                                    this.goal.damaged=false
                                 }
                                 switch(this.operation.teams[this.team].spawn.aggress){
                                     case 0: case 1:
@@ -200,9 +200,15 @@ export class unit{
                                 if(distPos(this,this.operation.units[0])<450&&this.operation.teams[this.team].spawn.aggress>0){
                                     this.goal.mode=1
                                 }
-                                if(this.goal.city!=-1&&this.goal.city.fade.trigger&&this.goal.city.fortified.unit==0){
-                                    this.goal.position.x=this.goal.city.position.x
-                                    this.goal.position.y=this.goal.city.position.y
+                                if(this.goal.city!=-1){
+                                    if(this.goal.city.fade.trigger){
+                                        if(this.goal.city.fortified.unit==0){
+                                            this.goal.position.x=this.goal.city.position.x
+                                            this.goal.position.y=this.goal.city.position.y
+                                        }
+                                    }else{
+                                        this.goal.city=-1
+                                    }
                                 }
                                 if(distGoal<=1){
                                     this.goal.time++
@@ -279,7 +285,7 @@ export class unit{
                                     this.goal.mode=1
                                 }
                                 if(this.goal.city.fortified.unit==0||this.goal.city.fortified.unit.team!=this.operation.units[0].team){
-                                    this.goal.city=0
+                                    this.goal.city=-1
                                 }else{
                                     if(distPos(this,this.goal.city)<60){
                                         this.goal.position.x=this.position.x
@@ -404,7 +410,7 @@ export class unit{
                         if(distGoal<=1){
                             this.goal.time++
                         }
-                        if(this.goal.city==-1||this.goal.time>=30){
+                        if(this.goal.city==-1||!this.goal.city.fade.trigger||this.goal.time>=30){
                             this.goal.time=0
                             if(this.operation.teams[this.team].cities.length>0){
                                 this.goal.city=randin(this.operation.teams[this.team].cities)
