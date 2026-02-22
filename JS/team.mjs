@@ -77,7 +77,7 @@ export class team{
             this.units.push(last(this.operation.units))
             last(this.operation.units).goal.nodes=[cit[0],cit[1]]
             last(this.operation.units).goal.tick=0
-        w}
+        }
         if(this.name==`Royal Army`){
             let possible=this.operation.cities.slice()
             let spawned=0
