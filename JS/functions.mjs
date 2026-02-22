@@ -412,7 +412,7 @@ export function nameColor(name){
             return [128,159,112]
         case `Zähringen`: case `Transjurania`: case `Helvetie`: case `Wettin`: case `Vermandois`:
             return [221,119,156]
-        case `Republic`: case `Tellgovie`: case `Schwyz`: case `Hesse`: case `Unterwalden`:
+        case `Republic`: case `Tellgovie`: case `Schwyz`: case `Hesse`: case `Unterwalden`: case `Obwalden`:
             return [161,161,161]
         case `Valais`: case `Winterstätten`:
             return [207,207,206]

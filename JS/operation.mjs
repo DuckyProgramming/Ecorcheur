@@ -148,14 +148,19 @@ export class operation{
         this.teams.forEach((team,index)=>this.ref.team[team.name]=index)
 
         this.cities=[]
+        let set=types.city[1].slice()
         for(let a=0,la=types.city[0].length;a<la;a++){
-            this.addCity(types.city[0][a],true)
+            let temp=types.city[0][a].slice()
+            this.addCity(temp.splice(randindex(temp),1)[0],true)
+            temp.forEach(item=>item.type=(item.type==5&&floor(random(0,2))==0?5:0))
+            set=set.concat(temp)
         }
-        for(let a=0,la=2;a<la;a++){
-            let set=types.city[a+1].slice()
-            for(let b=0,lb=60+a*120-this.cities.length;b<lb;b++){
-                this.addCity(set.splice(randindex(set),1)[0],a==1?floor(random(0,2))==0:true)
-            }
+        for(let a=0,la=60-this.cities.length;a<la;a++){
+            this.addCity(set.splice(randindex(set),1)[0],floor(random(0,10))!=0)
+        }
+        set=types.city[2].slice()
+        for(let a=0,la=180-this.cities.length;a<la;a++){
+            this.addCity(set.splice(randindex(set),1)[0],floor(random(0,2))==0)
         }
         /*let groups=[]
         let leftover=[]

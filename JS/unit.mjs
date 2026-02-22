@@ -16,7 +16,7 @@ export class unit{
         this.retreat={speed:1,direction:0}
         this.remove=false
         this.fade={main:0,trigger:true}
-        this.speed={activation:0,max:[0,random(2.5,3),random(2.25,2.5),2,1.5][type],water:0,lastWater:0,stun:0}
+        this.speed={activation:0,max:[0,random(2.5,3),random(2.25,2.5),2,1.5][type],water:0,lastWater:0,stun:0,nudge:0}
         this.time=0
         this.img=[graphics.load.team[types.team[this.team].loadIndex],graphics.load.unit[this.type]]
         this.width=0
@@ -116,7 +116,7 @@ export class unit{
         this.fade.main=smoothAnim(this.fade.main,this.fade.trigger,0,1,15)
     }
     operate(){
-        if(!this.player&&this.fade.trigger&&inBoxBox(this,this.operation.units[0])&&!(this.retreat.speed>1&&this.operation.units[0].speed.activiation<=0.5)&&this.operation.units[0].retreat.speed<2.5&&this.team!=this.operation.units[0].team){
+        if(!this.player&&this.fade.trigger&&inBoxBox(this,this.operation.units[0])&&this.team!=this.operation.units[0].team&&this.speed.nudge<=0){
             switch(basicCollideBoxBox(this,this.operation.units[0])){
                 case 0:
                     this.operation.units[0].position.y=this.position.y+this.height/2+this.operation.units[0].height/2
@@ -133,10 +133,13 @@ export class unit{
             }
             this.operation.units[0].last.x=this.operation.units[0].position.x
             this.operation.units[0].last.y=this.operation.units[0].position.y
-            if(this.speed.stun<=0){
+            this.speed.nudge=1
+            if(this.speed.stun<=0&&this.operation.units[0].retreat.speed<2.5){
                 this.operation.ui.moveTab(this.type==0?(this.fortified.trigger?3:2):1)
                 this.operation.ui.battle.enemy=this
-                this.operation.ui.battle.storeEnemy=this
+                if(this.type==0){
+                    this.operation.ui.battle.storeEnemy=this
+                }
                 this.operation.ui.battle.circumstance=this.operation.units[0].speed.activation>0?0:1
                 this.operation.halt()
                 return
@@ -147,6 +150,9 @@ export class unit{
             this.remove=true
         }
         let distGoal=distPos(this,this.goal)
+        if(this.speed.nudge>0){
+            this.speed.nudge--
+        }
         if(this.speed.stun>0){
             this.speed.stun--
         }else if(this.retreat.speed>1){

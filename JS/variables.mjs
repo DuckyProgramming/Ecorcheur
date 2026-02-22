@@ -27,26 +27,46 @@ export var types={
             term:[`main`,`text`,`full`],
             city:[
                 [
-                    {name:`Basel`,type:5,loc:[2465,1022],rule:`League of Cities`},
-                    {name:`Gray`,type:2,loc:[1396,1266],rule:`Andechs`},
-                    {name:`Besançon`,type:0,loc:[1657,1375],rule:`Besançon`},
-                    {name:`Bern`,type:0,loc:[2465,1514],rule:`League of Cities`},
-                    {name:`Dole`,type:2,loc:[1345,1574],rule:`Archbishop of Besançon`},
-                    {name:`Thun`,type:2,loc:[2576,1658],rule:`Zähringen`},
-                    {name:`Lausanne`,type:3,loc:[2047,1913],rule:`Archbishop of Besançon`},
-                    {name:`Sion`,type:0,loc:[2476,2093],rule:`Valais`},
-                    {name:`Geneva`,type:4,loc:[1821,2199],rule:`Geneva`},
-                    {name:`Lyon`,type:0,loc:[1137,2616],rule:`Lyon`},
-                    {name:`Chambéry`,type:3,loc:[1751,2719],rule:`Elder Savoy`},
-                    {name:`Feurs`,type:5,loc:[805,2726],rule:`Junior Albon`},
-                    {name:`Vienne`,type:2,loc:[1163,2822],rule:`Archbishop of Vienne`},
-                    {name:`Grenoble`,type:2,loc:[1667,3002],rule:`Elder Albon`},
-                    {name:`Valence`,type:0,loc:[1211,3271],rule:`Rouergue`},
-                    {name:`Nyons`,type:3,loc:[1397,3732],rule:`Rouergue`},
-                    {name:`Avignon`,type:0,loc:[1254,4078],rule:`Archbishop of Arles`},
-                    {name:`Nice`,type:5,loc:[2689,4115],rule:`Elder Savoy`},
-                    {name:`Arles`,type:6,loc:[1192,4316],rule:`Archbishop of Arles`},
-                    {name:`Aix`,type:2,loc:[1667,4376],rule:`Barcelona`},
+                    [
+                        {name:`Arles`,type:6,loc:[1192,4316],rule:`Archbishop of Arles`},
+                    ],[
+                        {name:`Geneva`,type:3,loc:[1821,2199],rule:`Geneva`},
+                    ],[
+                        {name:`Besançon`,type:2,loc:[1657,1375],rule:`Besançon`},
+                        {name:`Dole`,type:2,loc:[1345,1574],rule:`Archbishop of Besançon`},
+                    ],[
+                        {name:`Vienne`,type:2,loc:[1163,2822],rule:`Archbishop of Vienne`},
+                        {name:`Beaurepaire`,type:2,loc:[1266,2956],rule:`Archbishop of Vienne`},
+                    ],[
+                        {name:`Aix`,type:2,loc:[1667,4376],rule:`Barcelona`},
+                        {name:`Toulon`,type:2,loc:[1983,4641],rule:`Barcelona`},
+                    ],[
+                        {name:`Gray`,type:2,loc:[1396,1266],rule:`Andechs`},
+                        {name:`St. Claude`,type:2,loc:[1624,2092],rule:`Andechs`},
+                    ],[
+                        {name:`Grenoble`,type:2,loc:[1667,3002],rule:`Elder Albon`},
+                        {name:`Albon`,type:2,loc:[1216,3072],rule:`Elder Albon`},
+                    ],[
+                        {name:`Bern`,type:2,loc:[2465,1514],rule:`League of Cities`},
+                        {name:`Thun`,type:2,loc:[2576,1658],rule:`Zähringen`},
+                    ],[
+                        {name:`Neuchâtel`,type:3,loc:[2172,1515],rule:`Fenis`},
+                        {name:`Lausanne`,type:3,loc:[2047,1913],rule:`Archbishop of Besançon`},
+                    ],[
+                        {name:`Lyon`,type:3,loc:[1137,2616],rule:`Lyon`},
+                        {name:`Chambéry`,type:3,loc:[1751,2719],rule:`Elder Savoy`},
+                    ],[
+                        {name:`Nyons`,type:3,loc:[1397,3732],rule:`Rouergue`},
+                        {name:`Forcalquier`,type:3,loc:[1826,4019],rule:`Sabran`},
+                    ],[
+                        {name:`Basel`,type:5,loc:[2465,1022],rule:`League of Cities`},
+                        {name:`Feurs`,type:5,loc:[805,2726],rule:`Junior Albon`},
+                        {name:`Nice`,type:5,loc:[2689,4115],rule:`Elder Savoy`},
+
+                        {name:`Sarnen`,type:5,loc:[2891,1502],rule:`Obwalden`},
+                        {name:`Viviers`,type:5,loc:[1133,3643],rule:`Archbishop of Arles`},
+                        {name:`Sion`,type:5,loc:[2476,2093],rule:`Valais`},
+                    ],
                     //guaranteed cities
                 ],[
                     {name:`Vesoul`,type:0,loc:[1655,1081],rule:`Andechs`},
@@ -59,8 +79,6 @@ export var types={
                     {name:`Lucerne`,type:0,loc:[2900,1373],rule:`League of Cities`},
                     {name:`Bienne`,type:0,loc:[2315,1378],rule:`Montfaucon`},
                     {name:`Ornans`,type:0,loc:[1743,1463],rule:`Andechs`},
-                    {name:`Sarnen`,type:0,loc:[2891,1502],rule:`Obwalden`},
-                    {name:`Neuchâtel`,type:0,loc:[2172,1515],rule:`Fenis`},
                     {name:`Pontarlier`,type:0,loc:[1864,1595],rule:`Andechs`},
                     {name:`Salins`,type:0,loc:[1630,1616],rule:`Gruyères`},
                     {name:`Meiringen`,type:0,loc:[2865,1640],rule:`Zähringen`},
@@ -74,7 +92,6 @@ export var types={
                     {name:`Nyon`,type:0,loc:[1840,2042],rule:`Junior Savoy`},
                     {name:`Aigle`,type:0,loc:[2253,2062],rule:`Junior Savoy`},
                     {name:`Thonon`,type:0,loc:[1961,2065],rule:`Junior Savoy`},
-                    {name:`St. Claude`,type:0,loc:[1624,2092],rule:`Andechs`},
                     {name:`Martigny`,type:0,loc:[2331,2219],rule:`Archbishop of Besançon`},
                     {name:`Bourg`,type:0,loc:[1310,2243],rule:`Arduinici`},
                     {name:`Bonneville`,type:0,loc:[1970,2290],rule:`Junior Savoy`},
@@ -88,14 +105,13 @@ export var types={
                     {name:`Moûtiers`,type:0,loc:[2071,2753],rule:`Archbishop of Vienne`},
                     {name:`La Tour-du-Pin`,type:0,loc:[1484,2761],rule:`Arduinici`},
                     {name:`St. Jean`,type:0,loc:[2001,2936],rule:`Elder Savoy`},
-                    {name:`Beaurepaire`,type:0,loc:[1266,2956],rule:`Archbishop of Vienne`},
                     {name:`St. Étienne`,type:0,loc:[986,2960],rule:`Junior Albon`},
-                    {name:`Vinay`,type:0,loc:[1483,2998],rule:`Archbishop of Vienne`},
+                    {name:`Elder Albon`,type:0,loc:[1483,2998],rule:`Archbishop of Vienne`},
 
-                    {name:`Albon`,type:0,loc:[1216,3072],rule:`Elder Albon`},
                     {name:`Tournon`,type:0,loc:[1160,3154],rule:`Junior Albon`},
                     {name:`Briançon`,type:0,loc:[2196,3214],rule:`Elder Savoy`},
                     {name:`La Mure`,type:0,loc:[1762,3235],rule:`Elder Albon`},
+                    {name:`Valence`,type:0,loc:[1211,3271],rule:`Rouergue`},
                     {name:`Die`,type:0,loc:[1502,3384],rule:`Rouergue`},
                     {name:`St. Bonet`,type:0,loc:[1912,3391],rule:`Elder Albon`},
                     {name:`Embrun`,type:0,loc:[2156,3436],rule:`Archbishop of Arles`},
@@ -105,7 +121,6 @@ export var types={
                     {name:`Aubenas`,type:0,loc:[951,3559],rule:`Archbishop of Arles`},
                     {name:`Montélimar`,type:0,loc:[1162,3573],rule:`Rouergue`},
                     {name:`Barcelonette`,type:0,loc:[2277,3638],rule:`Elder Savoy`},
-                    {name:`Viviers`,type:0,loc:[1133,3643],rule:`Archbishop of Arles`},
                     {name:`St. Paul-Trois-Châteaux`,type:0,loc:[1211,3761],rule:`Rouergue`},
                     {name:`Montauban`,type:0,loc:[1635,3781],rule:`Rouergue`},
                     {name:`Sisteron`,type:0,loc:[1885,3812],rule:`Sabran`},
@@ -115,9 +130,9 @@ export var types={
                     {name:`Glandèves`,type:0,loc:[2376,3969],rule:`Barcelona`},
                     {name:`Carpentras`,type:0,loc:[1394,3997],rule:`Rouergue`},
 
-                    {name:`Forcalquier`,type:0,loc:[1826,4019],rule:`Sabran`},
                     {name:`Castellane`,type:0,loc:[2242,4056],rule:`Barcelona`},
                     {name:`Vence`,type:0,loc:[2589,4068],rule:`Barcelona`},
+                    {name:`Avignon`,type:0,loc:[1254,4078],rule:`Archbishop of Arles`},
                     {name:`Riez`,type:0,loc:[2011,4096],rule:`Barcelona`},
                     {name:`Apt`,type:0,loc:[1596,4102],rule:`Sabran`},
                     {name:`Pertuis`,type:0,loc:[1689,4242],rule:`Archbishop of Arles`},
@@ -130,7 +145,6 @@ export var types={
                     {name:`Fraxinetum`,type:0,loc:[2311,4476],rule:`Barcelona`},
                     {name:`Martigues`,type:0,loc:[1453,4508],rule:`Barcelona`},
                     {name:`Marseille`,type:0,loc:[1647,4566],rule:`Barcelona`},
-                    {name:`Toulon`,type:0,loc:[1983,4641],rule:`Barcelona`},
                     {name:`Hyères`,type:0,loc:[2110,4675],rule:`Barcelona`},
                     //chance cities
                 ],[
@@ -290,8 +304,8 @@ export var types={
                     {name:`Valloire`,type:1,loc:[2055,3030],rule:`Elder Savoy`},
                     {name:`Miribel-Valherbasse`,type:1,loc:[1306,3057],rule:`Mirabel`},
                     {name:`Annonay`,type:1,loc:[1070,3061],rule:`Junior Albon`},
-                    {name:`Lans`,type:1,loc:[1585,3062],rule:`Archbishop of Vienne`},
-                    {name:`St. Marcellin`,type:1,loc:[1432,3069],rule:`Archbishop of Vienne`},
+                    {name:`Lans`,type:1,loc:[1585,3062],rule:`Elder Albon`},
+                    {name:`St. Marcellin`,type:1,loc:[1432,3069],rule:`Elder Albon`},
                     {name:`Bourg d'Oisans`,type:1,loc:[1890,3076],rule:`Elder Albon`},
                     {name:`Vizelle`,type:1,loc:[1716,3085],rule:`Elder Albon`},
                     {name:`Vif`,type:1,loc:[1649,3130],rule:`Elder Albon`},
@@ -409,7 +423,7 @@ export var types={
                 {name:`Besançon`,term:`besancon`,quality:0.95},
                 {name:`Geneva`,term:`geneva`,quality:0.95},
                 {name:`Orange`,term:`orange`,quality:1},
-                {name:`Obwalden`,term:`Obwalden`,quality:1.1},
+                {name:`Obwalden`,term:`unterwalden`,quality:1.1},
                 {name:`Fenis`,term:`fenis`,quality:1},
                 {name:`Valais`,term:`valais`,quality:1},
                 {name:`Montfaucon`,term:`montfaucon`,quality:1},
