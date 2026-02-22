@@ -530,3 +530,6 @@ export function orderTeam(){
     print(totals)
     totals.sort((a,b)=>a.strength-b.strength).forEach(total=>print(total.name))
 }
+export function see(){
+    current.cities.forEach(city=>city.fade.map=1)
+}

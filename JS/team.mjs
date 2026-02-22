@@ -77,7 +77,7 @@ export class team{
             this.units.push(last(this.operation.units))
             last(this.operation.units).goal.nodes=[cit[0],cit[1]]
             last(this.operation.units).goal.tick=0
-        }
+        w}
         if(this.name==`Royal Army`){
             let possible=this.operation.cities.slice()
             let spawned=0
@@ -95,7 +95,7 @@ export class team{
                         }
                         if(!this.operation.units.some(unit=>distPos(unit,{position:loc})<100)){
                             cit.forEach(city=>possible.splice(possible.indexOf(city),1))
-                            this.operation.units.push(new unit(this.operation,false,loc.x,loc.y,this.operation.id.unit,this.type,1,round(random(10,40)*options.difficulty)*100))
+                            this.operation.units.push(new unit(this.operation,false,loc.x,loc.y,this.operation.id.unit,this.type,1,round(random(20,40)*options.difficulty)*100))
                             spawned++
                         }
                     }

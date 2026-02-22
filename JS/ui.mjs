@@ -760,6 +760,7 @@ export class ui{
                         break
                         case 2:
                             if(mouse.position.x<layer.width-this.width){
+                                this.battle.enemy.speed.stun=30
                                 this.moveTab(0)
                             }
                             tick+=25
@@ -798,6 +799,7 @@ export class ui{
                         break
                         case 3:
                             if(mouse.position.x<layer.width-this.width){
+                                this.battle.enemy.speed.stun=30
                                 this.moveTab(0)
                             }
                             tick+=25
@@ -1049,6 +1051,7 @@ export class ui{
                         break
                         case 2:
                             if(key==`Escape`){
+                                this.battle.enemy.speed.stun=30
                                 this.moveTab(0)
                             }
                             if(key==count.toString()){
@@ -1086,6 +1089,7 @@ export class ui{
                         break
                         case 3:
                             if(key==`Escape`){
+                                this.battle.enemy.speed.stun=30
                                 this.moveTab(0)
                             }
                             if(key==count.toString()){

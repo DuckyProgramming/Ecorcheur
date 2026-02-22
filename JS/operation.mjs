@@ -151,7 +151,13 @@ export class operation{
         for(let a=0,la=types.city[0].length;a<la;a++){
             this.addCity(types.city[0][a],true)
         }
-        let groups=[]
+        for(let a=0,la=2;a<la;a++){
+            let set=types.city[a+1].slice()
+            for(let b=0,lb=60+a*120-this.cities.length;b<lb;b++){
+                this.addCity(set.splice(randindex(set),1)[0],a==1?floor(random(0,2))==0:true)
+            }
+        }
+        /*let groups=[]
         let leftover=[]
         for(let a=0,la=2;a<la;a++){
             leftover=[]
@@ -179,7 +185,7 @@ export class operation{
                     this.addCity(leftover.splice(randindex(leftover),1)[0],a==1?floor(random(0,2))==0:true)
                 }
             }
-        }
+        }*/
     }
     initialComponents(){
         this.cities.forEach(city=>city.setCore())
