@@ -514,6 +514,10 @@ export function nameColor(name){
             return [193,120,155]
         case `Mirabel`:
             return [245,127,110]
+        case `Poitiers`:
+            return [184,196,84]
+        case `Queyras`:
+            return [206,168,228]
         default:
             return [150,150,150]
     }
