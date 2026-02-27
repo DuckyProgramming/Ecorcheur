@@ -215,7 +215,7 @@ export class ui{
             break
             case 2:
                 this.operation.calc.sides[1].strategy=1
-                this.operation.calc.terrain.list.push(4)
+                this.operation.calc.terrain.list.push(3)
             break
             case 3:
                 this.operation.calc.sides[1].strategy=1

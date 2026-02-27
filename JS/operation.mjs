@@ -155,11 +155,11 @@ export class operation{
             temp.forEach(item=>item.type=(item.type==5&&floor(random(0,2))==0?5:0))
             set=set.concat(temp)
         }
-        for(let a=0,la=60-this.cities.length;a<la;a++){
+        for(let a=0,la=50-this.cities.length;a<la;a++){
             this.addCity(set.splice(randindex(set),1)[0],floor(random(0,10))!=0)
         }
         set=types.city[2].slice()
-        for(let a=0,la=180-this.cities.length;a<la;a++){
+        for(let a=0,la=200-this.cities.length;a<la;a++){
             this.addCity(set.splice(randindex(set),1)[0],floor(random(0,2))==0)
         }
         /*let groups=[]

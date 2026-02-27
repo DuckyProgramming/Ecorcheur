@@ -173,6 +173,9 @@ export class unit{
                                 if(distPos(this,this.operation.units[0])>(this.operation.teams[this.team].spawn.aggress==2?450:600)){
                                     this.goal.mode=0
                                     this.goal.damaged=false
+                                    if(this.operation.teams[this.team].spawn.aggress==1){
+                                        this.goal.victor=true
+                                    }
                                 }
                                 switch(this.operation.teams[this.team].spawn.aggress){
                                     case 0: case 1:
@@ -439,6 +442,7 @@ export class unit{
                 let mult=1
                 let pix=round(this.position.x/this.operation.scale)*graphics.load.map[this.operation.map][0].height+round(this.position.y/this.operation.scale)
                 if(
+                    pix>=0&&floor(pix/8)<graphics.load.water.length&&
                     graphics.load.water[floor(pix/8)][pix%8]==0&&
                     !this.operation.cities.some(cit=>distPos(cit,this)<60)
                 ){
