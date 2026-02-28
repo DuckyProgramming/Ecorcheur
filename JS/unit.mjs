@@ -12,7 +12,7 @@ export class unit{
         this.value=value
         this.base={value:this.value}
         this.last={x:x,y:y}
-        this.goal={position:{x:x,y:y},deviation:{x:random(-10,10),y:random(-10,10)},city:-1,nodes:[],unit:-1,mode:0,time:0,tick:0,damaged:false,victor:false}
+        this.goal={position:{x:x,y:y},deviation:{x:random(-10,10),y:random(-10,10)},city:-1,nodes:[],unit:-1,threshold:random(0.8,1.2),mode:0,time:0,tick:0,damaged:false,victor:false}
         this.retreat={speed:1,direction:0}
         this.remove=false
         this.fade={main:0,trigger:true}
@@ -39,6 +39,7 @@ export class unit{
                 city:this.goal.city==-1?this.goal.city:this.goal.city.id,
                 nodes:this.goal.nodes.map(node=>node.id),
                 unit:this.goal.unit==-1?this.goal.unit:this.goal.unit.id,
+                threshold:this.goal.threshold,
                 mode:this.goal.mode,
                 time:this.goal.time,
                 tick:this.goal.tick,
@@ -74,6 +75,9 @@ export class unit{
         this.time=composite.time
         this.fortified=composite.fortified
         this.img=[graphics.load.team[types.team[this.team].loadIndex],graphics.load.unit[this.type]]
+        if(this.goal.threshold==undefined){
+            this.goal.threshold=random(0.8,1.2)
+        }
     }
     loadBar(){
         this.goal.city=this.goal.city==-1?-1:this.operation.cities[findId(this.goal.city,this.operation.cities)]
@@ -179,7 +183,7 @@ export class unit{
                                 }
                                 switch(this.operation.teams[this.team].spawn.aggress){
                                     case 0: case 1:
-                                        if((this.value<=this.operation.units[0].value*0.5&&!this.goal.victor||this.goal.damaged)&&this.operation.teams[this.team].name!=`Free Company`){
+                                        if((this.value<=this.operation.units[0].value*0.5*this.goal.threshold&&!this.goal.victor||this.goal.damaged)&&this.operation.teams[this.team].name!=`Free Company`){
                                             this.goal.position.x=this.position.x*2-this.operation.units[0].position.x
                                             this.goal.position.y=this.position.y*2-this.operation.units[0].position.y
                                         }else{
@@ -255,7 +259,7 @@ export class unit{
                                 }
                                 switch(this.operation.teams[this.team].spawn.aggress){
                                     case 1:
-                                        if((this.value<=this.operation.units[0].value*0.5&&!this.goal.victor||this.goal.damaged)&&this.operation.teams[this.team].name!=`Free Company`){
+                                        if((this.value<=this.operation.units[0].value*0.5*this.goal.threshold&&!this.goal.victor||this.goal.damaged)&&this.operation.teams[this.team].name!=`Free Company`){
                                             this.goal.position.x=this.position.x*2-this.operation.units[0].position.x
                                             this.goal.position.y=this.position.y*2-this.operation.units[0].position.y
                                         }else{
@@ -344,7 +348,7 @@ export class unit{
                             }
                         break
                         case 1:
-                            if(this.operation.teams[this.team].spawn.aggress==2&&this.value<=this.operation.units[0].value*0.75&&this.operation.teams[this.team].name!=`Free Company`){
+                            if(this.operation.teams[this.team].spawn.aggress==2&&this.value<=this.operation.units[0].value*0.75*this.goal.threshold&&this.operation.teams[this.team].name!=`Free Company`){
                                 this.goal.mode=2
                                 this.goal.city=this.operation.teams[this.team].cores[0]
                                 for(let a=1,la=this.operation.teams[this.team].cores.length;a<la;a++){
