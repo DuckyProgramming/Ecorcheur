@@ -150,7 +150,7 @@ export class ui{
         this.operation.calc.sides[0].salient=player.retreat.speed>1?(player.speed.lastWater>0?2:1):0
         this.operation.calc.sides[1].salient=enemy.retreat.speed>1?(enemy.speed.lastWater>0?2:1):0
         this.operation.calc.sides[0].force=[{team:player.team,type:0,number:player.value,dist:0}]
-        this.operation.calc.sides[1].force=[{team:enemy.team,type:0,number:enemy.value,dist:0}]
+        this.operation.calc.sides[1].force=[{team:enemy.team,type:0,number:enemy.value,dist:[this.operation.teams[enemy.team].name==`Royal Army`?0:4,0,2][this.operation.teams[enemy.team].spawn.aggress]}]
         switch(this.battle.circumstance){
             case 0:
                 this.operation.calc.sides[1].strategy=1
@@ -167,7 +167,7 @@ export class ui{
             break
             case 3:
                 this.operation.calc.sides[1].strategy=1
-                this.operation.calc.sides[1].force[0].dist=constrain(ceil(this.battle.enemy.fortified.city.fortified.sieged),0,this.operation.calc.distSet.length-1)
+                this.operation.calc.sides[1].force[0].dist=constrain(ceil(this.operation.calc.sides[1].force[0].dist+this.battle.enemy.fortified.city.fortified.sieged),0,this.operation.calc.distSet.length-1)
                 this.operation.calc.terrain.list.push(2)
             break
         }
@@ -778,6 +778,7 @@ export class ui{
                                 this.battle.enemy.fade.trigger=false
                                 this.operation.units.push(new unit(this.operation,false,this.battle.enemy.position.x,this.battle.enemy.position.y,this.operation.id.unit,this.operation.units[0].team,0,this.battle.enemy.value))
                                 this.battle.enemy.fortified.city.fortified.unit=last(this.operation.units)
+                                last(this.operation.units).fortified.city=this.battle.enemy.fortified.city
                                 if(this.battle.enemy.fortified.city.fortified.trigger){
                                     last(this.operation.units).fortified.trigger=true
                                 }
@@ -827,6 +828,7 @@ export class ui{
                                 this.battle.enemy.fade.trigger=false
                                 this.operation.units.push(new unit(this.operation,false,this.battle.enemy.position.x,this.battle.enemy.position.y,this.operation.id.unit,this.operation.units[0].team,0,this.battle.enemy.value))
                                 this.battle.enemy.fortified.city.fortified.unit=last(this.operation.units)
+                                last(this.operation.units).fortified.city=this.battle.enemy.fortified.city
                                 if(this.battle.enemy.fortified.city.fortified.trigger){
                                     last(this.operation.units).fortified.trigger=true
                                 }
@@ -951,6 +953,7 @@ export class ui{
                                 }else{
                                     this.operation.units.push(new unit(this.operation,false,cit.position.x,cit.position.y,this.operation.id.unit,this.operation.units[0].team,0,num))
                                     cit.fortified.unit=last(this.operation.units)
+                                    last(this.operation.units).fortified.city=cit
                                     if(cit.fortified.trigger){
                                         last(this.operation.units).fortified.trigger=true
                                     }
@@ -1068,6 +1071,7 @@ export class ui{
                                 this.battle.enemy.fade.trigger=false
                                 this.operation.units.push(new unit(this.operation,false,this.battle.enemy.position.x,this.battle.enemy.position.y,this.operation.id.unit,this.operation.units[0].team,0,this.battle.enemy.value))
                                 this.battle.enemy.fortified.city.fortified.unit=last(this.operation.units)
+                                last(this.operation.units).fortified.city=this.battle.enemy.fortified.city
                                 if(this.battle.enemy.fortified.city.fortified.trigger){
                                     last(this.operation.units).fortified.trigger=true
                                 }
@@ -1116,6 +1120,7 @@ export class ui{
                                 this.battle.enemy.fade.trigger=false
                                 this.operation.units.push(new unit(this.operation,false,this.battle.enemy.position.x,this.battle.enemy.position.y,this.operation.id.unit,this.operation.units[0].team,0,this.battle.enemy.value))
                                 this.battle.enemy.fortified.city.fortified.unit=last(this.operation.units)
+                                last(this.operation.units).fortified.city=this.battle.enemy.fortified.city
                                 if(this.battle.enemy.fortified.city.fortified.trigger){
                                     last(this.operation.units).fortified.trigger=true
                                 }
@@ -1251,6 +1256,7 @@ export class ui{
                                 }else{
                                     this.operation.units.push(new unit(this.operation,false,cit.position.x,cit.position.y,this.operation.id.unit,this.operation.units[0].team,0,num))
                                     cit.fortified.unit=last(this.operation.units)
+                                    last(this.operation.units).fortified.city=cit
                                     if(cit.fortified.trigger){
                                         last(this.operation.units).fortified.trigger=true
                                     }
