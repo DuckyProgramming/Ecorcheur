@@ -83,17 +83,11 @@ export class ui{
                 if(this.battle.enemy.value<=0){
                     this.battle.enemy.fade.trigger=false
                     this.operation.teams[this.battle.enemy.team].unitDestroyed(this.battle.enemy)
-                    if(this.battle.enemy.type==3||this.battle.enemy.type==4){
-                        this.operation.teams[this.battle.enemy.team].spawn.aggress=2
-                    }
                 }
                 if(last(this.battle.result.winner)==1){
                     if(random(0,1)<=1-this.battle.enemy.value/this.battle.enemy.base.value*(this.battle.enemy.type+1)){
                         this.battle.enemy.fade.trigger=false
                         this.operation.teams[this.battle.enemy.team].unitDestroyed(this.battle.enemy)
-                        if(this.battle.enemy.type==3||this.battle.enemy.type==4){
-                            this.operation.teams[this.battle.enemy.team].spawn.aggress=2
-                        }
                     }else{
                         this.battle.enemy.retreat.speed=3
                         this.battle.enemy.retreat.direction=dirPos(this.battle.player,this.battle.enemy)

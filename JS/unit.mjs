@@ -277,7 +277,7 @@ export class unit{
                                 if(!this.goal.unit.fade.trigger){
                                     this.goal.mode=0
                                 }else{
-                                    if(distPos(this,this.goal.unit)<1&&this.fade.trigger){
+                                    if(distPos(this,this.goal.unit)<5&&this.fade.trigger){
                                         this.fade.trigger=false
                                         this.operation.teams[this.team].unitDestroyed(this)
                                         this.goal.unit.value+=this.value
@@ -427,9 +427,11 @@ export class unit{
                             this.goal.time=0
                             if(this.operation.teams[this.team].cities.length>0){
                                 this.goal.city=randin(this.operation.teams[this.team].cities)
+                                this.goal.position.x=this.goal.city.position.x
+                                this.goal.position.y=this.goal.city.position.y+(this.goal.city.fortified.unit==0?0:60)
+                            }else{
+                                this.goal.mode=0
                             }
-                            this.goal.position.x=this.goal.city.position.x
-                            this.goal.position.y=this.goal.city.position.y+(this.goal.city.fortified.unit==0?0:60)
                         }
                     }
                 break

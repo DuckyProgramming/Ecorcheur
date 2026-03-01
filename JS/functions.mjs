@@ -518,6 +518,8 @@ export function nameColor(name){
             return [184,196,84]
         case `Queyras`: case `Escartons`:
             return [206,168,228]
+        case `Montjoie`:
+            return [153,60,97]
         default:
             return [150,150,150]
     }

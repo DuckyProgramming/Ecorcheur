@@ -1,5 +1,5 @@
 import {types,options,graphics} from './variables.mjs'
-import {smoothAnim,distPos,findId} from './functions.mjs'
+import {smoothAnim,distPos,findId,randin} from './functions.mjs'
 export class city{
     constructor(operation,x,y,id,data,fortified){
         this.operation=operation
@@ -7,8 +7,9 @@ export class city{
         this.id=id
         this.name=data.name
         this.type=data.type
-        this.rule=this.operation.ref.team[data.rule]
-        this.owner=this.operation.ref.team[data.rule]
+        let rule=typeof data.rule==`object`?randin(data.rule):data.rule
+        this.rule=this.operation.ref.team[rule]
+        this.owner=this.operation.ref.team[rule]
         this.fortified={trigger:fortified,unit:0,sieged:0,siegeActive:false,taken:false,original:true,bribe:floor(random(0,4))==0?0:(fortified?random(0.75,1.25):random(0.6,1))}
         this.fade={main:0,trigger:true,map:0}
         this.index=0

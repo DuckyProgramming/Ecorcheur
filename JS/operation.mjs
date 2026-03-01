@@ -155,11 +155,11 @@ export class operation{
             temp.forEach(item=>item.type=(item.type==5&&floor(random(0,2))==0?5:0))
             set=set.concat(temp)
         }
-        for(let a=0,la=50-this.cities.length;a<la;a++){
+        for(let a=0,la=options.allCity?set.length:50-this.cities.length;a<la;a++){
             this.addCity(set.splice(randindex(set),1)[0],floor(random(0,10))!=0)
         }
         set=types.city[2].slice()
-        for(let a=0,la=200-this.cities.length;a<la;a++){
+        for(let a=0,la=options.allCity?set.length:200-this.cities.length;a<la;a++){
             this.addCity(set.splice(randindex(set),1)[0],floor(random(0,2))==0)
         }
         /*let groups=[]
@@ -373,7 +373,7 @@ export class operation{
                             pos.x=this.units[0].position.x+1200*lsin(dir)
                             pos.y=this.units[0].position.y+1200*lcos(dir)
                         }
-                        this.teams[this.ref.team[`Royal Army`]].spawn.aggress=1
+                        this.teams.forEach(team=>team.spawn.aggress=max(1,team.spawn.aggress))
                         this.units.push(new unit(this,false,pos.x,pos.y+60,this.id.unit,this.ref.team[`Royal Army`],4,
                             (round(this.teams.reduce((acc,team)=>acc+(team.spawn.aggress<2?team.spawn.base.strength:0),0)+5)*6*options.difficulty)*100
                         ))

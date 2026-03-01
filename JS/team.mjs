@@ -11,7 +11,7 @@ export class team{
         this.cores=[]
         this.units=[]
         this.spawn={
-            activation:0,strength:0,next:{type:0,value:0},aggress:this.name==`Free Company`?1:0,
+            activation:0,strength:0,health:0,next:{type:0,value:0},aggress:this.name==`Free Company`?1:0,
             types:{garrisonIndex:0,patrol:0,field:0,boss:0},
             base:{
                 types:{patrol:0,field:0},
@@ -46,6 +46,7 @@ export class team{
         this.units=this.units.map(unit=>this.operation.units[findId(unit,this.operation.units)])
     }
     initialPatrols(){
+        this.spawn.health=this.cities.length
         this.spawn.base.strength=this.cores.reduce((acc,core)=>acc+(core.type==1?0.5:1),0)
         this.spawn.base.types.patrol=round(this.cores.length/2-random(0,1))
         this.spawn.types.patrol=this.spawn.base.types.patrol
@@ -109,9 +110,10 @@ export class team{
             case 0:
                 this.spawn.base.types.field++
                 this.cities=this.cities.filter(cit=>cit.name!=destroyed.fortified.city.name)
+                this.spawn.health--
                 if(this.cities.length==0){
                     this.spawn.aggress=2
-                }else if(this.cities.length<=this.cores.length*0.5&&this.spawn.types.boss==0){
+                }else if(this.spawn.health<=this.cores.length*0.5&&this.spawn.types.boss==0){
                     this.spawn.types.boss=1
                     let possible=[]
                     for(let a=0,la=6;a<la;a++){
@@ -126,9 +128,11 @@ export class team{
                         }
                     }
                     let cit=[this.cities[randin(possible)]]
-                    this.operation.units.push(new unit(this.operation,false,cit[0].position.x,cit[0].position.y+60,this.operation.id.unit,this.type,3,round((this.spawn.base.strength*8+random(20,30))*options.difficulty)*100))
+                    let value=round((this.spawn.base.strength*8+random(20,30))*options.difficulty)*100
+                    this.operation.units.push(new unit(this.operation,false,cit[0].position.x,cit[0].position.y+60,this.operation.id.unit,this.type,3,value))
                     this.operation.id.unit++
                     this.units.push(last(this.operation.units))
+                    this.spawn.strength-=value*0.5
                 }
                 if(this.spawn.types.garrisonIndex%2==0){
                     this.spawn.base.types.patrol--
@@ -140,6 +144,33 @@ export class team{
                     this.spawn.base.types.field++
                 }
                 this.spawn.types.patrol--
+            break
+            case 2:
+                this.spawn.health-=0.5
+                if(this.cities.length>0&&this.spawn.health<=this.cores.length*0.5&&this.spawn.types.boss==0){
+                    this.spawn.types.boss=1
+                    let possible=[]
+                    for(let a=0,la=6;a<la;a++){
+                        if(possible.length==0){
+                            this.cities.forEach((cit,index)=>{
+                                if(a==5||distPos(cit,this.operation.units[0])>[1200,600,300,150,50][a]){
+                                    possible.push(index)
+                                }
+                            })
+                        }else{
+                            break
+                        }
+                    }
+                    let cit=[this.cities[randin(possible)]]
+                    let value=round((this.spawn.base.strength*8+random(20,30))*options.difficulty)*100
+                    this.operation.units.push(new unit(this.operation,false,cit[0].position.x,cit[0].position.y+60,this.operation.id.unit,this.type,3,value))
+                    this.operation.id.unit++
+                    this.units.push(last(this.operation.units))
+                    this.spawn.strength-=value*0.5
+                }
+            break
+            case 3: case 4:
+                this.spawn.aggress=2
             break
         }
     }
