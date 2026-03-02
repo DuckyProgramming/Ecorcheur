@@ -105,7 +105,7 @@ export var types={
                     {name:`La Tour-du-Pin`,type:0,loc:[1484,2761],rule:`Arduinici`},
                     {name:`St. Jean`,type:0,loc:[2001,2936],rule:`Elder Savoy`},
                     {name:`St. Étienne`,type:0,loc:[986,2960],rule:`Junior Albon`},
-                    {name:`Albon`,type:0,loc:[1483,2998],rule:`Elder Albon`},
+                    {name:`Vinay`,type:0,loc:[1483,2998],rule:`Elder Albon`},
 
                     {name:`Tournon`,type:0,loc:[1160,3154],rule:`Junior Albon`},
                     {name:`Briançon`,type:0,loc:[2196,3214],rule:`Escartons`},
