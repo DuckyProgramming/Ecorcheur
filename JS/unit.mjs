@@ -12,7 +12,14 @@ export class unit{
         this.value=value
         this.base={value:this.value}
         this.last={x:x,y:y}
-        this.goal={position:{x:x,y:y},deviation:{x:random(-10,10),y:random(-10,10)},city:-1,nodes:[],unit:-1,threshold:random(0.8,1.2),mode:0,time:0,tick:0,damaged:false,victor:false}
+        this.goal={
+            position:{x:x,y:y},
+            deviation:{x:random(-10,10),y:random(-10,10)},
+            city:-1,nodes:[],unit:-1,
+            mode:0,time:0,tick:0,chase:0,
+            damaged:false,victor:false,
+            threshold:random(0.8,1.2),chaseThreshold:random(0.8,1.2)
+        }
         this.retreat={speed:1,direction:0}
         this.remove=false
         this.fade={main:0,trigger:true}
@@ -169,12 +176,15 @@ export class unit{
                     if(this.operation.teams[this.team].name==`Royal Army`){
                         switch(this.goal.mode){
                             case 0:
-                                if(distPos(this,this.operation.units[0])<(this.operation.teams[this.team].spawn.aggress==2?450:600)&&(this.goal.victor||this.goal.damaged||this.operation.teams[this.team].spawn.aggress>0)){
+                                if(distPos(this,this.operation.units[0])<(this.goal.chase>600*this.goal.chaseThreshold?100:this.operation.teams[this.team].spawn.aggress==2?450:600)&&(this.goal.victor||this.goal.damaged||this.operation.teams[this.team].spawn.aggress>0)){
                                     this.goal.mode=1
+                                }else if(this.goal.chase>0){
+                                    this.goal.chase--
                                 }
                             break
                             case 1:
-                                if(distPos(this,this.operation.units[0])>(this.operation.teams[this.team].spawn.aggress==2?450:600)){
+                                this.goal.chase++
+                                if(distPos(this,this.operation.units[0])>(this.goal.chase>600*this.goal.chaseThreshold?150:this.operation.teams[this.team].spawn.aggress==2?450:600)){
                                     this.goal.mode=0
                                     this.goal.damaged=false
                                     if(this.operation.teams[this.team].spawn.aggress==1){
@@ -210,8 +220,10 @@ export class unit{
                         }
                         switch(this.goal.mode){
                             case 0:
-                                if(distPos(this,this.operation.units[0])<450&&this.operation.teams[this.team].spawn.aggress>0){
+                                if(distPos(this,this.operation.units[0])<(this.goal.chase>600*this.goal.chaseThreshold?100:450)&&this.operation.teams[this.team].spawn.aggress>0){
                                     this.goal.mode=1
+                                }else if(this.goal.chase>0){
+                                    this.goal.chase--
                                 }
                                 if(this.goal.city!=-1){
                                     if(this.goal.city.fade.trigger){
@@ -253,7 +265,8 @@ export class unit{
                                 }
                             break
                             case 1:
-                                if(distPos(this,this.operation.units[0])>600){
+                                this.goal.chase++
+                                if(distPos(this,this.operation.units[0])>(this.goal.chase>600*this.goal.chaseThreshold?150:600)){
                                     this.goal.mode=0
                                     this.goal.city=-1
                                 }

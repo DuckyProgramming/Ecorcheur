@@ -373,9 +373,9 @@ export class operation{
                             pos.x=this.units[0].position.x+1200*lsin(dir)
                             pos.y=this.units[0].position.y+1200*lcos(dir)
                         }
-                        this.teams.forEach(team=>team.spawn.aggress=max(1,team.spawn.aggress))
+                        this.teams.forEach(team=>{team.spawn.base.aggress=team.spawn.aggress;team.spawn.aggress=max(1,team.spawn.aggress)})
                         this.units.push(new unit(this,false,pos.x,pos.y+60,this.id.unit,this.ref.team[`Royal Army`],4,
-                            (round(this.teams.reduce((acc,team)=>acc+(team.spawn.aggress<2?team.spawn.base.strength:0),0)+5)*6*options.difficulty)*100
+                            ((this.teams.reduce((acc,team)=>acc+(team.spawn.aggress<2?team.spawn.base.strength:0),0)*6+50)*options.difficulty)*100
                         ))
                         this.id.unit++
                     }

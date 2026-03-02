@@ -15,7 +15,7 @@ export class team{
             types:{garrisonIndex:0,patrol:0,field:0,boss:0},
             base:{
                 types:{patrol:0,field:0},
-                strength:0
+                strength:0,aggress:0
             }
         }
     }
@@ -169,8 +169,12 @@ export class team{
                     this.spawn.strength-=value*0.5
                 }
             break
-            case 3: case 4:
+            case 3:
                 this.spawn.aggress=2
+            break
+            case 4:
+                this.spawn.aggress=2
+                this.operation.teams.forEach(team=>team.spawn.aggress=team.spawn.base.aggress)
             break
         }
     }

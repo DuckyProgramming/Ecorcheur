@@ -72,6 +72,7 @@ export class calc{
                 }
             }
         }
+        print(this.sides[0].force[0].dist,this.sides[1].force[0].dist)
         return this.result
     }
     battle(tick){
