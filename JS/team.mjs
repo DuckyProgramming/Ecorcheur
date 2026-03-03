@@ -147,7 +147,7 @@ export class team{
             break
             case 2:
                 this.spawn.health-=0.5
-                if(this.cities.length>0&&this.spawn.health<=this.cores.length*0.5&&this.spawn.types.boss==0){
+                if(this.cities.length>0&&this.spawn.health<=this.cores.length*0.5-0.5&&this.spawn.types.boss==0){
                     this.spawn.types.boss=1
                     let possible=[]
                     for(let a=0,la=6;a<la;a++){

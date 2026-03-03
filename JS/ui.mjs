@@ -193,6 +193,7 @@ export class ui{
                     this.plunder.prisoners=round(this.battle.result.casualties[1][0].number/100*random(0.1,0.4))*100+(this.battle.enemy.value-this.battle.result.casualties[1][0].number)
                 break
             }
+            this.plunder.money/=(options.difficulty*0.25+0.75)
             this.operation.resources.money+=this.plunder.money
             this.operation.prisoners.gained+=this.plunder.prisoners
         }
@@ -658,7 +659,7 @@ export class ui{
                 layer.rect(0,tick+40+height+2,44,4,2)
                 layer.noStroke()
                 let total=this.operation.teams.reduce((acc,team)=>acc+team.spawn.base.strength,0)
-                let set=this.operation.teams.filter(team=>team.spawn.aggress!=2&&team.spawn.base.strength>0)
+                let set=this.operation.teams.filter(team=>team.spawn.aggress!=2&&team.spawn.base.strength>0).sort((a,b)=>a.spawn.base.strength-b.spawn.base.strength)
                 let collect=this.operation.teams.filter(team=>team.spawn.aggress==2&&team.spawn.base.strength>0).reduce((acc,team)=>acc+team.spawn.base.strength,0)
                 for(let a=0,la=set.length;a<la;a++){
                     layer.fill(...mergeColor(nameColor(set[a].name),[255,255,255],0.1))

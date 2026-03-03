@@ -390,7 +390,7 @@ export function nameColor(name){
             return [218,106,81]
         case `Andechs`: case `Saône`: case `Franche-Comté`: case `Upper Burgundy`: case `Feuchtwangen`: case `Milly`:
             return [156,142,199]
-        case `Hohenzollern`: case `Šurborgs`:
+        case `Hohenzollern`: case `Šurborgs`: case `Fenis`:
             return [110,148,204]
         case `Thoire`: case `Île-de-Bourgogne`: case `Kőszegi`: case `Biron`: case `Rethel`:
             return [1206,60,131]
