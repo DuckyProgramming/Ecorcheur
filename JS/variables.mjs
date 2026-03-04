@@ -206,6 +206,7 @@ export var types={
                     {name:`Ranflüh`,type:1,loc:[2606,1469],rule:`Zähringen`},
                     {name:`Zollikofen`,type:1,loc:[2446,1471],rule:`Zähringen`},
                     {name:`Morteau`,type:1,loc:[1990,1472],rule:`Andechs`},
+                    {name:`Lavanage`,type:9,loc:[1446,1477],rule:`Archbishop of Besançon`},
                     {name:`Valangin`,type:1,loc:[2165,1487],rule:`Fenis`},
                     {name:`Quigney`,type:1,loc:[1599,1497],rule:`Archbishop of Besançon`},
                     {name:`Auxonne`,type:1,loc:[1296,1499],rule:`Arduinici`},
