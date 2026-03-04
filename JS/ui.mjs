@@ -193,7 +193,7 @@ export class ui{
                     this.plunder.prisoners=round(this.battle.result.casualties[1][0].number/100*random(0.1,0.4))*100+(this.battle.enemy.value-this.battle.result.casualties[1][0].number)
                 break
             }
-            this.plunder.money=ceil(this.plunder.money/(options.difficulty*0.25+0.75))
+            this.plunder.money=ceil(this.plunder.money/(options.difficulty/9+8/9))
             this.operation.resources.money+=this.plunder.money
             this.operation.prisoners.gained+=this.plunder.prisoners
         }
