@@ -176,7 +176,7 @@ export class unit{
                     if(this.operation.teams[this.team].name==`Royal Army`){
                         switch(this.goal.mode){
                             case 0:
-                                if(distPos(this,this.operation.units[0])<(this.goal.chase>600*this.goal.chaseThreshold?100:this.operation.teams[this.team].spawn.aggress==2?450:600)&&(this.goal.victor||this.goal.damaged||this.operation.teams[this.team].spawn.aggress>0)){
+                                if(distPos(this,this.operation.units[0])<(this.goal.chase>300*this.goal.chaseThreshold?100:this.operation.teams[this.team].spawn.aggress==2?450:600)&&(this.goal.victor||this.goal.damaged||this.operation.teams[this.team].spawn.aggress>0)){
                                     this.goal.mode=1
                                 }else if(this.goal.chase>0){
                                     this.goal.chase--
@@ -220,7 +220,7 @@ export class unit{
                         }
                         switch(this.goal.mode){
                             case 0:
-                                if(distPos(this,this.operation.units[0])<(this.goal.chase>600*this.goal.chaseThreshold?100:450)&&this.operation.teams[this.team].spawn.aggress>0){
+                                if(distPos(this,this.operation.units[0])<(this.goal.chase>300*this.goal.chaseThreshold?100:450)&&this.operation.teams[this.team].spawn.aggress>0){
                                     this.goal.mode=1
                                 }else if(this.goal.chase>0){
                                     this.goal.chase--
@@ -463,7 +463,7 @@ export class unit{
                 if(
                     pix>=0&&floor(pix/8)<graphics.load.water.length&&
                     graphics.load.water[floor(pix/8)][pix%8]==0&&
-                    !this.operation.cities.some(cit=>distPos(cit,this)<60)
+                    !this.operation.cities.some(cit=>distPos(cit,this)<80)
                 ){
                     this.speed.water++
                     this.speed.lastWater=15

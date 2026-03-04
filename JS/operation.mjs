@@ -232,13 +232,15 @@ export class operation{
     tick(){
         if(this.time.raid){
             this.time.raid=false
-        }else if(this.resources.food<=0){
-            this.units[0].value-=ceil(this.units[0].value/2000)*100
-            if(this.units[0].value<=0){
-                this.units[0].fade.trigger=false
+        }else{
+            if(this.resources.food<=0){
+                this.units[0].value-=ceil(this.units[0].value/2000)*100
+                if(this.units[0].value<=0){
+                    this.units[0].fade.trigger=false
+                }
             }
+            this.resources.food=max(0,this.resources.food-round(this.units[0].value/100))
         }
-        this.resources.food=max(0,this.resources.food-round(this.units[0].value/100))
         this.cities.forEach(city=>city.tick())
         this.teams.forEach(team=>team.tick())
     }
