@@ -1,4 +1,4 @@
-import {types,options,graphics} from './variables.mjs'
+import {types,options,graphics,constants} from './variables.mjs'
 import {smoothAnim,distPos,findId,randin} from './functions.mjs'
 export class city{
     constructor(operation,x,y,id,data,fortified){
@@ -63,13 +63,13 @@ export class city{
             this.type==4||this.type==6?1.5:1,
         ]
         this.resources={
-            manpower:{amount:floor(random(5*mult[0],9*mult[0]+1))*100,instances:floor(random(4*mult[1],7*mult[1]+1)),tick:0},
+            manpower:{amount:floor(random(5*mult[0],9*mult[0]+1))*constants.unitNum,instances:floor(random(4*mult[1],7*mult[1]+1)),tick:0},
             food:{amount:floor(random(80*mult[2],100*mult[2]+1)),instances:floor(random(5*mult[3],10*mult[3]+1)),tick:0},
-            raid:{trigger:false,amount:floor(random(160*mult[4],260*mult[4]+1)),instances:floor(random(3*mult[5],5*mult[5]+1)),tick:0}
+            raid:{trigger:false,amount:floor(random(1.8*mult[4]*constants.unitNum,2.8*mult[4]*constants.unitNum+1)),instances:floor(random(3*mult[5],5*mult[5]+1)),tick:0}
         }
         this.resources.manpower.cost=floor(random(0.3*this.resources.manpower.amount,0.5*this.resources.manpower.amount+1))
         this.resources.manpower.base={instances:this.resources.manpower.instances}
-        this.resources.food.cost=floor(random(1.8*this.resources.food.amount,2.4*this.resources.food.amount+1))
+        this.resources.food.cost=floor(random(1.8*this.resources.food.amount*constants.unitNum/100,2.4*this.resources.food.amount*constants.unitNum/100+1))
         this.resources.food.base={instances:this.resources.food.instances}
         this.resources.raid.base={instances:this.resources.raid.instances}
     }

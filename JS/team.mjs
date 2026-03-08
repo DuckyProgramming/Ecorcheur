@@ -1,4 +1,4 @@
-import {types,options} from './variables.mjs'
+import {types,options,constants} from './variables.mjs'
 import {randindex,last,distPos,range,randin,findName,findId} from './functions.mjs'
 import {unit} from './unit.mjs'
 export class team{
@@ -54,7 +54,7 @@ export class team{
         let upTick=this.cores.length==1&&types.team[this.type].quality<1?10:0
         this.cores.forEach((core,index)=>{
             possible.push(index)
-            this.operation.units.push(new unit(this.operation,false,core.position.x,core.position.y,this.operation.id.unit,this.type,0,round(random(2.5+upTick,10+upTick)*types.cityType[core.type].value*(core.fortified?1.25:1)*(1+this.spawn.base.strength*0.05)*options.difficulty)*100))
+            this.operation.units.push(new unit(this.operation,false,core.position.x,core.position.y,this.operation.id.unit,this.type,0,round(random(2.5+upTick,10+upTick)*types.cityType[core.type].value*(core.fortified?1.25:1)*(1+this.spawn.base.strength*0.05)*options.difficulty)*constants.unitNum))
             this.operation.id.unit++
             this.units.push(last(this.operation.units))
             if(core.fortified.trigger){
@@ -73,7 +73,7 @@ export class team{
                 }
             }
             possible.splice(remover,1)
-            this.operation.units.push(new unit(this.operation,false,cit[0].position.x,cit[0].position.y+60,this.operation.id.unit,this.type,1,round(random(5,20)*(1+this.spawn.base.strength*0.05)*options.difficulty)*100))
+            this.operation.units.push(new unit(this.operation,false,cit[0].position.x,cit[0].position.y+60,this.operation.id.unit,this.type,1,round(random(5,20)*(1+this.spawn.base.strength*0.05)*options.difficulty)*constants.unitNum))
             this.operation.id.unit++
             this.units.push(last(this.operation.units))
             last(this.operation.units).goal.nodes=[cit[0],cit[1]]
@@ -96,7 +96,7 @@ export class team{
                         }
                         if(!this.operation.units.some(unit=>distPos(unit,{position:loc})<100)){
                             cit.forEach(city=>possible.splice(possible.indexOf(city),1))
-                            this.operation.units.push(new unit(this.operation,false,loc.x,loc.y,this.operation.id.unit,this.type,1,round(random(20,40)*options.difficulty)*100))
+                            this.operation.units.push(new unit(this.operation,false,loc.x,loc.y,this.operation.id.unit,this.type,1,round(random(20,40)*options.difficulty)*constants.unitNum))
                             spawned++
                         }
                     }
@@ -128,7 +128,7 @@ export class team{
                         }
                     }
                     let cit=[this.cities[randin(possible)]]
-                    let value=round((this.spawn.base.strength*8+random(20,30))*options.difficulty)*100
+                    let value=round((this.spawn.base.strength*8+random(20,30))*options.difficulty)*constants.unitNum
                     this.operation.units.push(new unit(this.operation,false,cit[0].position.x,cit[0].position.y+60,this.operation.id.unit,this.type,3,value))
                     this.operation.id.unit++
                     this.units.push(last(this.operation.units))
@@ -162,7 +162,7 @@ export class team{
                         }
                     }
                     let cit=[this.cities[randin(possible)]]
-                    let value=round((this.spawn.base.strength*8+random(20,30))*options.difficulty)*100
+                    let value=round((this.spawn.base.strength*8+random(20,30))*options.difficulty)*constants.unitNum
                     this.operation.units.push(new unit(this.operation,false,cit[0].position.x,cit[0].position.y+60,this.operation.id.unit,this.type,3,value))
                     this.operation.id.unit++
                     this.units.push(last(this.operation.units))
@@ -196,17 +196,17 @@ export class team{
                     this.spawn.next.type=randin(possible)
                     switch(this.spawn.next.type){
                         case 1:
-                            this.spawn.next.value=round(random(5,20)*(1+this.cities.reduce((acc,city)=>acc+(city.type==1?0.5:1),0)*0.05)*options.difficulty)*100
+                            this.spawn.next.value=round(random(5,20)*(1+this.cities.reduce((acc,city)=>acc+(city.type==1?0.5:1),0)*0.05)*options.difficulty)*constants.unitNum
                         break
                         case 2:
-                            this.spawn.next.value=round(random(10,40+random(0,20))*(1+this.cities.reduce((acc,city)=>acc+(city.type==1?0.5:1),0)*0.05)*options.difficulty)*100
+                            this.spawn.next.value=round(random(10,40+random(0,20))*(1+this.cities.reduce((acc,city)=>acc+(city.type==1?0.5:1),0)*0.05)*options.difficulty)*constants.unitNum
                         break
                     }
                 }
             }else{
                 this.spawn.activation++
                 let num=min(this.cities.reduce((acc,city)=>acc+(city.type==1?0.5:1),0),this.spawn.activation)
-                this.spawn.strength+=(num-num**2/50)*1000*options.difficulty
+                this.spawn.strength+=(num-num**2/50)*constants.unitNum*10*options.difficulty
                 if(this.spawn.strength>=this.spawn.next.value){
                     let success=false
                     let cit

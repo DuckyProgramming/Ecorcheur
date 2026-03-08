@@ -1,4 +1,4 @@
-import {types,graphics,options} from './variables.mjs'
+import {types,graphics,options,constants} from './variables.mjs'
 import {distPos,smoothAnim,moveTowardVec,inBoxBox,basicCollideBoxBox,last,randin,findId} from './functions.mjs'
 import {lsin,lcos} from './graphics.mjs'
 export class unit{
@@ -361,7 +361,10 @@ export class unit{
                             }
                         break
                         case 1:
-                            if(this.operation.teams[this.team].spawn.aggress==2&&this.value<=this.operation.units[0].value*0.75*this.goal.threshold&&this.operation.teams[this.team].name!=`Free Company`){
+                            if((
+                                this.operation.teams[this.team].spawn.aggress==2&&(this.value<=this.operation.units[0].value*0.75*this.goal.threshold||this.goal.damaged)||
+                                this.value<=this.operation.units[0].value*0.5*this.goal.threshold&&this.goal.damaged
+                            )&&this.operation.teams[this.team].name!=`Free Company`){
                                 this.goal.mode=2
                                 this.goal.city=this.operation.teams[this.team].cores[0]
                                 for(let a=1,la=this.operation.teams[this.team].cores.length;a<la;a++){
@@ -488,7 +491,7 @@ export class unit{
         if(this.player){
             this.operation.zoom.goal.position.x=this.position.x
             this.operation.zoom.goal.position.y=this.position.y
-            this.speed.max=16-log(this.value)*1.2
+            this.speed.max=16-log(this.value/constants.unitNum*100)*1.2
         }
     }
 }

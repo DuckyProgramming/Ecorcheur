@@ -18,7 +18,7 @@ export class operation{
             scaling:0,
         }
         this.time={general:0,active:false,total:21600,base:21600,pass:0,final:false,raid:0}
-        this.resources={money:1000,food:500}
+        this.resources={money:10*constants.unitNum,food:500}
         this.prisoners={lost:0,gained:0}
         this.edge={x:0,y:0}
         this.id={city:0,unit:0}
@@ -155,7 +155,7 @@ export class operation{
             temp.forEach(item=>item.type=(item.type==5&&floor(random(0,2))==0?5:0))
             set=set.concat(temp)
         }
-        for(let a=0,la=options.allCity?set.length:50-this.cities.length;a<la;a++){
+        for(let a=0,la=options.allCity?set.length:60-this.cities.length;a<la;a++){
             this.addCity(set.splice(randindex(set),1)[0],floor(random(0,10))!=0)
         }
         set=types.city[2].slice()
@@ -206,7 +206,7 @@ export class operation{
             interp=random(0.2,0.8)
             loc=mapVec(cit[0].position,cit[1].position,interp)
         }
-        this.units.splice(0,0,new unit(this,true,loc.x,loc.y,this.id.unit,this.ref.team[`Player`],2,2000))
+        this.units.splice(0,0,new unit(this,true,loc.x,loc.y,this.id.unit,this.ref.team[`Player`],2,20*constants.unitNum))
         this.id.unit++
         this.zoom.position.x=loc.x
         this.zoom.position.y=loc.y
@@ -234,93 +234,94 @@ export class operation{
             this.time.raid=false
         }else{
             if(this.resources.food<=0){
-                this.units[0].value-=ceil(this.units[0].value/2000)*100
+                this.units[0].value-=ceil(this.units[0].value/20/constants.unitNum)*constants.unitNum
                 if(this.units[0].value<=0){
                     this.units[0].fade.trigger=false
                 }
             }
-            this.resources.food=max(0,this.resources.food-round(this.units[0].value/100))
+            this.resources.food=max(0,this.resources.food-round(this.units[0].value/constants.unitNum))
         }
         this.cities.forEach(city=>city.tick())
         this.teams.forEach(team=>team.tick())
     }
     display(layer){
-        switch(this.scene){
-            case `title`:
-                this.zoom.scaling=max((layer.width-this.ui.width)/this.edge.x,layer.height/this.edge.y)/0.6
-                layer.push()
-                layer.translate((layer.width-this.ui.width)*0.5,layer.height*0.5)
-                layer.scale(this.zoom.scaling)
-                layer.translate(-this.edge.x*0.5+800,-this.edge.y*0.5-2700+abs(this.time.general%2400-1200)*4.5)
-                layer.image(graphics.load.map[this.map][2],this.edge.x*0.5,this.edge.y*0.5,this.edge.x,this.edge.y)
-                layer.pop()
-            break
-            case `main`:
-                if(dev.water){
-                    for(let a=0,la=360;a<la;a++){
-                        for(let b=0,lb=540;b<lb;b++){
-                            let pix=a*10*5400+b*10
-                            fill(graphics.load.water[floor(pix/8)][pix%8]*200)
-                            rect(a,b,1)
-                        }
-                    }
-                    noLoop()
+        if(dev.water){
+            for(let a=0,la=360;a<la;a++){
+                for(let b=0,lb=540;b<lb;b++){
+                    let pix=a*10*5400+b*10
+                    fill(graphics.load.water[floor(pix/8)][pix%8]*200)
+                    rect(a,b,1)
                 }
-                layer.push()
-                layer.translate((layer.width-this.ui.width)*0.5-this.zoom.position.x,layer.height*0.5-this.zoom.position.y)
-                layer.scale(options.scale)
-                layer.image(graphics.load.map[this.map][0],this.edge.x*0.5,this.edge.y*0.5,this.edge.x,this.edge.y)
-                for(let a=0,la=this.cities.length;a<la;a++){
-                    let cit=this.cities[a]
-                    if(
-                        cit.position.x>this.zoom.position.x-(layer.width-this.ui.width)*0.5/options.scale-100&&
-                        cit.position.x<this.zoom.position.x+(layer.width-this.ui.width)*0.5/options.scale+100&&
-                        cit.position.y>this.zoom.position.y-layer.height*0.5/options.scale-100&&
-                        cit.position.y<this.zoom.position.y+layer.height*0.5/options.scale+100
-                    ){
-                        cit.display(layer,this.scene)
+            }
+            noLoop()
+        }else{
+            switch(this.scene){
+                case `title`:
+                    this.zoom.scaling=max((layer.width-this.ui.width)/this.edge.x,layer.height/this.edge.y)/0.6
+                    layer.push()
+                    layer.translate((layer.width-this.ui.width)*0.5,layer.height*0.5)
+                    layer.scale(this.zoom.scaling)
+                    layer.translate(-this.edge.x*0.5+800,-this.edge.y*0.5-2700+abs(this.time.general%2400-1200)*4.5)
+                    layer.image(graphics.load.map[this.map][2],this.edge.x*0.5,this.edge.y*0.5,this.edge.x,this.edge.y)
+                    layer.pop()
+                break
+                case `main`:
+                    layer.push()
+                    layer.translate((layer.width-this.ui.width)*0.5-this.zoom.position.x,layer.height*0.5-this.zoom.position.y)
+                    layer.scale(options.scale)
+                    layer.image(graphics.load.map[this.map][0],this.edge.x*0.5,this.edge.y*0.5,this.edge.x,this.edge.y)
+                    for(let a=0,la=this.cities.length;a<la;a++){
+                        let cit=this.cities[a]
                         if(
-                            cit.fade.map==0&&
-                            cit.position.x>this.zoom.position.x-(layer.width-this.ui.width)*0.5/options.scale&&
-                            cit.position.x<this.zoom.position.x+(layer.width-this.ui.width)*0.5/options.scale&&
-                            cit.position.y>this.zoom.position.y-layer.height*0.5/options.scale&&
-                            cit.position.y<this.zoom.position.y+layer.height*0.5/options.scale
+                            cit.position.x>this.zoom.position.x-(layer.width-this.ui.width)*0.5/options.scale-100&&
+                            cit.position.x<this.zoom.position.x+(layer.width-this.ui.width)*0.5/options.scale+100&&
+                            cit.position.y>this.zoom.position.y-layer.height*0.5/options.scale-100&&
+                            cit.position.y<this.zoom.position.y+layer.height*0.5/options.scale+100
                         ){
-                            cit.fade.map=1
+                            cit.display(layer,this.scene)
+                            if(
+                                cit.fade.map==0&&
+                                cit.position.x>this.zoom.position.x-(layer.width-this.ui.width)*0.5/options.scale&&
+                                cit.position.x<this.zoom.position.x+(layer.width-this.ui.width)*0.5/options.scale&&
+                                cit.position.y>this.zoom.position.y-layer.height*0.5/options.scale&&
+                                cit.position.y<this.zoom.position.y+layer.height*0.5/options.scale
+                            ){
+                                cit.fade.map=1
+                            }
                         }
                     }
-                }
-                let display=[]
-                for(let a=0,la=this.units.length;a<la;a++){
-                    let unit=this.units[a]
-                    if(
-                        unit.position.x>this.zoom.position.x-(layer.width-this.ui.width)*0.5/options.scale-100&&
-                        unit.position.x<this.zoom.position.x+(layer.width-this.ui.width)*0.5/options.scale+100&&
-                        unit.position.y>this.zoom.position.y-layer.height*0.5/options.scale-100&&
-                        unit.position.y<this.zoom.position.y+layer.height*0.5/options.scale+100
-                    ){
-                        unit.display(layer,this.scene)
-                        display.push(unit)
+                    let display=[]
+                    for(let a=0,la=this.units.length;a<la;a++){
+                        let unit=this.units[a]
+                        if(
+                            unit.position.x>this.zoom.position.x-(layer.width-this.ui.width)*0.5/options.scale-100&&
+                            unit.position.x<this.zoom.position.x+(layer.width-this.ui.width)*0.5/options.scale+100&&
+                            unit.position.y>this.zoom.position.y-layer.height*0.5/options.scale-100&&
+                            unit.position.y<this.zoom.position.y+layer.height*0.5/options.scale+100
+                        ){
+                            unit.display(layer,this.scene)
+                            display.push(unit)
+                        }
                     }
-                }
-                display.forEach(unit=>unit.displayInfo(layer,this.scene))
-                layer.pop()
-            break
-            case `map`:
-                this.zoom.scaling=max((layer.width-this.ui.width)/this.edge.x,layer.height/this.edge.y)/0.5
-                layer.push()
-                layer.translate((layer.width-this.ui.width)*0.5,layer.height*0.5)
-                layer.scale(this.zoom.scaling)
-                layer.translate(-this.edge.x*0.5-this.zoom.map.x,-this.edge.y*0.5-this.zoom.map.y)
-                layer.image(graphics.load.map[this.map][0],this.edge.x*0.5,this.edge.y*0.5,this.edge.x,this.edge.y)
-                layer.image(graphics.load.map[this.map][1],this.edge.x*0.5,this.edge.y*0.5,this.edge.x,this.edge.y)
-                this.cities.forEach(city=>city.display(layer,this.scene))
-                this.units[0].display(layer,this.scene)
-                layer.pop()
-            break
+                    display.forEach(unit=>unit.displayInfo(layer,this.scene))
+                    layer.pop()
+                break
+                case `map`:
+                    this.zoom.scaling=max((layer.width-this.ui.width)/this.edge.x,layer.height/this.edge.y)/0.5
+                    layer.push()
+                    layer.translate((layer.width-this.ui.width)*0.5,layer.height*0.5)
+                    layer.scale(this.zoom.scaling)
+                    layer.translate(-this.edge.x*0.5-this.zoom.map.x,-this.edge.y*0.5-this.zoom.map.y)
+                    layer.image(graphics.load.map[this.map][0],this.edge.x*0.5,this.edge.y*0.5,this.edge.x,this.edge.y)
+                    layer.image(graphics.load.map[this.map][1],this.edge.x*0.5,this.edge.y*0.5,this.edge.x,this.edge.y)
+                    this.cities.forEach(city=>city.display(layer,this.scene))
+                    this.units[0].display(layer,this.scene)
+                    layer.pop()
+                break
+            }
+            this.ui.display(layer,this.scene)
+            this.transitionManager.display(layer)
         }
-        this.ui.display(layer,this.scene)
-        this.transitionManager.display(layer)
     }
     update(layer){
         this.time.general++
@@ -377,7 +378,7 @@ export class operation{
                         }
                         this.teams.forEach(team=>{team.spawn.base.aggress=team.spawn.aggress;team.spawn.aggress=max(1,team.spawn.aggress)})
                         this.units.push(new unit(this,false,pos.x,pos.y+60,this.id.unit,this.ref.team[`Royal Army`],4,
-                            ((this.teams.reduce((acc,team)=>acc+(team.spawn.aggress<2?team.spawn.base.strength:0),0)*6+50)*options.difficulty)*100
+                            ((this.teams.reduce((acc,team)=>acc+(team.spawn.aggress<2?team.spawn.base.strength:0),0)*6+50)*options.difficulty)*constants.unitNum
                         ))
                         this.id.unit++
                     }

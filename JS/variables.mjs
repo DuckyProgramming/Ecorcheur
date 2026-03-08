@@ -82,7 +82,7 @@ export var types={
                     {name:`Salins`,type:0,loc:[1630,1616],rule:`Gruyères`},
                     {name:`Meiringen`,type:0,loc:[2865,1640],rule:`Zähringen`},
                     {name:`Seurre`,type:0,loc:[1187,1641],rule:`Bâgé`},
-                    {name:`Fribourg`,type:0,loc:[2324,1652],rule:`League of Cities`},
+                    {name:`Fribourg`,type:0,loc:[2304,1652],rule:`League of Cities`},
                     {name:`Yverdon`,type:0,loc:[2035,1709],rule:`Junior Savoy`},
                     {name:`Gruyères`,type:0,loc:[2288,1841],rule:`Gruyères`},
                     {name:`Lons`,type:0,loc:[1458,1862],rule:`Andechs`},
@@ -222,6 +222,7 @@ export var types={
                     {name:`Travers`,type:1,loc:[2015,1579],rule:`Fenis`},
                     {name:`Pagny`,type:1,loc:[1220,1586],rule:`Bâgé`},
                     {name:`Gorgier`,type:1,loc:[2096,1587],rule:`Fenis`},
+                    {name:`Vivy`,type:1,loc:[2311,1593],rule:`Zähringen`},
                     {name:`Avenches`,type:1,loc:[2240,1596],rule:`Archbishop of Besançon`},
                     {name:`Levier`,type:1,loc:[1723,1606],rule:`Gruyères`},
                     {name:`Rüeggisberg`,type:1,loc:[2454,1618],rule:`Zähringen`},
@@ -265,10 +266,10 @@ export var types={
                     {name:`Saanen`,type:1,loc:[2379,1897],rule:`Gruyères`},
                     {name:`La Chaux`,type:1,loc:[1657,1902],rule:`Andechs`},
                     {name:`Wilen`,type:1,loc:[2702,1915],rule:`Archbishop of Besançon`},
-                    {name:`Morbier`,type:1,loc:[1734,1947],rule:`Andechs`},
                     {name:`Sonnette`,type:1,loc:[1404,1934],rule:`Andechs`},
                     {name:`Grengiols`,type:1,loc:[2864,1937],rule:`Junior Savoy`},
                     {name:`Clairvaux`,type:1,loc:[1576,1938],rule:`Andechs`},
+                    {name:`Morbier`,type:1,loc:[1734,1947],rule:`Andechs`},
                     {name:`Aubonne`,type:1,loc:[1918,1941],rule:`Gruyères`},
                     {name:`Vevey`,type:1,loc:[2178,1952],rule:`Junior Savoy`},
                     {name:`Chillon`,type:1,loc:[2230,1981],rule:`Junior Savoy`},
@@ -302,8 +303,8 @@ export var types={
                     {name:`Satigny`,type:1,loc:[1750,2188],rule:`Lillebonne`},
                     {name:`Bogève`,type:1,loc:[1967,2200],rule:`Archbishop of Vienne`},
                     {name:`Izernore`,type:1,loc:[1475,2218],rule:`Bâgé`},
-                    {name:`Veyrier`,type:1,loc:[1833,2223],rule:`Archbishop of Vienne`},
                     {name:`Taninges`,type:1,loc:[2073,2248],rule:`Junior Savoy`},
+                    {name:`St. Julien`,type:1,loc:[1785,2251],rule:`Thoire`},
                     {name:`Vonnas`,type:1,loc:[1186,2252],rule:`Bâgé`},
                     {name:`Nantua`,type:1,loc:[1513,2277],rule:`Bâgé`},
                     {name:`Valleiry`,type:1,loc:[1721,2282],rule:`Thoire`},
@@ -311,7 +312,6 @@ export var types={
                     {name:`Thoissey`,type:1,loc:[1080,2289],rule:`Thoire`},
                     {name:`Cluses`,type:1,loc:[2070,2294],rule:`Junior Savoy`},
                     {name:`Valloreine`,type:1,loc:[2276,2296],rule:`Junior Savoy`},
-                    {name:`St. Julien`,type:1,loc:[1785,2251],rule:`Thoire`},
                     {name:`La Roche`,type:1,loc:[1911,2316],rule:`Thoire`},
                     {name:`Varax`,type:1,loc:[1268,2318],rule:`Thoire`},
                     {name:`Poncin`,type:1,loc:[1399,2326],rule:`Bâgé`},
@@ -342,7 +342,7 @@ export var types={
                     {name:`Villebois`,type:1,loc:[1432,2537],rule:`Elder Savoy`},
                     {name:`Faverges`,type:1,loc:[1946,2554],rule:`Thoire`},
                     {name:`Limonest`,type:1,loc:[1077,2557],rule:`Archbishop of Vienne`},
-                    {name:`Hautecombe`,type:1,loc:[1708,2570],rule:`Elder Savoy`},
+                    {name:`Hautecombe`,type:1,loc:[1681,2575],rule:`Elder Savoy`},
                     {name:`L'Arbresle`,type:1,loc:[986,2575],rule:`Archbishop of Vienne`},
                     {name:`Vézelin`,type:1,loc:[747,2595],rule:`Junior Albon`},
                     {name:`Violay`,type:1,loc:[904,2601],rule:`Junior Albon`},
@@ -533,7 +533,6 @@ export var types={
                     {name:`Mallemort`,type:1,loc:[1471,4231],rule:`Barcelona`},
                     {name:`Bargemon`,type:1,loc:[2292,4231],rule:`Barcelona`},
                     {name:`Baux`,type:1,loc:[1267,4250],rule:`Barcelona`},
-                    {name:`Vauvenargues`,type:1,loc:[1758,4359],rule:`Barcelona`},
                     {name:`Eyguières`,type:1,loc:[1391,4260],rule:`Barcelona`},
                     {name:`Rogne`,type:1,loc:[1592,4283],rule:`Barcelona`},
                     {name:`Fourques`,type:1,loc:[1166,4286],rule:`Rouergue`},
@@ -544,6 +543,7 @@ export var types={
                     {name:`St. Martin`,type:1,loc:[1299,4320],rule:`Barcelona`},
                     {name:`Lorques`,type:1,loc:[2182,4344],rule:`Barcelona`},
                     {name:`Cornillon`,type:1,loc:[1454,4354],rule:`Archbishop of Arles`},
+                    {name:`Vauvenargues`,type:1,loc:[1758,4359],rule:`Barcelona`},
                     {name:`Miramas`,type:1,loc:[1408,4362],rule:`Barcelona`},
                     {name:`Albaron`,type:1,loc:[1109,4366],rule:`Archbishop of Arles`},
                     {name:`Velaux`,type:1,loc:[1546,4379],rule:`Barcelona`},
@@ -617,5 +617,5 @@ export var types={
 export var dev={water:false}
 export var options={strength:1,unitSize:1,scale:1,difficulty:1,allCity:false}
 export var graphics={main:0,load:{map:[],city:[],team:[],unit:[]}}
-export var constants={trig:[[],[]],init:false}
+export var constants={trig:[[],[]],init:false,unitNum:10}
 export var inputs={mouse:{base:{x:0,y:0},rel:{x:0,y:0},previous:{base:{x:0,y:0},rel:{x:0,y:0}}}}

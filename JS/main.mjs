@@ -1,4 +1,4 @@
-import {dev,graphics,constants,inputs,types} from './variables.mjs'
+import {dev,graphics,constants,inputs,types,options} from './variables.mjs'
 import {checkCity,orderTeam,see} from './functions.mjs'
 import {setupGraphics,displayMain} from './graphics.mjs'
 import {operation} from './operation.mjs'
@@ -43,6 +43,7 @@ window.keyPressed=keyPressed
 
 window.types=types
 window.dev=dev
+window.options=options
 window.checkCity=checkCity
 window.orderTeam=orderTeam
 window.see=see

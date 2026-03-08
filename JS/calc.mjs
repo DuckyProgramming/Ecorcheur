@@ -1,4 +1,4 @@
-import {types} from './variables.mjs'
+import {types,constants} from './variables.mjs'
 import {constrain,random,floor,min,max,round} from './functions.mjs'
 export class calc{
     constructor(operation){
@@ -195,7 +195,7 @@ export class calc{
                         morale:0
                     }:{
                         number:this.sides[a].force[b].number*random(0.01,0.02)*(1.5+terrainActive.attrition[1])*(1+this.sides[a].salient*0.125)*mult/this.distSet[this.sides[a].force[b].dist].mult*(1+random(0.5,1)*attacking[1-a][0]/attacking[1-a][1]),
-                        morale:(random(2,6)+max(100,strength[1]-strength[0])/10000*(this.variant==1?100:0)*random(1,3))*(strength[0]==0?max(2,4-tick):1)/(0.5+this.distSet[this.sides[a].force[b].dist].mult*0.5)
+                        morale:(random(2,6)+max(100,strength[1]-strength[0])/constants.unitNum/100*(this.variant==1?100:0)*random(1,3))*(strength[0]==0?max(2,4-tick):1)/(0.5+this.distSet[this.sides[a].force[b].dist].mult*0.5)
                     }
                     let num=key.number
                     result.casualties[a].push(key)
@@ -250,7 +250,7 @@ export class calc{
                         morale:0
                     }:{
                         number:this.sides[a].force[b].number*random(0.01,0.02)*(1.5+terrainActive.attrition[1])*(1+this.sides[a].salient*0.125)*mult/this.distSet[this.sides[a].force[b].dist].mult*(1+random(0.5,1)*attacking[1-a][0]/attacking[1-a][1]),
-                        morale:(random(2,6)+max(100,strength[0]-strength[1])/10000*(this.variant==1?100:0)*random(1,3))*(strength[1]==0?max(2,4-tick):1)/(0.5+this.distSet[this.sides[a].force[b].dist].mult*0.5)
+                        morale:(random(2,6)+max(100,strength[0]-strength[1])/constants.unitNum/100*(this.variant==1?100:0)*random(1,3))*(strength[1]==0?max(2,4-tick):1)/(0.5+this.distSet[this.sides[a].force[b].dist].mult*0.5)
                     }
                     let num=key.number
                     result.casualties[a].push(key)
@@ -298,7 +298,7 @@ export class calc{
             }else if(strength[0]==0){
                 print('0% 100%')
             }else{
-                print(`${round((strength[0]/(strength[0]+strength[1])*(1-chances[0]-chances[1])+chances[0])*100)}% ${round((strength[1]/(strength[0]+strength[1])*(1-chances[0]-chances[1])+chances[1])*100)}%`)
+                print(`${round((strength[0]/(strength[0]+strength[1])*(1-chances[0]-chances[1])+chances[0])*constants.unitNum)}% ${round((strength[1]/(strength[0]+strength[1])*(1-chances[0]-chances[1])+chances[1])*constants.unitNum)}%`)
             }*/
             let totalStrength=0
             for(let a=0,la=strength.length;a<la;a++){
@@ -326,7 +326,7 @@ export class calc{
             let loserCapture=0
             let mult=random(1,2.5)
             for(let a=0,la=this.sides[1-result.winner].force.length;a<la;a++){
-                let num=this.sides[1-result.winner].force[a].number==0?0:this.sides[1-result.winner].force[a].number*min((random(0.05,0.15)+strength[result.winner]*0.025/strength[1-result.winner]*max(3-terrainActive.defend-(strength[1-result.winner])/10000*(this.variant==1?1000:1),1))*mult*(this.sides[0].strategy==1&&this.sides[1].strategy==1?0.5:1)*(this.sides[result.winner].strategy==0?(1+random(0.2,0.4)*attacking[result.winner][0]/attacking[result.winner][1]):1)/types.team[this.sides[1-result.winner].force[a].team].quality*(this.sides[1-result.winner].strategy==1?terrainActive.safe*0.25+0.75:1)+random(0.01,0.02)*terrainActive.attrition[constrain(this.sides[1-result.winner].strategy,0,2)]*(1+this.sides[1-result.winner].salient*0.125)/(0.5+this.distSet[this.sides[1-result.winner].force[a].dist].mult*0.5)*[1,0.96,1.04][this.sides[1-result.winner].smart],1)
+                let num=this.sides[1-result.winner].force[a].number==0?0:this.sides[1-result.winner].force[a].number*min((random(0.05,0.15)+strength[result.winner]*0.025/strength[1-result.winner]*max(3-terrainActive.defend-(strength[1-result.winner])/constants.unitNum/100*(this.variant==1?1000:1),1))*mult*(this.sides[0].strategy==1&&this.sides[1].strategy==1?0.5:1)*(this.sides[result.winner].strategy==0?(1+random(0.2,0.4)*attacking[result.winner][0]/attacking[result.winner][1]):1)/types.team[this.sides[1-result.winner].force[a].team].quality*(this.sides[1-result.winner].strategy==1?terrainActive.safe*0.25+0.75:1)+random(0.01,0.02)*terrainActive.attrition[constrain(this.sides[1-result.winner].strategy,0,2)]*(1+this.sides[1-result.winner].salient*0.125)/(0.5+this.distSet[this.sides[1-result.winner].force[a].dist].mult*0.5)*[1,0.96,1.04][this.sides[1-result.winner].smart],1)
                 result.casualties[1-result.winner].push({number:num,morale:-(random(-20-(num/this.sides[1-result.winner].force[a].number)*20,-10-(num/this.sides[1-result.winner].force[a].number)*15))*(this.sides[0].strategy==1&&this.sides[1].strategy==1?0.5:1)*(this.sides[result.winner].strategy==0?(1+random(0.2,0.4)*attacking[result.winner][0]/attacking[result.winner][1]):1)/this.distSet[this.sides[1-result.winner].force[a].dist].mult})
                 loserCasualties+=num
                 loserCapture+=num*types.team[this.sides[1-result.winner].force[a].team].morale

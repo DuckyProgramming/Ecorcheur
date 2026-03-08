@@ -1,4 +1,4 @@
-import {dev,types,options} from './variables.mjs'
+import {dev,types,options,constants} from './variables.mjs'
 import {last,smoothAnim,random,round,inPointBox,boxify,dirPos,mergeColor,nameColor,formatTime} from './functions.mjs'
 import {unit} from './unit.mjs'
 export class ui{
@@ -167,7 +167,7 @@ export class ui{
         }
         this.battle.result=this.operation.calc.calc()
         this.operation.calc.reset()
-        this.battle.result.casualties.forEach(set=>set.forEach(item=>item.number=round(item.number/100+random(-0.5,0.5))*100))
+        this.battle.result.casualties.forEach(set=>set.forEach(item=>item.number=round(item.number/constants.unitNum+random(-0.5,0.5))*constants.unitNum))
         if(this.battle.result.casualties[0][0].number>=this.battle.player.value){
             this.battle.result.winner[this.battle.result.winner.length-1]=2
         }
@@ -178,19 +178,19 @@ export class ui{
             switch(this.battle.circumstance){
                 case 0:
                     this.plunder.money=round(this.battle.result.casualties[1][0].number*random(0.15,0.6))
-                    this.plunder.prisoners=round(this.battle.result.casualties[1][0].number/100*random(0.1,0.4))*100
+                    this.plunder.prisoners=round(this.battle.result.casualties[1][0].number/constants.unitNum*random(0.1,0.4))*constants.unitNum
                 break
                 case 1:
                     this.plunder.money=round(this.battle.result.casualties[1][0].number*random(0.125,0.5))
-                    this.plunder.prisoners=round(this.battle.result.casualties[1][0].number/100*random(0.05,0.2))*100
+                    this.plunder.prisoners=round(this.battle.result.casualties[1][0].number/constants.unitNum*random(0.05,0.2))*constants.unitNum
                 break
                 case 2:
                     this.plunder.money=round(this.battle.result.casualties[1][0].number*random(0.1,0.4))
-                    this.plunder.prisoners=round(this.battle.result.casualties[1][0].number/100*random(0.1,0.4))*100+(this.battle.enemy.value-this.battle.result.casualties[1][0].number)
+                    this.plunder.prisoners=round(this.battle.result.casualties[1][0].number/constants.unitNum*random(0.1,0.4))*constants.unitNum+(this.battle.enemy.value-this.battle.result.casualties[1][0].number)
                 break
                 case 3:
                     this.plunder.money=round(this.battle.result.casualties[1][0].number*random(0.1875,0.75))
-                    this.plunder.prisoners=round(this.battle.result.casualties[1][0].number/100*random(0.1,0.4))*100+(this.battle.enemy.value-this.battle.result.casualties[1][0].number)
+                    this.plunder.prisoners=round(this.battle.result.casualties[1][0].number/constants.unitNum*random(0.1,0.4))*constants.unitNum+(this.battle.enemy.value-this.battle.result.casualties[1][0].number)
                 break
             }
             this.plunder.money=ceil(this.plunder.money/(options.difficulty/9+8/9))
@@ -220,7 +220,7 @@ export class ui{
         }
         let result=this.operation.calc.calc()
         this.operation.calc.reset()
-        result.casualties.forEach(set=>set.forEach(item=>item.number=round(item.number/100+random(-0.5,0.5))*100))
+        result.casualties.forEach(set=>set.forEach(item=>item.number=round(item.number/constants.unitNum+random(-0.5,0.5))*constants.unitNum))
         if(result.casualties[0][0].number>=player.value){
             result.winner[result.winner.length-1]=2
         }
@@ -277,7 +277,7 @@ export class ui{
                                 layer.fill(0)
                                 layer.textSize(24)
                                 layer.text(`Deniers:\n${this.operation.resources.money}`,0,40)
-                                layer.text(`Food:\n${this.operation.resources.food} (-${round(this.operation.units[0].value/100)})`,0,100)
+                                layer.text(`Food:\n${this.operation.resources.food} (-${round(this.operation.units[0].value/constants.unitNum)})`,0,100)
                                 layer.text(`Time:`,0,145)
                                 layer.textSize(16)
                                 layer.text(formatTime(max(0,this.operation.time.total)*2.5),0,190)
@@ -297,7 +297,7 @@ export class ui{
                                     layer.rect(0,tick+25,160,40,10)
                                     layer.fill(0)
                                     layer.textSize(15)
-                                    layer.text([`Wait`,`Prisoners`,`Map`][a],0,tick+25)
+                                    layer.text([`Prisoners`,`Map`,`Wait`][a],0,tick+25)
                                     layer.textSize(10)
                                     layer.text(count,70,tick+15)
                                     tick+=50
@@ -604,7 +604,7 @@ export class ui{
                 layer.fill(0)
                 layer.textSize(24)
                 layer.text(`Deniers:\n${this.operation.resources.money}`,0,40)
-                layer.text(`Food:\n${this.operation.resources.food} (-${round(this.operation.units[0].value/100)})`,0,100)
+                layer.text(`Food:\n${this.operation.resources.food} (-${round(this.operation.units[0].value/constants.unitNum)})`,0,100)
                 layer.text(`Time:`,0,145)
                 layer.textSize(16)
                 layer.text(formatTime(max(0,this.operation.time.total)*2.5),0,190)
@@ -721,10 +721,6 @@ export class ui{
                             }
                             tick+=125
                             if(inPointBox(rel,boxify(0,tick+25,160,40))){
-                                this.operation.time.pass=60
-                            }
-                            tick+=50
-                            if(inPointBox(rel,boxify(0,tick+25,160,40))){
                                 this.moveTab(6)
                                 this.select.num=0
                                 this.select.editNum=false
@@ -732,6 +728,10 @@ export class ui{
                             tick+=50
                             if(inPointBox(rel,boxify(0,tick+25,160,40))){
                                 this.operation.transitionManager.begin(`map`)
+                            }
+                            tick+=50
+                            if(inPointBox(rel,boxify(0,tick+25,160,40))){
+                                this.operation.time.pass=60
                             }
                             tick+=50
                         break
@@ -919,7 +919,7 @@ export class ui{
                                 if(inPointBox(rel,boxify(0,tick+25,160,40))){
                                     let num=min(this.operation.prisoners.gained,this.select.num)
                                     this.operation.prisoners.gained-=num
-                                    this.operation.units[0].value+=floor(num/250)*100
+                                    this.operation.units[0].value+=floor(num/2.5/constants.unitNum)*constants.unitNum
                                     this.moveTab(0)
                                 }
                                 tick+=50
@@ -1015,10 +1015,6 @@ export class ui{
                     switch(this.tabs.active){
                         case 0:
                             if(key==count.toString()){
-                                this.operation.time.pass=60
-                            }
-                            count++
-                            if(key==count.toString()){
                                 this.moveTab(6)
                                 this.select.num=0
                                 this.select.editNum=false
@@ -1026,6 +1022,10 @@ export class ui{
                             count++
                             if(key==count.toString()){
                                 this.operation.transitionManager.begin(`map`)
+                            }
+                            count++
+                            if(key==count.toString()){
+                                this.operation.time.pass=60
                             }
                             count++
                         break
@@ -1191,9 +1191,9 @@ export class ui{
                         case 6:
                             if(this.select.editNum){
                                 if(`1234567890`.includes(key)){
-                                    this.select.num=min(1000000,this.select.num*10+int(key)*100)
+                                    this.select.num=min(1000000,this.select.num*10+int(key)*constants.unitNum)
                                 }else if(key==`Backspace`){
-                                    this.select.num=floor(this.select.num/1000)*100
+                                    this.select.num=floor(this.select.num/constants.unitNum/10)*constants.unitNum
                                 }
                             }
                             if(key==`Escape`){
@@ -1215,7 +1215,7 @@ export class ui{
                                 if(key.toUpperCase()==`ABCDEFGHIJKLMNOPQRSTUVWXYZ`[count-1]){
                                     let num=min(this.operation.prisoners.gained,this.select.num)
                                     this.operation.prisoners.gained-=num
-                                    this.operation.units[0].value+=floor(num/250)*100
+                                    this.operation.units[0].value+=floor(num/2.5/constants.unitNum)*constants.unitNum
                                     this.moveTab(0)
                                 }
                                 count++
@@ -1231,9 +1231,9 @@ export class ui{
                         case 7:
                             if(this.select.editNum){
                                 if(`1234567890`.includes(key)){
-                                    this.select.num=min(1000000,this.select.num*10+int(key)*100)
+                                    this.select.num=min(1000000,this.select.num*10+int(key)*constants.unitNum)
                                 }else if(key==`Backspace`){
-                                    this.select.num=floor(this.select.num/1000)*100
+                                    this.select.num=floor(this.select.num/constants.unitNum/10)*constants.unitNum
                                 }
                             }
                             if(key==`Escape`){
