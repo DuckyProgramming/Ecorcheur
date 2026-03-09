@@ -12,7 +12,7 @@ export class team{
         this.units=[]
         this.spawn={
             activation:0,strength:0,health:0,next:{type:0,value:0},aggress:this.name==`Free Company`?1:0,
-            types:{garrisonIndex:0,patrol:0,field:0,boss:0},
+            types:{garrisonIndex:0,patrol:0,field:[0,0],boss:0},
             base:{
                 types:{patrol:0,field:0},
                 strength:0,aggress:0
@@ -108,7 +108,7 @@ export class team{
         this.units=this.units.filter(uni=>uni.id!=destroyed.id)
         switch(destroyed.type){
             case 0:
-                this.spawn.base.types.field++
+                this.spawn.base.types.field[0]++
                 this.cities=this.cities.filter(cit=>cit.name!=destroyed.fortified.city.name)
                 this.spawn.health--
                 if(this.cities.length==0){
@@ -140,9 +140,7 @@ export class team{
                 this.spawn.types.garrisonIndex++
             break
             case 1:
-                if(this.spawn.base.types.field<=this.spawn.types.field){
-                    this.spawn.base.types.field++
-                }
+                this.spawn.base.types.field[1]++
                 this.spawn.types.patrol--
             break
             case 2:
@@ -189,7 +187,7 @@ export class team{
                 if(this.spawn.types.patrol<this.spawn.base.types.patrol){
                     possible.push(1)
                 }
-                if(this.spawn.types.field<this.spawn.base.types.field){
+                if(this.spawn.types.field<this.spawn.base.types.field[0]||this.spawn.types.field<this.spawn.base.types.field[1]){
                     possible.push(2)
                 }
                 if(possible.length>0){
@@ -206,7 +204,7 @@ export class team{
             }else{
                 this.spawn.activation++
                 let num=min(this.cities.reduce((acc,city)=>acc+(city.type==1?0.5:1),0),this.spawn.activation)
-                this.spawn.strength+=(num-num**2/50)*constants.unitNum*10*options.difficulty
+                this.spawn.strength=min(this.spawn.strength+(num-num**2/50)*constants.unitNum*10*options.difficulty,round(100*(1+this.cities.reduce((acc,city)=>acc+(city.type==1?0.5:1),0)*0.05)*options.difficulty)*constants.unitNum)
                 if(this.spawn.strength>=this.spawn.next.value){
                     let success=false
                     let cit
