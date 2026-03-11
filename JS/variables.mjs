@@ -538,7 +538,7 @@ export var types={
                     {name:`Isola`,type:1,loc:[2543,3761],rule:`Elder Savoy`},
                     {name:`Mirabel-aux-Baronnies`,type:1,loc:[1381,3780],rule:`Mirabel`},
                     {name:`Colmars`,type:1,loc:[2287,3788],rule:`Barcelona`},
-                    {name:`Lapalad`,type:1,loc:[1140,3794],rule:`Rouergue`},
+                    {name:`Lapalad`,type:1,loc:[1140,3794],rule:`Archbishop of Arles`},
                     {name:`Buis`,type:1,loc:[1491,3809],rule:`Rouergue`},
                     {name:`Guillaumes`,type:1,loc:[2412,3810],rule:`Barcelona`},
                     {name:`Suze`,type:1,loc:[1263,3813],rule:`Rouergue`},

@@ -362,7 +362,7 @@ export class unit{
                         break
                         case 1:
                             if((
-                                this.operation.teams[this.team].spawn.aggress==2&&(this.value<=this.operation.units[0].value*0.75*this.goal.threshold||this.goal.damaged)||
+                                this.operation.teams[this.team].spawn.aggress==2&&(this.value<=this.operation.units[0].value*0.5*this.goal.threshold||this.goal.damaged)||
                                 this.value<=this.operation.units[0].value*0.5*this.goal.threshold&&this.goal.damaged
                             )&&this.operation.teams[this.team].name!=`Free Company`){
                                 this.goal.mode=2
