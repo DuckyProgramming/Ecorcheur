@@ -382,7 +382,7 @@ export class unit{
                             this.operation.units[0].last.y=this.operation.units[0].position.y
                         break
                         case 2:
-                            if(!(this.goal.city.fortified.unit==0||this.goal.city.fortified.unit.team!=this.operation.units[0].team)&&distPos(this,this.goal.city)<60){
+                            if(!(this.goal.city.fortified.unit==0||this.goal.city.fortified.unit.team!=this.operation.units[0].team)&&distPos(this,this.goal.city)<50){
                                 this.goal.position.x=this.position.x
                                 this.goal.position.y=this.position.y
                                 if(this.time%150==0){

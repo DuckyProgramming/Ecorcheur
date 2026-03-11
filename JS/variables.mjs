@@ -98,7 +98,7 @@ export var types={
                     {name:`Chamonix`,type:0,loc:[2234,2392],rule:`Junior Savoy`},
                     {name:`Villefranche`,type:1,loc:[1029,2442],rule:`Junior Albon`},
                     {name:`Annecy`,type:0,loc:[1788,2464],rule:`Thoire`},
-                    {name:`Roanne`,type:0,loc:[702,2485],rule:`Junior Albon`},
+                    {name:`Roanne`,type:0,loc:[694,2485],rule:`Junior Albon`},
                     {name:`Ugine`,type:0,loc:[2013,2552],rule:`Thoire`},
                     {name:`Belley`,type:0,loc:[1588,2609],rule:`Archbishop of Vienne`},
                     {name:`Moûtiers`,type:0,loc:[2071,2753],rule:`Archbishop of Vienne`},
