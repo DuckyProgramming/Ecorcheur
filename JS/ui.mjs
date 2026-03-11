@@ -942,7 +942,7 @@ export class ui{
                             }
                             tick+=30
                             if(inPointBox(rel,boxify(0,tick+25,160,40))){
-                                let num=min(this.select.num,this.operation.units[0].value-100)
+                                let num=min(this.select.num,this.operation.units[0].value-constants.unitNum)
                                 if(cit.fortified.unit!=0){
                                     cit.fortified.unit.value+=num
                                 }else{
@@ -1245,7 +1245,7 @@ export class ui{
                             }
                             count++
                             if(key.toUpperCase()==`ABCDEFGHIJKLMNOPQRSTUVWXYZ`[count-1]){
-                                let num=min(this.select.num,this.operation.units[0].value-100)
+                                let num=min(this.select.num,this.operation.units[0].value-constants.unitNum)
                                 if(cit.fortified.unit!=0){
                                     cit.fortified.unit.value+=num
                                 }else{

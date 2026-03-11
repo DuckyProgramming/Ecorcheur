@@ -1,5 +1,5 @@
 import {types,options,constants} from './variables.mjs'
-import {randindex,last,distPos,range,randin,findName,findId} from './functions.mjs'
+import {randindex,last,distPos,range,randin,findName,findId,max} from './functions.mjs'
 import {unit} from './unit.mjs'
 export class team{
     constructor(operation,type){
@@ -12,9 +12,9 @@ export class team{
         this.units=[]
         this.spawn={
             activation:0,strength:0,health:0,next:{type:0,value:0},aggress:this.name==`Free Company`?1:0,
-            types:{garrisonIndex:0,patrol:0,field:[0,0],boss:0},
+            types:{garrisonIndex:0,patrol:0,field:0,boss:0},
             base:{
-                types:{patrol:0,field:0},
+                types:{patrol:0,field:[0,0]},
                 strength:0,aggress:0
             }
         }
@@ -187,7 +187,7 @@ export class team{
                 if(this.spawn.types.patrol<this.spawn.base.types.patrol){
                     possible.push(1)
                 }
-                if(this.spawn.types.field<this.spawn.base.types.field[0]||this.spawn.types.field<this.spawn.base.types.field[1]){
+                if(this.spawn.types.field<max(this.spawn.base.types.field[0],this.spawn.base.types.field[1])){
                     possible.push(2)
                 }
                 if(possible.length>0){

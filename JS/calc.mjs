@@ -195,7 +195,7 @@ export class calc{
                         morale:0
                     }:{
                         number:this.sides[a].force[b].number*random(0.01,0.02)*(1.5+terrainActive.attrition[1])*(1+this.sides[a].salient*0.125)*mult/this.distSet[this.sides[a].force[b].dist].mult*(1+random(0.5,1)*attacking[1-a][0]/attacking[1-a][1]),
-                        morale:(random(2,6)+max(100,strength[1]-strength[0])/constants.unitNum/100*(this.variant==1?100:0)*random(1,3))*(strength[0]==0?max(2,4-tick):1)/(0.5+this.distSet[this.sides[a].force[b].dist].mult*0.5)
+                        morale:(random(2,6)+max(constants.unitNum,strength[1]-strength[0])/constants.unitNum/100*(this.variant==1?100:0)*random(1,3))*(strength[0]==0?max(2,4-tick):1)/(0.5+this.distSet[this.sides[a].force[b].dist].mult*0.5)
                     }
                     let num=key.number
                     result.casualties[a].push(key)
@@ -250,7 +250,7 @@ export class calc{
                         morale:0
                     }:{
                         number:this.sides[a].force[b].number*random(0.01,0.02)*(1.5+terrainActive.attrition[1])*(1+this.sides[a].salient*0.125)*mult/this.distSet[this.sides[a].force[b].dist].mult*(1+random(0.5,1)*attacking[1-a][0]/attacking[1-a][1]),
-                        morale:(random(2,6)+max(100,strength[0]-strength[1])/constants.unitNum/100*(this.variant==1?100:0)*random(1,3))*(strength[1]==0?max(2,4-tick):1)/(0.5+this.distSet[this.sides[a].force[b].dist].mult*0.5)
+                        morale:(random(2,6)+max(constants.unitNum,strength[0]-strength[1])/constants.unitNum/100*(this.variant==1?100:0)*random(1,3))*(strength[1]==0?max(2,4-tick):1)/(0.5+this.distSet[this.sides[a].force[b].dist].mult*0.5)
                     }
                     let num=key.number
                     result.casualties[a].push(key)

@@ -1,5 +1,5 @@
 import {dev,graphics,constants,inputs,types,options} from './variables.mjs'
-import {checkCity,orderTeam,see} from './functions.mjs'
+import {checkCity,orderCity,orderTeam,see} from './functions.mjs'
 import {setupGraphics,displayMain} from './graphics.mjs'
 import {operation} from './operation.mjs'
 var current
@@ -45,5 +45,6 @@ window.types=types
 window.dev=dev
 window.options=options
 window.checkCity=checkCity
+window.orderCity=orderCity
 window.orderTeam=orderTeam
 window.see=see
