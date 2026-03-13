@@ -98,7 +98,7 @@ export var types={
                     {name:`Seurre`,type:0,loc:[1187,1641],rule:`Bâgé`,district:`Franche-Comté`},
                     {name:`Fribourg`,type:0,loc:[2304,1652],rule:`League of Cities`,district:`Helvetie`},
                     {name:`Yverdon`,type:0,loc:[2035,1709],rule:`Junior Savoy`,district:`Romandie`},
-                    {name:`Gruyères`,type:0,loc:[2288,1841],rule:`Archbishop of Besançon`,district:`Romandie`},
+                    {name:`Gruyères`,type:0,loc:[2288,1841],rule:`Gruyères`,district:`Romandie`},
                     {name:`Lons`,type:0,loc:[1458,1862],rule:`Andechs`,district:`Franche-Comté`},
 
                     {name:`Visp`,type:0,loc:[2749,2013],rule:`Valais`,district:`Helvetie`},
@@ -123,7 +123,7 @@ export var types={
                     {name:`Vinay`,type:0,loc:[1483,2998],rule:`Elder Albon`,district:`Dauphiné`},
 
                     {name:`Tournon`,type:0,loc:[1160,3154],rule:`Junior Albon`,district:`Dauphiné`},
-                    {name:`Briançon`,type:0,loc:[2196,3214],rule:`Archbishop of Vienne`,district:`Alpes`},
+                    {name:`Briançon`,type:0,loc:[2196,3214],rule:`Escartons`,district:`Alpes`},
                     {name:`La Mure`,type:0,loc:[1762,3235],rule:`Elder Albon`,district:`Dauphiné`},
                     {name:`Valence`,type:0,loc:[1211,3271],rule:`Poitiers`,district:`Drôme`},
                     {name:`Die`,type:0,loc:[1502,3384],rule:`Poitiers`,district:`Drôme`},
@@ -162,7 +162,7 @@ export var types={
                     {name:`Hyères`,type:0,loc:[2110,4675],rule:`Barcelona`,district:`Provence`},
                     //chance cities
                 ],[
-                    {name:`Fougerolles`,type:1,loc:[1831,856],rule:`Andechs`,district:`Franche-Comté`},
+                    {name:`Fougerolles`,type:1,loc:[1831,856],rule:`Archbishop of Besançon`,district:`Franche-Comté`},
                     {name:`Vauvillers`,type:1,loc:[1651,858],rule:`Andechs`,district:`Franche-Comté`},
                     {name:`Faucogney`,type:1,loc:[1905,889],rule:`Andechs`,district:`Franche-Comté`},
                     {name:`Luxeuil`,type:1,loc:[1783,915],rule:`Archbishop of Besançon`,district:`Franche-Comté`},
@@ -289,7 +289,7 @@ export var types={
                     {name:`Mouthe`,type:1,loc:[1808,1784],rule:`Andechs`,district:`Franche-Comté`},
                     {name:`Frutingen`,type:1,loc:[2602,1787],rule:`Zähringen`,district:`Helvetie`},
                     {name:`Romainmôtier`,type:1,loc:[1926,1788],rule:`Junior Savoy`,district:`Romandie`},
-                    {name:`Corbières`,type:1,loc:[2309,1789],rule:`Archbishop of Besançon`,district:`Romandie`},
+                    {name:`Corbières`,type:1,loc:[2309,1789],rule:`Gruyères`,district:`Romandie`},
                     {name:`Ulrichen`,type:1,loc:[2965,1797],rule:`Valais`,district:`Helvetie`},
                     {name:`Arlay`,type:1,loc:[1423,1802],rule:`Gruyères`,district:`Franche-Comté`},
                     {name:`Échallens`,type:1,loc:[2042,1806],rule:`Montfaucon`,district:`Romandie`},
@@ -300,7 +300,7 @@ export var types={
                     {name:`Adelboden`,type:1,loc:[2583,1865],rule:`Zähringen`,district:`Helvetie`},
                     {name:`Doucier`,type:1,loc:[1582,1867],rule:`Andechs`,district:`Franche-Comté`},
                     {name:`Bellwald`,type:1,loc:[2889,1892],rule:`Valais`,district:`Helvetie`},
-                    {name:`Saanen`,type:1,loc:[2379,1897],rule:`Archbishop of Besançon`,district:`Romandie`},
+                    {name:`Saanen`,type:1,loc:[2379,1897],rule:`Gruyères`,district:`Romandie`},
                     {name:`Albeuve`,type:1,loc:[2272,1898],rule:`Archbishop of Besançon`,district:`Romandie`},
                     {name:`La Chaux`,type:1,loc:[1657,1902],rule:`Andechs`,district:`Franche-Comté`},
                     {name:`Wilen`,type:1,loc:[2702,1915],rule:`Archbishop of Besançon`,district:`Romandie`},
@@ -708,7 +708,7 @@ export var types={
         },
     ],
 }
-export var dev={water:false,district:false}
+export var dev={water:false,view:false,district:false}
 export var options={strength:1,unitSize:1,scale:1,difficulty:1,allCity:false}
 export var graphics={main:0,load:{map:[],city:[],team:[],unit:[]}}
 export var constants={trig:[[],[]],init:false,unitNum:10}

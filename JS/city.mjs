@@ -11,7 +11,7 @@ export class city{
         this.rule=this.operation.ref.team[rule]
         this.owner=this.operation.ref.team[rule]
         this.district=this.operation.ref.district[data.district]
-        this.fortified={trigger:fortified,unit:-1,sieged:-1,siegeActive:false,taken:false,original:true,bribe:floor(random(0,4))==0?0:(fortified?random(0.75,1.25):random(0.6,1))}
+        this.fortified={trigger:fortified,unit:-1,sieged:-1,siegeActive:false,taken:false,bribe:floor(random(0,4))==0?0:(fortified?random(0.75,1.25):random(0.6,1))}
         this.fade={main:0,trigger:true,map:0}
         this.index=0
         this.remove=false
@@ -133,7 +133,7 @@ export class city{
                 }
             break
             case `map`:
-                if(this.fade.map>0||dev.district){
+                if(this.fade.map>0||dev.view||dev.district){
                     layer.push()
                     layer.translate(this.position.x,this.position.y)
                     layer.scale(5/options.scale*this.operation.scale)
