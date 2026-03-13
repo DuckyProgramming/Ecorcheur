@@ -1,5 +1,5 @@
-import {types,options,graphics,constants} from './variables.mjs'
-import {smoothAnim,distPos,findId,randin} from './functions.mjs'
+import {types,options,graphics,constants,listing} from './variables.mjs'
+import {smoothAnim,distPos,findId,randin,findList} from './functions.mjs'
 export class city{
     constructor(operation,x,y,id,data,fortified){
         this.operation=operation
@@ -10,7 +10,8 @@ export class city{
         let rule=typeof data.rule==`object`?randin(data.rule):data.rule
         this.rule=this.operation.ref.team[rule]
         this.owner=this.operation.ref.team[rule]
-        this.fortified={trigger:fortified,unit:0,sieged:0,siegeActive:false,taken:false,original:true,bribe:floor(random(0,4))==0?0:(fortified?random(0.75,1.25):random(0.6,1))}
+        this.district=this.operation.ref.district[data.district]
+        this.fortified={trigger:fortified,unit:-1,sieged:-1,siegeActive:false,taken:false,original:true,bribe:floor(random(0,4))==0?0:(fortified?random(0.75,1.25):random(0.6,1))}
         this.fade={main:0,trigger:true,map:0}
         this.index=0
         this.remove=false
@@ -26,7 +27,7 @@ export class city{
             owner:this.owner,
             fortified:{
                 trigger:this.fortified.trigger,
-                unit:this.fortified.unit==0?-1:this.fortified.unit.id,
+                unit:this.fortified.unit==-1?-1:this.fortified.unit.id,
                 sieged:this.fortified.sieged,
                 siegeActive:this.fortified.siegeActive,
                 taken:this.fortified.taken,
@@ -51,7 +52,7 @@ export class city{
         this.remove=composite.remove
     }
     loadBar(){
-        this.fortified.unit=this.fortified.unit==-1?0:this.operation.units[findId(this.fortified.unit,this.operation.units)]
+        this.fortified.unit=this.fortified.unit==-1?-1:this.operation.units[findId(this.fortified.unit,this.operation.units)]
     }
     initialResources(){
         let mult=[
@@ -132,7 +133,7 @@ export class city{
                 }
             break
             case `map`:
-                if(this.fade.map>0){
+                if(this.fade.map>0||dev.district){
                     layer.push()
                     layer.translate(this.position.x,this.position.y)
                     layer.scale(5/options.scale*this.operation.scale)
@@ -149,8 +150,8 @@ export class city{
                     layer.fill(255)
                     layer.textSize(img.height*0.04*this.fade.main)
                     layer.text(this.name,0,img.height*0.06*this.fade.main)
-                    if(this.fortified.unit!=0){
-                        img=[graphics.load.team[types.team[this.fortified.unit.team].loadIndex],graphics.load.unit[5]]
+                    if(this.fortified.unit!=-1){
+                        img=[graphics.load.team[dev.district?findList(types.district[this.district].term,listing.team):types.team[this.fortified.unit.team].loadIndex],graphics.load.unit[5]]
                         layer.image(img[0],0,0,img[1].width*0.025*this.fade.main,img[1].height*0.025*this.fade.main)
                         layer.image(img[1],0,0,img[1].width*0.025*this.fade.main,img[1].height*0.025*this.fade.main)
                     }

@@ -80,9 +80,9 @@ export class team{
             last(this.operation.units).goal.tick=0
         }
         if(this.name==`Royal Army`){
-            let possible=this.operation.cities.slice()
+            /*let possible=this.operation.cities.slice()
             let spawned=0
-            while(spawned<10){
+            while(spawned<9){
                 let cit=[randin(possible)]
                 let set=possible.filter(city=>distPos(cit[0],city)<1200&&city!=city[0])
                 if(set.length>0){
@@ -101,7 +101,64 @@ export class team{
                         }
                     }
                 }
-            }
+            }*/
+            let districts=types.district.map(district=>{return {name:district.name,region:district.region,set:[]}})
+            this.operation.cities.forEach(city=>districts[city.district].set.push(city))
+            districts=districts.filter(district=>district.region!=``)
+            districts.forEach(district=>{
+                let spawned=false
+                let loop=0
+                while(!spawned){
+                    let cit=[randin(district.set)]
+                    let set=district.set.filter(city=>cit[0]!=city&&distPos(cit[0],city)<600+loop*50)
+                    if(set.length>0){
+                        cit.push(randin(set))
+                        set=set.filter(city=>cit[0]!=city&&cit[1]!=city&&distPos(cit[0],city)<600+loop*50&&distPos(cit[1],city)<600+loop*50)
+                        if(set.length>0){
+                            cit.push(randin(set))
+                            let loc={
+                                x:(cit[0].position.x+cit[1].position.x+cit[2].position.x)/3,
+                                y:(cit[0].position.y+cit[1].position.y+cit[2].position.y)/3
+                            }
+                            if(!this.operation.units.some(unit=>distPos(unit,{position:loc})<100)){
+                                cit.forEach(city=>district.set.splice(district.set.indexOf(city),1))
+                                this.operation.units.push(new unit(this.operation,false,loc.x,loc.y,this.operation.id.unit,this.type,1,round(random(20,40)*options.difficulty)*constants.unitNum))
+                                spawned=true
+                            }
+                        }else{
+                            loop++
+                        }
+                    }
+                }
+            })
+            let regions=types.region.map(region=>{return {name:region.name,set:[]}})
+            districts.forEach(district=>regions[findName(district.region,regions)].set.push(...district.set))
+            regions.forEach(region=>{
+                let spawned=false
+                let loop=0
+                while(!spawned){
+                    let cit=[randin(region.set)]
+                    let set=region.set.filter(city=>cit[0]!=city&&distPos(cit[0],city)<600+loop*50)
+                    if(set.length>0){
+                        cit.push(randin(set))
+                        set=set.filter(city=>cit[0]!=city&&cit[1]!=city&&distPos(cit[0],city)<600+loop*50&&distPos(cit[1],city)<600+loop*50)
+                        if(set.length>0){
+                            cit.push(randin(set))
+                            let loc={
+                                x:(cit[0].position.x+cit[1].position.x+cit[2].position.x)/3,
+                                y:(cit[0].position.y+cit[1].position.y+cit[2].position.y)/3
+                            }
+                            if(!this.operation.units.some(unit=>distPos(unit,{position:loc})<100)){
+                                cit.forEach(city=>region.set.splice(region.set.indexOf(city),1))
+                                this.operation.units.push(new unit(this.operation,false,loc.x,loc.y,this.operation.id.unit,this.type,2,round(random(60,120+random(0,60))*options.difficulty)*constants.unitNum))
+                                spawned=true
+                            }
+                        }else{
+                            loop++
+                        }
+                    }
+                }
+            })
         }
     }
     unitDestroyed(destroyed){

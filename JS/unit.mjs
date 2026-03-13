@@ -227,7 +227,7 @@ export class unit{
                                 }
                                 if(this.goal.city!=-1){
                                     if(this.goal.city.fade.trigger){
-                                        if(this.goal.city.fortified.unit==0){
+                                        if(this.goal.city.fortified.unit==-1){
                                             this.goal.position.x=this.goal.city.position.x
                                             this.goal.position.y=this.goal.city.position.y
                                         }
@@ -237,7 +237,7 @@ export class unit{
                                 }
                                 if(distGoal<=1){
                                     this.goal.time++
-                                    if(this.goal.city!=-1&&this.fade.trigger&&this.goal.city.fade.trigger&&this.goal.city.fortified.unit==0&&distPos(this,this.goal.city)<1){
+                                    if(this.goal.city!=-1&&this.fade.trigger&&this.goal.city.fade.trigger&&this.goal.city.fortified.unit==-1&&distPos(this,this.goal.city)<1){
                                         this.fade.trigger=false
                                         this.operation.teams[this.team].unitDestroyed(this)
                                         this.operation.units.push(new unit(this.operation,false,this.goal.city.position.x,this.goal.city.position.y,this.operation.id.unit,this.team,0,this.value))
@@ -253,7 +253,7 @@ export class unit{
                                 }
                                 if(this.goal.city==-1||this.goal.time>=30){
                                     for(let a=0,la=this.operation.teams[this.team].cores.length;a<la;a++){
-                                        if(this.operation.teams[this.team].cores[a].fade.trigger&&this.operation.teams[this.team].cores[a].fortified.unit==0&&distPos(this,this.operation.teams[this.team].cores[a])<600){
+                                        if(this.operation.teams[this.team].cores[a].fade.trigger&&this.operation.teams[this.team].cores[a].fortified.unit==-1&&distPos(this,this.operation.teams[this.team].cores[a])<600){
                                             this.goal.nodes[this.goal.tick]=this.operation.teams[this.team].cores[a]
                                         }
                                     }
@@ -261,7 +261,7 @@ export class unit{
                                     this.goal.city=this.goal.nodes[this.goal.tick]
                                     this.goal.tick=1-this.goal.tick
                                     this.goal.position.x=this.goal.city.position.x
-                                    this.goal.position.y=this.goal.city.position.y+(this.goal.city.fortified.unit==0?0:60)
+                                    this.goal.position.y=this.goal.city.position.y+(this.goal.city.fortified.unit==-1?0:60)
                                 }
                             break
                             case 1:
@@ -310,7 +310,7 @@ export class unit{
                                 if(distPos(this,this.operation.units[0])<300){
                                     this.goal.mode=1
                                 }
-                                if(this.goal.city.fortified.unit==0||this.goal.city.fortified.unit.team!=this.operation.units[0].team){
+                                if(this.goal.city.fortified.unit==-1||this.goal.city.fortified.unit.team!=this.operation.units[0].team){
                                     this.goal.city=-1
                                 }else{
                                     if(distPos(this,this.goal.city)<60){
@@ -324,7 +324,7 @@ export class unit{
                                                 if(last(result.winner)==1){
                                                     this.operation.prisoners.lost+=this.goal.city.fortified.unit.value
                                                     this.goal.city.fortified.unit.fade.trigger=false
-                                                    this.goal.city.fortified.unit=0
+                                                    this.goal.city.fortified.unit=-1
                                                     this.goal.city=-1
                                                 }
                                             }else{
@@ -337,6 +337,9 @@ export class unit{
                                         this.goal.position.y=this.goal.city.position.y
                                     }
                                 }
+                            }else if(this.operation.teams[this.team].name==`Royal Army`&&this.operation.teams[this.team].spawn.aggress==0&&!this.goal.damaged&&!this.goal.victor){
+                                this.goal.position.x=this.position.x
+                                this.goal.position.y=this.position.y
                             }else{
                                 if(distPos(this,this.operation.units[0])<450){
                                     this.goal.mode=1
@@ -347,7 +350,7 @@ export class unit{
                                 if(this.time%150==0){
                                     for(let a=0,la=this.operation.cities.length;a<la;a++){
                                         if(
-                                            this.operation.cities[a].rule==this.team&&this.operation.cities[a].fortified.unit!=0&&this.operation.cities[a].fortified.unit.team==this.operation.units[0].team&&
+                                            this.operation.cities[a].rule==this.team&&this.operation.cities[a].fortified.unit!=-1&&this.operation.cities[a].fortified.unit.team==this.operation.units[0].team&&
                                             (distPos(this,this.operation.cities[a])<distPos(this,this.goal)||first&&distPos(this.goal,this.operation.cities[a])<300)&&
                                             !this.operation.teams[this.team].units.some(unit=>unit.type==this.type&&unit.team==this.team&&unit.goal.city==this.operation.cities[a])
                                         ){
@@ -362,15 +365,30 @@ export class unit{
                         break
                         case 1:
                             if((
-                                this.operation.teams[this.team].spawn.aggress==2&&(this.value<=this.operation.units[0].value*0.5*this.goal.threshold||this.goal.damaged)||
+                                this.operation.teams[this.team].spawn.aggress==2&&(this.value<=this.operation.units[0].value*0.5*this.goal.threshold&&!this.goal.victor||this.goal.damaged)||
                                 this.value<=this.operation.units[0].value*0.5*this.goal.threshold&&this.goal.damaged
                             )&&this.operation.teams[this.team].name!=`Free Company`){
-                                this.goal.mode=2
-                                this.goal.city=this.operation.teams[this.team].cores[0]
-                                for(let a=1,la=this.operation.teams[this.team].cores.length;a<la;a++){
-                                    if(distPos(this,this.operation.teams[this.team].cores[a])+(this.operation.teams[this.team].cores[a].fortified.trigger?0:600)<distPos(this,this.goal.city)+(this.goal.city.fortified.trigger?0:600)){
-                                        this.goal.city=this.operation.teams[this.team].cores[a]
+                                this.goal.mode=0
+                                if(this.operation.teams[this.team].name==`Royal Army`){
+                                    this.goal.city=-1
+                                    for(let a=0,la=this.operation.cities.length;a<la;a++){
+                                        if((this.operation.cities[a].fortified.unit==-1||this.operation.cities[a].fortified.unit.team==this.team)&&(this.goal.city==-1||distPos(this,this.operation.cities[a])+(this.operation.cities[a].fortified.trigger?0:600)<distPos(this,this.goal.city)+(this.goal.city.fortified.trigger?0:600))){
+                                            this.goal.city=this.operation.cities[a]
+                                            this.goal.mode=2
+                                        }
                                     }
+                                }else{
+                                    this.goal.city=-1
+                                    for(let a=0,la=this.operation.teams[this.team].cores.length;a<la;a++){
+                                        if((this.operation.teams[this.team].cores[a].fortified.unit==-1||this.operation.teams[this.team].cores[a].fortified.unit.team==this.team)&&(this.goal.city==-1||distPos(this,this.operation.teams[this.team].cores[a])+(this.operation.teams[this.team].cores[a].fortified.trigger?0:600)<distPos(this,this.goal.city)+(this.goal.city.fortified.trigger?0:600))){
+                                            this.goal.city=this.operation.teams[this.team].cores[a]
+                                            this.goal.mode=2
+                                        }
+                                    }
+                                }
+                                if(this.goal.city!=-1&&this.goal.city.fortified.unit!=-1&&this.goal.city.fortified.unit.team!=this.team){
+                                    this.goal.mode=1
+                                    this.goal.city=-1
                                 }
                             }else if(distPos(this,this.operation.units[0])>600){
                                 this.goal.mode=0
@@ -382,7 +400,7 @@ export class unit{
                             this.operation.units[0].last.y=this.operation.units[0].position.y
                         break
                         case 2:
-                            if(!(this.goal.city.fortified.unit==0||this.goal.city.fortified.unit.team!=this.operation.units[0].team)&&distPos(this,this.goal.city)<50){
+                            if(!(this.goal.city.fortified.unit==-1||this.goal.city.fortified.unit.team!=this.operation.units[0].team)&&distPos(this,this.goal.city)<50){
                                 this.goal.position.x=this.position.x
                                 this.goal.position.y=this.position.y
                                 if(this.time%150==0){
@@ -393,7 +411,7 @@ export class unit{
                                         if(last(result.winner)==1){
                                             this.operation.prisoners.lost+=this.goal.city.fortified.unit.value
                                             this.goal.city.fortified.unit.fade.trigger=false
-                                            this.goal.city.fortified.unit=0
+                                            this.goal.city.fortified.unit=-1
                                             this.goal.city=-1
                                         }
                                     }else{
@@ -401,7 +419,7 @@ export class unit{
                                         this.goal.city.fortified.siegeActive=true
                                     }
                                 }
-                            }else if(this.goal.city.fortified.unit==0&&distPos(this,this.goal.city)<1&&this.fade.trigger){
+                            }else if(this.goal.city.fortified.unit==-1&&distPos(this,this.goal.city)<1&&this.fade.trigger){
                                 this.fade.trigger=false
                                 this.operation.teams[this.team].unitDestroyed(this)
                                 this.operation.units.push(new unit(this.operation,false,this.goal.city.position.x,this.goal.city.position.y,this.operation.id.unit,this.team,0,this.value))
@@ -432,6 +450,8 @@ export class unit{
                         }
                         this.goal.position.x=this.operation.units[0].position.x
                         this.goal.position.y=this.operation.units[0].position.y
+                        this.operation.units[0].last.x=this.operation.units[0].position.x
+                        this.operation.units[0].last.y=this.operation.units[0].position.y
                     }else{
                         if(distPos(this,this.operation.units[0])<600&&this.operation.teams[this.team].spawn.aggress>0){
                             this.goal.mode=1
@@ -444,7 +464,7 @@ export class unit{
                             if(this.operation.teams[this.team].cities.length>0){
                                 this.goal.city=randin(this.operation.teams[this.team].cities)
                                 this.goal.position.x=this.goal.city.position.x
-                                this.goal.position.y=this.goal.city.position.y+(this.goal.city.fortified.unit==0?0:60)
+                                this.goal.position.y=this.goal.city.position.y+(this.goal.city.fortified.unit==-1?0:60)
                             }else{
                                 this.goal.mode=0
                             }

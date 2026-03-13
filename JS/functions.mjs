@@ -158,7 +158,7 @@ export function findList(item,list){
 			return a
 		}
 	}
-    throw new Error(`findList Fail: ${item}`)
+    throw new Error(`findList Fail: ${item} ,${list}`)
 	return -1
 }
 export function findName(name,list){
@@ -167,7 +167,7 @@ export function findName(name,list){
 			return a
 		}
 	}
-    throw new Error(`findName Fail: ${name}`)
+    throw new Error(`findName Fail: ${name} ,${list}`)
 	return -1
 }
 export function findId(id,list){
@@ -176,7 +176,7 @@ export function findId(id,list){
 			return a
 		}
 	}
-    throw new Error(`findId Fail: ${id}`)
+    throw new Error(`findId Fail: ${id} ,${list}`)
 	return -1
 }
 export function findName2(name,list){
@@ -188,7 +188,7 @@ export function findName2(name,list){
 			return a
 		}
 	}
-    throw new Error(`findName2 Fail: ${name}`)
+    throw new Error(`findName2 Fail: ${name} ,${list}`)
 	return -1
 }
 export function findTerm(term,list){
@@ -558,7 +558,7 @@ export function orderCity(){
     set.push({loc:[0,1000]},{loc:[0,2000]},{loc:[0,3000]},{loc:[0,4000]})
     set.sort((a,b)=>a.loc[1]==b.loc[1]?a.loc[0]-b.loc[0]:a.loc[1]-b.loc[1])
     let final=``
-    set.forEach(item=>final+=`${item.loc[0]>0?`{name:${'`'+item.name+'`'},type:1,loc:[${item.loc[0]},${item.loc[1]}],rule:${typeof item.rule==`number`?'`'+item.rule+'`':'[`'+item.rule[0]+'`,`'+item.rule[1]+'`]'}},`:``}\n                    `)
+    set.forEach(item=>final+=`${item.loc[0]>0?`{name:${'`'+item.name+'`'},type:1,loc:[${item.loc[0]},${item.loc[1]}],rule:${typeof item.rule==`number`?'`'+item.rule+'`':'[`'+item.rule[0]+'`,`'+item.rule[1]+'`]'},district:${'`'+item.district+'`'}},`:``}\n                    `)
     print(final)
 }
 export function orderTeam(){

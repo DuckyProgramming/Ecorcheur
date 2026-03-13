@@ -109,7 +109,7 @@ export class ui{
             case 2: case 3:
                 if(last(this.battle.result.winner)==1){
                     this.battle.enemy.fade.trigger=false
-                    this.battle.enemy.fortified.city.fortified.unit=0
+                    this.battle.enemy.fortified.city.fortified.unit=-1
                     this.select.city=this.battle.enemy.fortified.city.index
                     this.operation.cities[this.select.city].taken()
                     this.operation.teams[this.battle.enemy.team].unitDestroyed(this.battle.enemy)
@@ -127,7 +127,7 @@ export class ui{
                 if(mouse.position.x<layer.width-this.width){
                     switch(this.tabs.active){
                         case 0:
-                            if(city.fortified.unit==0||city.fortified.unit.team==this.operation.ref.team[`Player`]){
+                            if(city.fortified.unit==-1||city.fortified.unit.team==this.operation.ref.team[`Player`]){
                                 this.moveTab(5)
                                 this.select.city=city.index
                                 this.select.trigger=true
@@ -313,7 +313,7 @@ export class ui{
                                     layer.rect(0,tick+25,160,40,10)
                                     layer.fill(0)
                                     layer.textSize(15)
-                                    layer.text([`Battle`,this.battle.storeEnemy.type==4?`No Retreat`:`Retreat`][a],0,tick+25)
+                                    layer.text([`Battle`,this.battle.enemy.type==4?`No Retreat`:`Retreat`][a],0,tick+25)
                                     layer.textSize(10)
                                     layer.text(count,70,tick+15)
                                     tick+=50
@@ -575,7 +575,7 @@ export class ui{
                                 layer.text(`ABCDEFGHIJKLMNOPQRSTUVWXYZ`[count-1],70,tick+15)
                                 tick+=50
                                 count++
-                                if(cit.fortified.unit!=0){
+                                if(cit.fortified.unit!=-1){
                                     layer.fill(120)
                                     layer.rect(0,tick+25,160,40,10)
                                     layer.fill(0)
@@ -871,10 +871,10 @@ export class ui{
                                     this.moveTab(0)
                                     cit.fade.trigger=false
                                     this.operation.teams[cit.rule].cityDestroyed(cit)
-                                    if(cit.fortified.unit!=0){
+                                    if(cit.fortified.unit!=-1){
                                         this.operation.units[0].value+=cit.fortified.unit.value
                                         cit.fortified.unit.fade.trigger=false
-                                        cit.fortified.unit=0
+                                        cit.fortified.unit=-1
                                     }
                                 }
                             }
@@ -943,7 +943,7 @@ export class ui{
                             tick+=30
                             if(inPointBox(rel,boxify(0,tick+25,160,40))){
                                 let num=min(this.select.num,this.operation.units[0].value-constants.unitNum)
-                                if(cit.fortified.unit!=0){
+                                if(cit.fortified.unit!=-1){
                                     cit.fortified.unit.value+=num
                                 }else{
                                     this.operation.units.push(new unit(this.operation,false,cit.position.x,cit.position.y,this.operation.id.unit,this.operation.units[0].team,0,num))
@@ -957,14 +957,14 @@ export class ui{
                                 this.operation.units[0].value-=num
                             }
                             tick+=50
-                            if(cit.fortified.unit!=0){
+                            if(cit.fortified.unit!=-1){
                                 if(inPointBox(rel,boxify(0,tick+25,160,40))){
                                     let num=min(this.select.num,cit.fortified.unit.value)
                                     if(num<cit.fortified.unit.value){
                                         cit.fortified.unit.value-=num
                                     }else{
                                         cit.fortified.unit.fade.trigger=false
-                                        cit.fortified.unit=0
+                                        cit.fortified.unit=-1
                                     }
                                     this.operation.units[0].value+=num
                                 }
@@ -1161,10 +1161,10 @@ export class ui{
                                     this.moveTab(0)
                                     cit.fade.trigger=false
                                     this.operation.teams[cit.rule].cityDestroyed(cit)
-                                    if(cit.fortified.unit!=0){
+                                    if(cit.fortified.unit!=-1){
                                         this.operation.units[0].value+=cit.fortified.unit.value
                                         cit.fortified.unit.fade.trigger=false
-                                        cit.fortified.unit=0
+                                        cit.fortified.unit=-1
                                     }
                                 }
                             }
@@ -1246,7 +1246,7 @@ export class ui{
                             count++
                             if(key.toUpperCase()==`ABCDEFGHIJKLMNOPQRSTUVWXYZ`[count-1]){
                                 let num=min(this.select.num,this.operation.units[0].value-constants.unitNum)
-                                if(cit.fortified.unit!=0){
+                                if(cit.fortified.unit!=-1){
                                     cit.fortified.unit.value+=num
                                 }else{
                                     this.operation.units.push(new unit(this.operation,false,cit.position.x,cit.position.y,this.operation.id.unit,this.operation.units[0].team,0,num))
@@ -1260,14 +1260,14 @@ export class ui{
                                 this.operation.units[0].value-=num
                             }
                             count++
-                            if(cit.fortified.unit!=0){
+                            if(cit.fortified.unit!=-1){
                                 if(key.toUpperCase()==`ABCDEFGHIJKLMNOPQRSTUVWXYZ`[count-1]){
                                     let num=min(this.select.num,cit.fortified.unit.value)
                                     if(num<cit.fortified.unit.value){
                                         cit.fortified.unit.value-=num
                                     }else{
                                         cit.fortified.unit.fade.trigger=false
-                                        cit.fortified.unit=0
+                                        cit.fortified.unit=-1
                                     }
                                     this.operation.units[0].value+=num
                                 }

@@ -25,7 +25,7 @@ export class operation{
         this.cities=[]
         this.units=[]
         this.teams=[]
-        this.ref={team:{}}
+        this.ref={team:{},district:{}}
         this.scale=2.5
         this.scene=`title`
         this.initial()
@@ -124,11 +124,10 @@ export class operation{
         }
     }
     loadMap(map){
+        types.region=types.map[map].region
+        types.district=types.map[map].district
         types.city=types.map[map].city
         types.team=types.map[map].team
-
-        types.cityRef={}
-        types.teamRef={}
 
         types.team.forEach(team=>team.loadIndex=findList(team.term,listing.team))
 
@@ -146,6 +145,7 @@ export class operation{
         this.teams=[]
         types.team.forEach((tea,index)=>this.teams.push(new team(this,index)))
         this.teams.forEach((team,index)=>this.ref.team[team.name]=index)
+        types.district.forEach((district,index)=>this.ref.district[district.name]=index)
 
         this.cities=[]
         let set=types.city[1].slice()
