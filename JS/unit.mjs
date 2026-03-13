@@ -248,7 +248,7 @@ export class unit{
                                         }
                                         last(this.operation.units).fortified.city=this.goal.city
                                         this.goal.city.fortified.unit=last(this.operation.units)
-                                        this.goal.city.fortified.bribe=floor(random(0,4))==0?0:(fortified?random(0.75,1.25):random(0.6,1))
+                                        this.goal.city.fortified.bribe=floor(random(0,4))==0?0:(this.goal.city.fortified.trigger?random(0.75,1.25):random(0.6,1))
                                     }
                                 }
                                 if(this.goal.city==-1||this.goal.time>=30){
