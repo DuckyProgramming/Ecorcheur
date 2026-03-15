@@ -485,7 +485,7 @@ export var types={
                     {name:`Monestier`,type:1,loc:[1664,3237],rule:`Elder Albon`,district:`Dauphiné`},
                     {name:`Vallouise`,type:1,loc:[2111,3247],rule:`Escartons`,district:`Alpes`},
                     {name:`Cervières`,type:1,loc:[2250,3249],rule:`Escartons`,district:`Alpes`},
-                    {name:`Désaignes`,type:9,loc:[1000,3262],rule:`Poitiers`,district:`Drôme`},
+                    {name:`Désaignes`,type:1,loc:[1000,3262],rule:`Poitiers`,district:`Drôme`},
                     {name:`Alboussière`,type:1,loc:[1114,3266],rule:`Poitiers`,district:`Drôme`},
                     {name:`Vassieux`,type:1,loc:[1497,3275],rule:`Poitiers`,district:`Drôme`},
                     {name:`Ristolans`,type:1,loc:[2365,3286],rule:`Escartons`,district:`Alpes`},

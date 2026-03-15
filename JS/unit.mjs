@@ -372,7 +372,12 @@ export class unit{
                                 if(this.operation.teams[this.team].name==`Royal Army`){
                                     this.goal.city=-1
                                     for(let a=0,la=this.operation.cities.length;a<la;a++){
-                                        if((this.operation.cities[a].fortified.unit==-1||this.operation.cities[a].fortified.unit.team==this.team)&&(this.goal.city==-1||distPos(this,this.operation.cities[a])+(this.operation.cities[a].fortified.trigger?0:600)<distPos(this,this.goal.city)+(this.goal.city.fortified.trigger?0:600))){
+                                        if(
+                                            (this.operation.cities[a].fortified.unit==-1||this.operation.cities[a].fortified.unit.team==this.team)&&
+                                            (this.goal.city==-1||
+                                                distPos(this,this.operation.cities[a])+(this.operation.cities[a].fortified.trigger?0:600)+(this.operation.cities[a].fortified.unit?0:600)<
+                                                distPos(this,this.goal.city)+(this.goal.city.fortified.trigger?0:600)+(this.goal.city.fortified.unit==-1?0:600)
+                                            )){
                                             this.goal.city=this.operation.cities[a]
                                             this.goal.mode=2
                                         }
@@ -380,7 +385,12 @@ export class unit{
                                 }else{
                                     this.goal.city=-1
                                     for(let a=0,la=this.operation.teams[this.team].cores.length;a<la;a++){
-                                        if((this.operation.teams[this.team].cores[a].fortified.unit==-1||this.operation.teams[this.team].cores[a].fortified.unit.team==this.team)&&(this.goal.city==-1||distPos(this,this.operation.teams[this.team].cores[a])+(this.operation.teams[this.team].cores[a].fortified.trigger?0:600)<distPos(this,this.goal.city)+(this.goal.city.fortified.trigger?0:600))){
+                                        if(
+                                            (this.operation.teams[this.team].cores[a].fortified.unit==-1||this.operation.teams[this.team].cores[a].fortified.unit.team==this.team)&&
+                                            (this.goal.city==-1||
+                                                distPos(this,this.operation.teams[this.team].cores[a])+(this.operation.teams[this.team].cores[a].fortified.trigger?0:600)+(this.operation.teams[this.team].cores[a].fortified.unit?0:600)<
+                                                distPos(this,this.goal.city)+(this.goal.city.fortified.trigger?0:600)+(this.goal.city.fortified.unit==-1?0:600)
+                                            )){
                                             this.goal.city=this.operation.teams[this.team].cores[a]
                                             this.goal.mode=2
                                         }

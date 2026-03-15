@@ -34,6 +34,7 @@ export class operation{
     }
     save(){
         let composite={
+            options:options,
             map:types.map[this.map].term,
             zoom:this.zoom,
             time:this.time,
@@ -60,10 +61,10 @@ export class operation{
     load(result){
         let composite=JSON.parse(result)
 
+        options=composite.options
+
         let map=findTerm0(composite.map,types.map)
-        if(map!=this.map){
-            this.loadMap(map)
-        }
+        this.loadMap(map)
         this.map=map
         this.nextMap=map
         this.zoom=composite.zoom

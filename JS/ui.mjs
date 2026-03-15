@@ -49,7 +49,7 @@ export class ui{
         this.battle=composite.battle
         this.plunder=composite.plunder
     }
-    loaBar(){
+    loadBar(){
         this.battle.player=this.battle.player==-1?0:this.operation.units[findId(this.battle.player,this.operation.units)]
         this.battle.enemy=this.battle.enemy==-1?0:this.operation.units[findId(this.battle.enemy,this.operation.units)]
     }
