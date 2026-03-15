@@ -261,7 +261,7 @@ export class team{
             }else{
                 this.spawn.activation++
                 let num=min(this.cities.reduce((acc,city)=>acc+(city.type==1?0.5:1),0),this.spawn.activation)
-                this.spawn.strength=min(this.spawn.strength+(num-num**2/50)*constants.unitNum*10*options.difficulty,round(100*(1+this.cities.reduce((acc,city)=>acc+(city.type==1?0.5:1),0)*0.05)*options.difficulty)*constants.unitNum)
+                this.spawn.strength=min(this.spawn.strength+(num-num**2/(options.large?80:40))*constants.unitNum*10*options.difficulty,round(100*(1+this.cities.reduce((acc,city)=>acc+(city.type==1?0.5:1),0)*0.05)*options.difficulty)*constants.unitNum)
                 if(this.spawn.strength>=this.spawn.next.value){
                     let success=false
                     let cit
