@@ -115,7 +115,7 @@ export class city{
                 if(this.fade.main>0){
                     layer.push()
                     layer.translate(this.position.x,this.position.y)
-                    layer.scale(5/options.scale*this.operation.scale)
+                    layer.scale(12.5/options.scale)
                     let img=graphics.load.city[types.cityType[this.type].term[0]]
                     layer.image(img,0,0,img.width*0.1*this.fade.main,img.height*0.1*this.fade.main)
                     if(this.fortified.trigger){
@@ -136,7 +136,7 @@ export class city{
                 if(this.fade.map>0||dev.view||dev.district){
                     layer.push()
                     layer.translate(this.position.x,this.position.y)
-                    layer.scale(5/options.scale*this.operation.scale)
+                    layer.scale(12.5/options.scale)
                     let img=graphics.load.city[types.cityType[this.type].term[0]]
                     layer.image(img,0,0,img.width*0.1*this.fade.main,img.height*0.1*this.fade.main)
                     if(this.fortified.trigger){

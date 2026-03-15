@@ -238,26 +238,30 @@ export class ui{
                 layer.push()
                 layer.translate(layer.width*0.5,0)
                 layer.fill(150)
-                layer.rect(0,450,300,280,20)
+                layer.rect(0,450,300,340,20)
                 layer.fill(0)
                 layer.textSize(48)
-                layer.text(`Écorcheur`,0,375)
+                layer.text(`Écorcheur`,0,345)
                 layer.textSize(24)
-                layer.text(`DuckyProgramming`,0,420)
+                layer.text(`DuckyProgramming`,0,390)
                 layer.fill(120)
-                layer.rect(0,475,240,50,10)
-                layer.rect(0,535,240,50,10)
+                layer.rect(0,445,240,50,10)
+                layer.rect(0,565,240,50,10)
+                layer.fill(120,options.large?200:120,120)
+                layer.rect(0,505,240,50,10)
                 layer.fill(100)
-                layer.rect(0,475,3,50)
+                layer.rect(0,445,3,50)
                 layer.fill(0)
-                layer.rect(-95,475,18,2.4)
-                layer.rect(95,475,18,2.4)
-                layer.rect(95,475,2.4,18)
+                layer.rect(-95,445,18,2.4)
+                layer.rect(95,445,18,2.4)
+                layer.rect(95,445,2.4,18)
                 layer.textSize(20)
-                layer.text(`Difficulty: ${options.difficulty}`,0,475)
-                layer.text(`Begin`,0,535)
+                layer.text(`Difficulty: ${options.difficulty}`,0,445)
+                layer.text(`Large Mode`,0,505)
+                layer.text(`Begin`,0,565)
                 layer.textSize(10)
-                layer.text(`Enter`,100,520)
+                layer.text(`#`,105,490)
+                layer.text(`Enter`,100,550)
                 layer.pop()
             break
             case `main`:
@@ -696,13 +700,16 @@ export class ui{
         switch(scene){
             case `title`:
                 rel={position:{x:mouse.position.x-layer.width*0.5,y:mouse.position.y}}
-                if(inPointBox(rel,boxify(-60,475,120,50))&&options.difficulty>0.2){
+                if(inPointBox(rel,boxify(-60,445,120,50))&&options.difficulty>0.2){
                     options.difficulty=round(options.difficulty*10-1)/10
                 }
-                if(inPointBox(rel,boxify(60,475,120,50))&&options.difficulty<2){
+                if(inPointBox(rel,boxify(60,445,120,50))&&options.difficulty<2){
                     options.difficulty=round(options.difficulty*10+1)/10
                 }
-                if(inPointBox(rel,boxify(0,535,240,50))){
+                if(inPointBox(rel,boxify(0,505,240,50))){
+                    options.large=!options.large
+                }
+                if(inPointBox(rel,boxify(0,565,240,50))){
                     this.operation.transitionManager.begin(`main`)
                     this.operation.initialElements()
                     this.operation.initialComponents()
@@ -1002,6 +1009,9 @@ export class ui{
                 }
                 if(key==`+`&&options.difficulty<2){
                     options.difficulty=round(options.difficulty*10+1)/10
+                }
+                if(key==`#`){
+                    options.large=!options.large
                 }
                 if(key==`Enter`){
                     this.operation.transitionManager.begin(`main`)

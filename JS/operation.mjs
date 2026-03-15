@@ -130,7 +130,6 @@ export class operation{
         types.team=types.map[map].team
 
         types.team.forEach(team=>team.loadIndex=findList(team.term,listing.team))
-
         this.edge.x=graphics.load.map[this.map][0].width*this.scale,
         this.edge.y=graphics.load.map[this.map][0].height*this.scale
 
@@ -142,6 +141,10 @@ export class operation{
         this.transitionManager=new transitionManager(this)
     }
     initialElements(){
+        this.scale=options.large?3.5:2.5
+        this.edge.x=graphics.load.map[this.map][0].width*this.scale,
+        this.edge.y=graphics.load.map[this.map][0].height*this.scale
+
         this.teams=[]
         types.team.forEach((tea,index)=>this.teams.push(new team(this,index)))
         this.teams.forEach((team,index)=>this.ref.team[team.name]=index)
@@ -155,11 +158,11 @@ export class operation{
             temp.forEach(item=>item.type=(item.type==5&&floor(random(0,2))==0?5:0))
             set=set.concat(temp)
         }
-        for(let a=0,la=options.allCity?set.length:50-this.cities.length;a<la;a++){
+        for(let a=0,la=options.allCity?set.length:options.large?100-this.cities.length:50-this.cities.length;a<la;a++){
             this.addCity(set.splice(randindex(set),1)[0],floor(random(0,10))!=0)
         }
         set=types.city[2].slice()
-        for(let a=0,la=options.allCity?set.length:200-this.cities.length;a<la;a++){
+        for(let a=0,la=options.allCity?set.length:options.large?400-this.cities.length:200-this.cities.length;a<la;a++){
             this.addCity(set.splice(randindex(set),1)[0],floor(random(0,2))==0)
         }
         /*let groups=[]
@@ -257,12 +260,13 @@ export class operation{
         }else{
             switch(this.scene){
                 case `title`:
-                    this.zoom.scaling=max((layer.width-this.ui.width)/this.edge.x,layer.height/this.edge.y)/0.6
+                    let img=graphics.load.map[this.map][0]
+                    this.zoom.scaling=max((layer.width-this.ui.width)/img.width,layer.height/img.height)/0.6
                     layer.push()
                     layer.translate((layer.width-this.ui.width)*0.5,layer.height*0.5)
                     layer.scale(this.zoom.scaling)
-                    layer.translate(-this.edge.x*0.5+800,-this.edge.y*0.5-2700+abs(this.time.general%2400-1200)*4.5)
-                    layer.image(graphics.load.map[this.map][2],this.edge.x*0.5,this.edge.y*0.5,this.edge.x,this.edge.y)
+                    layer.translate(-img.width*0.5+360,-img.height*0.5-1500+abs(this.time.general%2400-1200)*2)
+                    layer.image(graphics.load.map[this.map][2],img.width*0.5,img.height*0.5,img.width,img.height)
                     layer.pop()
                 break
                 case `main`:

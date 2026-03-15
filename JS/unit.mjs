@@ -479,7 +479,7 @@ export class unit{
                         this.operation.units[0].last.x=this.operation.units[0].position.x
                         this.operation.units[0].last.y=this.operation.units[0].position.y
                     }
-                    this.speed.max=1.5+this.time/3600
+                    this.speed.max=options.large?1.5+this.time/7200:1.5+this.time/3600
                 break
             }
         }
