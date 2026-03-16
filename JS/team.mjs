@@ -261,7 +261,7 @@ export class team{
             }else{
                 this.spawn.activation++
                 let num=min(this.cities.reduce((acc,city)=>acc+(city.type==1?0.5:1),0),this.spawn.activation)
-                this.spawn.strength=min(this.spawn.strength+(num-num**2/(options.large?80:40))*constants.unitNum*10*options.difficulty,round(100*(1+this.cities.reduce((acc,city)=>acc+(city.type==1?0.5:1),0)*0.05)*options.difficulty)*constants.unitNum)
+                this.spawn.strength=min(this.spawn.strength+(num-num**2/(options.large?80:40))*constants.unitNum*(options.large?5:10)*options.difficulty,round(100*(1+this.cities.reduce((acc,city)=>acc+(city.type==1?0.5:1),0)*0.05)*options.difficulty)*constants.unitNum)
                 if(this.spawn.strength>=this.spawn.next.value){
                     let success=false
                     let cit
@@ -305,6 +305,9 @@ export class team{
                             if(possible.length>0){
                                 cit=[this.cities[randin(possible)]]
                                 this.operation.units.push(new unit(this.operation,false,cit[0].position.x,cit[0].position.y+60,this.operation.id.unit,cit[0].type==5?findName(`Free Company`,this.operation.teams):this.type,2,this.spawn.next.value))
+                                if(cit[0].type==5){
+                                    last(this.operation.units).goal.hire=this.type
+                                }
                                 this.operation.id.unit++
                                 this.units.push(last(this.operation.units))
                                 this.spawn.types.field++

@@ -68,9 +68,9 @@ export class city{
             food:{amount:floor(random(80*mult[2],100*mult[2]+1)),instances:floor(random(5*mult[3],10*mult[3]+1)),tick:0},
             raid:{trigger:false,amount:floor(random(1.8*mult[4]*constants.unitNum,2.8*mult[4]*constants.unitNum+1)),instances:floor(random(3*mult[5],5*mult[5]+1)),tick:0}
         }
-        this.resources.manpower.cost=floor(random(0.3*this.resources.manpower.amount,0.5*this.resources.manpower.amount+1))
+        this.resources.manpower.cost=floor(random(0.3*this.resources.manpower.amount*(this.type==5?0.8:1),0.5*this.resources.manpower.amount*(this.type==5?0.8:1)+1))
         this.resources.manpower.base={instances:this.resources.manpower.instances}
-        this.resources.food.cost=floor(random(1.8*this.resources.food.amount*constants.unitNum/100,2.4*this.resources.food.amount*constants.unitNum/100+1))
+        this.resources.food.cost=floor(random(1.8*this.resources.food.amount*constants.unitNum/100*(this.type==3?0.8:1),2.4*this.resources.food.amount*constants.unitNum/100*(this.type==3?0.8:1)+1))
         this.resources.food.base={instances:this.resources.food.instances}
         this.resources.raid.base={instances:this.resources.raid.instances}
     }

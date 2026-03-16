@@ -50,8 +50,8 @@ export var types={
                         {name:`Besançon`,type:2,loc:[1657,1375],rule:`Besançon`,district:`Franche-Comté`},
                         {name:`Pontarlier`,type:2,loc:[1864,1595],rule:`Archbishop of Besançon`,district:`Franche-Comté`},
                     ],[
+                        {name:`Lyon`,type:2,loc:[1137,2616],rule:`Lyon`,district:`Bresse`},
                         {name:`Vienne`,type:2,loc:[1163,2822],rule:`Archbishop of Vienne`,district:`Dauphiné`},
-                        {name:`Beaurepaire`,type:2,loc:[1266,2956],rule:`Archbishop of Vienne`,district:`Dauphiné`},
                     ],[
                         {name:`Aix`,type:2,loc:[1667,4376],rule:`Archbishop of Arles`,district:`Provence`},
                         {name:`Marseille`,type:2,loc:[1647,4566],rule:`Barcelona`,district:`Provence`},
@@ -68,7 +68,7 @@ export var types={
                         {name:`Neuchâtel`,type:3,loc:[2172,1515],rule:`Fenis`,district:`Romandie`},
                         {name:`Lausanne`,type:3,loc:[2047,1913],rule:`Archbishop of Besançon`,district:`Romandie`},
                     ],[
-                        {name:`Lyon`,type:3,loc:[1137,2616],rule:`Lyon`,district:`Bresse`},
+                        {name:`Bourg`,type:3,loc:[1310,2243],rule:`Bâgé`,district:`Bresse`},
                         {name:`Chambéry`,type:3,loc:[1751,2719],rule:`Elder Savoy`,district:`Alpes`},
                     ],[
                         {name:`Nyons`,type:3,loc:[1397,3732],rule:`Rouergue`,district:`Drôme`},
@@ -107,7 +107,6 @@ export var types={
                     {name:`Thonon`,type:0,loc:[1961,2065],rule:`Junior Savoy`,district:`Romandie`},
                     {name:`St. Claude`,type:0,loc:[1624,2092],rule:`Andechs`,district:`Franche-Comté`},
                     {name:`Martigny`,type:0,loc:[2331,2219],rule:`Archbishop of Besançon`,district:`Romandie`},
-                    {name:`Bourg`,type:0,loc:[1310,2243],rule:`Bâgé`,district:`Bresse`},
                     {name:`Bonneville`,type:0,loc:[1970,2290],rule:`Junior Savoy`,district:`Romandie`},
                     {name:`Varey`,type:0,loc:[1447,2386],rule:`Bâgé`,district:`Bresse`},
                     {name:`Chamonix`,type:0,loc:[2234,2392],rule:`Junior Savoy`,district:`Romandie`},
@@ -120,6 +119,7 @@ export var types={
                     {name:`La Tour-du-Pin`,type:0,loc:[1484,2761],rule:`Bâgé`,district:`Bresse`},
                     {name:`St. Étienne`,type:0,loc:[915,2925],rule:`Junior Albon`,district:`Dauphiné`},
                     {name:`St. Jean`,type:0,loc:[2001,2936],rule:`Elder Savoy`,district:`Alpes`},
+                    {name:`Beaurepaire`,type:0,loc:[1266,2956],rule:`Archbishop of Vienne`,district:`Dauphiné`},
                     {name:`Vinay`,type:0,loc:[1483,2998],rule:`Elder Albon`,district:`Dauphiné`},
 
                     {name:`Annonay`,type:0,loc:[1070,3061],rule:`Junior Albon`,district:`Dauphiné`},
@@ -299,7 +299,7 @@ export var types={
                     {name:`Oron`,type:1,loc:[2152,1863],rule:`Junior Savoy`,district:`Romandie`},
                     {name:`Adelboden`,type:1,loc:[2583,1865],rule:`Zähringen`,district:`Helvetie`},
                     {name:`Doucier`,type:1,loc:[1582,1867],rule:`Andechs`,district:`Franche-Comté`},
-                    {name:`Bellwald`,type:1,loc:[2889,1892],rule:`Valais`,district:`Helvetie`},
+                    {name:`Bellwald`,type:1,loc:[2889,1892],rule:`Raron`,district:`Romandie`},
                     {name:`Saanen`,type:1,loc:[2379,1897],rule:`Gruyères`,district:`Romandie`},
                     {name:`Albeuve`,type:1,loc:[2272,1898],rule:`Archbishop of Besançon`,district:`Romandie`},
                     {name:`La Chaux`,type:1,loc:[1657,1902],rule:`Andechs`,district:`Franche-Comté`},
@@ -363,7 +363,7 @@ export var types={
                     {name:`La Roche`,type:1,loc:[1911,2316],rule:`Thoire`,district:`Léman`},
                     {name:`Varax`,type:1,loc:[1268,2318],rule:`Thoire`,district:`Bresse`},
                     {name:`Poncin`,type:1,loc:[1399,2326],rule:`Bâgé`,district:`Bresse`},
-                    {name:`La Clusaz`,type:1,loc:[2007,2340],rule:`Thoire`,district:`Léman`},
+                    {name:`La Clusaz`,type:1,loc:[2007,2430],rule:`Thoire`,district:`Léman`},
                     {name:`Magland`,type:1,loc:[2107,2343],rule:`Junior Savoy`,district:`Romandie`},
                     {name:`Cruseilles`,type:1,loc:[1799,2344],rule:`Thoire`,district:`Léman`},
                     {name:`Belleville`,type:1,loc:[1049,2350],rule:`Junior Albon`,district:`Dauphiné`},
@@ -473,7 +473,7 @@ export var types={
                     {name:`Vizelle`,type:1,loc:[1716,3085],rule:`Elder Albon`,district:`Dauphiné`},
                     {name:`Vif`,type:1,loc:[1649,3130],rule:`Elder Albon`,district:`Dauphiné`},
                     {name:`Pont`,type:1,loc:[1469,3131],rule:`Elder Albon`,district:`Dauphiné`},
-                    {name:`Tournon`,type:1,loc:[1160,3154],rule:`Junior Albon`,district:`Dauphiné`},
+                    {name:`Tournon`,type:1,loc:[1160,3154],rule:`Poitiers`,district:`Drôme`},
                     {name:`St. Félicien`,type:1,loc:[1032,3158],rule:`Junior Albon`,district:`Dauphiné`},
                     {name:`Névache`,type:1,loc:[2210,3168],rule:`Escartons`,district:`Alpes`},
                     {name:`Romans`,type:1,loc:[1296,3176],rule:`Elder Albon`,district:`Dauphiné`},

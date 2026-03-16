@@ -16,7 +16,7 @@ export class unit{
             position:{x:x,y:y},
             deviation:{x:random(-10,10),y:random(-10,10)},
             city:-1,nodes:[],unit:-1,
-            mode:0,time:0,tick:0,chase:0,
+            mode:0,time:0,tick:0,chase:0,hire:0,
             damaged:false,victor:false,
             threshold:random(0.8,1.2),chaseThreshold:random(0.8,1.2)
         }
@@ -50,6 +50,8 @@ export class unit{
                 mode:this.goal.mode,
                 time:this.goal.time,
                 tick:this.goal.tick,
+                chase:this.goal.chase,
+                hire:this.goal.hire,
                 damaged:this.goal.damaged,
                 victor:this.goal.victor
             },
@@ -365,11 +367,17 @@ export class unit{
                         break
                         case 1:
                             if((
-                                this.operation.teams[this.team].spawn.aggress==2&&(this.value<=this.operation.units[0].value*0.5*this.goal.threshold&&!this.goal.victor||this.goal.damaged)||
-                                this.value<=this.operation.units[0].value*0.5*this.goal.threshold&&this.goal.damaged
-                            )&&this.operation.teams[this.team].name!=`Free Company`){
+                                this.operation.teams[this.team].spawn.aggress==2&&(this.value<=this.operation.units[0].value*0.5*this.goal.threshold&&!this.goal.victor||this.goal.damaged)&&
+                                this.operation.teams[this.team].name!=`Free Company`&&this.operation.teams[this.team].name!=`Royal Army`||
+                                this.value<=this.operation.units[0].value*0.5*this.goal.threshold&&this.goal.damaged&&!this.goal.victor&&
+                                this.operation.teams[this.team].name!=`Free Company`&&this.operation.teams[this.team].name!=`Royal Army`||
+                                this.operation.teams[this.goal.hire].spawn.aggress==2&&this.value<=this.operation.units[0].value*0.5*this.goal.threshold&&this.goal.damaged&&!this.goal.victor&&
+                                this.operation.teams[this.team].name==`Free Company`||
+                                this.operation.teams[this.team].spawn.aggress==2&&this.value<=this.operation.units[0].value*0.5*this.goal.threshold&&this.goal.damaged&&!this.goal.victor&&
+                                this.operation.teams[this.team].name==`Royal Army`
+                            )){
                                 this.goal.mode=0
-                                if(this.operation.teams[this.team].name==`Royal Army`){
+                                if(this.operation.teams[this.team].name==`Free Company`||this.operation.teams[this.team].name==`Royal Army`){
                                     this.goal.city=-1
                                     for(let a=0,la=this.operation.cities.length;a<la;a++){
                                         if(
