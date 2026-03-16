@@ -5,7 +5,7 @@ export function preload(){
     listing.city.forEach(city=>graphics.load.city.push(loadImage(`${root}Assets/city/${city}.png`)))
     listing.team.forEach(team=>graphics.load.team.push(loadImage(`${root}Assets/team/${team}.png`)))
     listing.unit.forEach(unit=>graphics.load.unit.push(loadImage(`${root}Assets/unit/${unit}.png`)))
-    graphics.load.water=loadBytes(`${root}Assets/data/water.bin`)
+    graphics.load.water=[loadBytes(`${root}Assets/data/water.bin`),loadBytes(`${root}Assets/data/water2.bin`)]
 }
 window.preload=preload
 window.graphics=graphics

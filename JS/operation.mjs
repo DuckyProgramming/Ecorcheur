@@ -134,7 +134,7 @@ export class operation{
         this.edge.x=graphics.load.map[this.map][0].width*this.scale,
         this.edge.y=graphics.load.map[this.map][0].height*this.scale
 
-        graphics.load.water=Array.from(graphics.load.water.bytes).map(byte=>byte.toString(2).padStart(8,`0`))
+        graphics.load.water=Array.from(graphics.load.water[options.large?1:0].bytes).map(byte=>byte.toString(2).padStart(8,`0`))
     }
     initial(){
         this.calc=new calc(this)
