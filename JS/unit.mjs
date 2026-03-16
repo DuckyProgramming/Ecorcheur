@@ -20,7 +20,7 @@ export class unit{
             damaged:false,victor:false,
             threshold:random(0.8,1.2),chaseThreshold:random(0.8,1.2)
         }
-        this.retreat={speed:1,direction:0}
+        this.retreat={speed:1,direction:0,time:0}
         this.remove=false
         this.fade={main:0,trigger:true}
         this.speed={activation:0,max:[0,random(2.5,3),random(2.25,2.5),2,1.5][type],water:0,lastWater:0,stun:0,nudge:0}
@@ -166,6 +166,9 @@ export class unit{
         if(this.speed.nudge>0){
             this.speed.nudge--
         }
+        if(this.retreat.time>0){
+            this.retreat.time--
+        }
         if(this.speed.stun>0){
             this.speed.stun--
         }else if(this.retreat.speed>1){
@@ -198,6 +201,7 @@ export class unit{
                                         if((this.value<=this.operation.units[0].value*0.5*this.goal.threshold&&!this.goal.victor||this.goal.damaged)&&this.operation.teams[this.team].name!=`Free Company`){
                                             this.goal.position.x=this.position.x*2-this.operation.units[0].position.x
                                             this.goal.position.y=this.position.y*2-this.operation.units[0].position.y
+                                            this.retreat.time=5
                                         }else{
                                             this.goal.position.x=this.operation.units[0].position.x
                                             this.goal.position.y=this.operation.units[0].position.y
@@ -206,6 +210,7 @@ export class unit{
                                     case 2:
                                         this.goal.position.x=this.position.x*2-this.operation.units[0].position.x
                                         this.goal.position.y=this.position.y*2-this.operation.units[0].position.y
+                                        this.retreat.time=5
                                     break
                                 }
                             break
@@ -277,6 +282,7 @@ export class unit{
                                         if((this.value<=this.operation.units[0].value*0.5*this.goal.threshold&&!this.goal.victor||this.goal.damaged)&&this.operation.teams[this.team].name!=`Free Company`){
                                             this.goal.position.x=this.position.x*2-this.operation.units[0].position.x
                                             this.goal.position.y=this.position.y*2-this.operation.units[0].position.y
+                                            this.retreat.time=5
                                         }else{
                                             this.goal.position.x=this.operation.units[0].position.x
                                             this.goal.position.y=this.operation.units[0].position.y
@@ -285,6 +291,7 @@ export class unit{
                                     case 2:
                                         this.goal.position.x=this.position.x*2-this.operation.units[0].position.x
                                         this.goal.position.y=this.position.y*2-this.operation.units[0].position.y
+                                        this.retreat.time=5
                                     break
                                 }
                             break
@@ -509,7 +516,7 @@ export class unit{
                 if(
                     pix>=0&&floor(pix/8)<graphics.load.water.length&&
                     graphics.load.water[floor(pix/8)][pix%8]==0&&
-                    !this.operation.cities.some(cit=>distPos(cit,this)<80)
+                    !this.operation.cities.some(cit=>distPos(cit,this)<(options.large?120:80))
                 ){
                     this.speed.water++
                     this.speed.lastWater=15

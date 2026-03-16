@@ -144,7 +144,7 @@ export class ui{
         this.operation.calc.sides[0].salient=player.retreat.speed>1?(player.speed.lastWater>0?2:1):0
         this.operation.calc.sides[1].salient=enemy.retreat.speed>1?(enemy.speed.lastWater>0?2:1):0
         this.operation.calc.sides[0].force=[{team:player.team,type:0,number:player.value,dist:0}]
-        this.operation.calc.sides[1].force=[{team:enemy.team,type:0,number:enemy.value,dist:[this.operation.teams[enemy.team].name==`Royal Army`?0:4,0,2][this.operation.teams[enemy.team].spawn.aggress]}]
+        this.operation.calc.sides[1].force=[{team:enemy.team,type:0,number:enemy.value,dist:[this.operation.teams[enemy.team].name==`Royal Army`?0:4,0,2][this.operation.teams[enemy.team].spawn.aggress]+(enemy.retreat.time>0?2:0)}]
         switch(this.battle.circumstance){
             case 0:
                 this.operation.calc.sides[1].strategy=1
