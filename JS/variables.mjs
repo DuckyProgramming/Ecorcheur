@@ -179,7 +179,7 @@ export var types={
                     {name:`Montjustin`,type:1,loc:[1823,1070],rule:`Andechs`,district:`Franche-Comté`},
                     {name:`Liestal`,type:1,loc:[2552,1071],rule:`Archbishop of Besançon`,district:`Romandie`},
                     {name:`Héricourt`,type:1,loc:[2015,1079],rule:`Montfaucon`,district:`Franche-Comté`},
-                    {name:`Kastelen`,type:1,loc:[2788,1081],rule:`Habsburg`,district:`Helvetie`},
+                    {name:`Kastelen`,type:1,loc:[2773,1081],rule:`Habsburg`,district:`Helvetie`},
                     {name:`Laufen`,type:1,loc:[2430,1142],rule:`Archbishop of Besançon`,district:`Romandie`},
                     {name:`Champlitte`,type:1,loc:[1342,1149],rule:`Andechs`,district:`Franche-Comté`},
                     {name:`Waldenburg`,type:1,loc:[2572,1151],rule:`Archbishop of Besançon`,district:`Romandie`},
