@@ -92,7 +92,7 @@ export var types={
                     {name:`Solothurn`,type:0,loc:[2470,1294],rule:`League of Cities`,district:`Helvetie`},
                     {name:`Bienne`,type:0,loc:[2315,1378],rule:`Archbishop of Besançon`,district:`Romandie`},
                     {name:`Ornans`,type:0,loc:[1743,1463],rule:`Andechs`,district:`Franche-Comté`},
-                    {name:`Meiringen`,type:0,loc:[3106,1593],rule:`Zähringen`,district:`Helvetie`},
+                    {name:`Meiringen`,type:0,loc:[2865,1640],rule:`Zähringen`,district:`Helvetie`},
                     {name:`Salins`,type:0,loc:[1630,1616],rule:`Gruyères`,district:`Franche-Comté`},
                     {name:`Seurre`,type:0,loc:[1187,1641],rule:`Bâgé`,district:`Franche-Comté`},
                     {name:`Fribourg`,type:0,loc:[2304,1652],rule:`League of Cities`,district:`Helvetie`},
