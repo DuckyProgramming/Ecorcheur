@@ -3,7 +3,7 @@ export var listing={
         `city`,`village`,`elector`,`circleCapital`,`capital`,`militaryCapital`,`electorCapital`,`fortified`,
     ],team:[
         `lillebonne`,`montjoie`,`raron`,`la baume`,`queyras`,`leuggern`,`lyon`,`besancon`,`geneva`,`orange`,
-        `fenis`,`valais`,`montfaucon`,`gruyeres`,`mirabel`,`junior laufenburg`,`league of cities`,`genevois`,`forez`,`albon`,
+        `fenis`,`valais`,`montfaucon`,`gruyeres`,`mirabel`,`laufenburg`,`league of cities`,`genevois`,`forez`,`albon`,
         `zahringen`,`sabran`,`arduinici`,`poitiers`,`rouergue`,`grandson`,`savoy`,`andechs`,`barcelona`,`ecclesiastical`,
         `ecclesiastical2`,`ecclesiastical3`,`arles`,`free company`,`player`,
     ],unit:[
