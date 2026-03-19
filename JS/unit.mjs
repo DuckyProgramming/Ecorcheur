@@ -208,9 +208,14 @@ export class unit{
                                         }
                                     break
                                     case 2:
-                                        this.goal.position.x=this.position.x*2-this.operation.units[0].position.x
-                                        this.goal.position.y=this.position.y*2-this.operation.units[0].position.y
-                                        this.retreat.time=5
+                                        if(this.goal.victor){
+                                            this.goal.position.x=this.operation.units[0].position.x
+                                            this.goal.position.y=this.operation.units[0].position.y
+                                        }else{
+                                            this.goal.position.x=this.position.x*2-this.operation.units[0].position.x
+                                            this.goal.position.y=this.position.y*2-this.operation.units[0].position.y
+                                            this.retreat.time=5
+                                        }
                                     break
                                 }
                             break
