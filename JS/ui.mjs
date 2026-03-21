@@ -85,7 +85,7 @@ export class ui{
                     this.operation.teams[this.battle.enemy.team].unitDestroyed(this.battle.enemy)
                 }
                 if(last(this.battle.result.winner)==1){
-                    if(random(0,1)<=1-this.battle.enemy.value/this.battle.enemy.base.value*(this.battle.enemy.type+1)){
+                    if(random(0,1)<=1-this.battle.enemy.value/this.battle.enemy.base.value*[1,2,3,4,8][this.battle.enemy.type]){
                         this.battle.enemy.fade.trigger=false
                         this.operation.teams[this.battle.enemy.team].unitDestroyed(this.battle.enemy)
                     }else{
