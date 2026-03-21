@@ -165,7 +165,7 @@ export class operation{
                         item.type=0
                     }
                 })
-                set=set.concat(temp)
+                set=set.concat(temp.filter(item=>item.type!=4))
             }
         }else{
             for(let a=0,la=types.city[1].length;a<la;a++){

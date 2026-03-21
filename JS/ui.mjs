@@ -116,7 +116,7 @@ export class ui{
                     this.moveTab(5)
                 }else{
                     this.operation.time.pass=30
-                    this.moveTab(this.battle.circumstance)
+                    this.moveTab(this.operation.units[0].value<=0?0:this.battle.circumstance)
                 }
             break
         }
