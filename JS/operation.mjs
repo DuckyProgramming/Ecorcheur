@@ -17,7 +17,7 @@ export class operation{
             map:{x:0,y:0},
             scaling:0,
         }
-        this.time={general:0,active:false,total:21600,base:21600,pass:0,final:false,raid:0}
+        this.time={general:0,active:false,total:0,base:0,pass:0,final:false,raid:0}
         this.resources={money:10*constants.unitNum,food:500}
         this.prisoners={lost:0,gained:0}
         this.edge={x:0,y:0}
@@ -134,7 +134,7 @@ export class operation{
         this.edge.x=graphics.load.map[this.map][0].width*this.scale,
         this.edge.y=graphics.load.map[this.map][0].height*this.scale
 
-        graphics.load.water=Array.from(graphics.load.water[options.large?1:0].bytes).map(byte=>byte.toString(2).padStart(8,`0`))
+        graphics.load.water=Array.from(graphics.load.water[options.size==2?1:0].bytes).map(byte=>byte.toString(2).padStart(8,`0`))
     }
     initial(){
         this.calc=new calc(this)
@@ -142,7 +142,7 @@ export class operation{
         this.transitionManager=new transitionManager(this)
     }
     initialElements(){
-        this.scale=options.large?3.5:2.5
+        this.scale=[2,2.5,3.5][options.size]
         this.edge.x=graphics.load.map[this.map][0].width*this.scale,
         this.edge.y=graphics.load.map[this.map][0].height*this.scale
 
@@ -152,20 +152,39 @@ export class operation{
         types.district.forEach((district,index)=>this.ref.district[district.name]=index)
 
         this.cities=[]
-        let set=types.city[1].slice()
-        for(let a=0,la=types.city[0].length;a<la;a++){
-            let temp=types.city[0][a].slice()
-            this.addCity(temp.splice(randindex(temp),1)[0],true)
-            temp.forEach(item=>item.type=(item.type==5&&floor(random(0,2))==0?5:0))
-            set=set.concat(temp)
+        let set=types.city[2].slice()
+        if(options.size==0){
+            for(let a=0,la=types.city[0].length;a<la;a++){
+                let temp=types.city[0][a].slice()
+                this.addCity(temp.splice(randindex(temp),1)[0],true)
+                temp.forEach(item=>{
+                    if(item.type==6){
+                        item.type=4
+                        this.addCity(item,true)
+                    }else{
+                        item.type=0
+                    }
+                })
+                set=set.concat(temp)
+            }
+        }else{
+            for(let a=0,la=types.city[1].length;a<la;a++){
+                let temp=types.city[1][a].slice()
+                this.addCity(temp.splice(randindex(temp),1)[0],true)
+                temp.forEach(item=>item.type=(item.type==5&&floor(random(0,2))==0?5:0))
+                set=set.concat(temp)
+            }
         }
-        for(let a=0,la=options.allCity?set.length:options.large?100-this.cities.length:50-this.cities.length;a<la;a++){
+        for(let a=0,la=options.allCity?set.length:[32,50,100][options.size]-this.cities.length;a<la;a++){
             this.addCity(set.splice(randindex(set),1)[0],floor(random(0,10))!=0)
         }
-        set=types.city[2].slice()
-        for(let a=0,la=options.allCity?set.length:options.large?400-this.cities.length:200-this.cities.length;a<la;a++){
+        set=types.city[3].slice()
+        for(let a=0,la=options.allCity?set.length:[128,200,400][options.size]-this.cities.length;a<la;a++){
             this.addCity(set.splice(randindex(set),1)[0],floor(random(0,2))==0)
         }
+        
+        this.time.total=options.size==0?7200:21600
+        this.time.base=options.size==0?7200:21600
         /*let groups=[]
         let leftover=[]
         for(let a=0,la=2;a<la;a++){
@@ -312,7 +331,7 @@ export class operation{
                     layer.pop()
                 break
                 case `map`:
-                    this.zoom.scaling=max((layer.width-this.ui.width)/this.edge.x,layer.height/this.edge.y)/0.5
+                    this.zoom.scaling=max((layer.width-this.ui.width)/this.edge.x,layer.height/this.edge.y)/(options.size==0?0.8:0.5)
                     layer.push()
                     layer.translate((layer.width-this.ui.width)*0.5,layer.height*0.5)
                     layer.scale(this.zoom.scaling)
@@ -422,12 +441,12 @@ export class operation{
         switch(this.scene){
             case `map`:
                 this.zoom.map.x=constrain(
-                    this.zoom.map.x-(mouse.position.x-previous.position.x)*(button==`right`?6:2),
+                    this.zoom.map.x-(mouse.position.x-previous.position.x)*(button==`right`?6:2)*(options.size==0?1.5:1),
                     -(this.edge.x*0.5-(layer.width-this.ui.width)*0.5/this.zoom.scaling),
                     (this.edge.x*0.5-(layer.width-this.ui.width)*0.5/this.zoom.scaling),
                 )
                 this.zoom.map.y=constrain(
-                    this.zoom.map.y-(mouse.position.y-previous.position.y)*(button==`right`?6:2),
+                    this.zoom.map.y-(mouse.position.y-previous.position.y)*(button==`right`?6:2)*(options.size==0?1.5:1),
                     -(this.edge.y*0.5-layer.height*0.5/this.zoom.scaling),
                     (this.edge.y*0.5-layer.height*0.5/this.zoom.scaling),
                 )

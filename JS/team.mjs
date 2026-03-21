@@ -105,12 +105,42 @@ export class team{
             let districts=types.district.map(district=>{return {name:district.name,region:district.region,set:[]}})
             this.operation.cities.forEach(city=>districts[city.district].set.push(city))
             districts=districts.filter(district=>district.region!=``)
-            districts.forEach(district=>{
+            if(options.size>0){
+                districts.forEach(district=>{
+                    let spawned=false
+                    let loop=0
+                    while(!spawned){
+                        let cit=[randin(district.set)]
+                        let set=district.set.filter(city=>cit[0]!=city&&distPos(cit[0],city)<600+loop*50)
+                        if(set.length>0){
+                            cit.push(randin(set))
+                            set=set.filter(city=>cit[0]!=city&&cit[1]!=city&&distPos(cit[0],city)<600+loop*50&&distPos(cit[1],city)<600+loop*50)
+                            if(set.length>0){
+                                cit.push(randin(set))
+                                let loc={
+                                    x:(cit[0].position.x+cit[1].position.x+cit[2].position.x)/3,
+                                    y:(cit[0].position.y+cit[1].position.y+cit[2].position.y)/3
+                                }
+                                if(!this.operation.units.some(unit=>distPos(unit,{position:loc})<100)){
+                                    cit.forEach(city=>district.set.splice(district.set.indexOf(city),1))
+                                    this.operation.units.push(new unit(this.operation,false,loc.x,loc.y,this.operation.id.unit,this.type,1,round(random(20,40)*options.difficulty)*constants.unitNum))
+                                    spawned=true
+                                }
+                            }else{
+                                loop++
+                            }
+                        }
+                    }
+                })
+            }
+            let regions=types.region.map(region=>{return {name:region.name,set:[]}})
+            districts.forEach(district=>regions[findName(district.region,regions)].set.push(...district.set))
+            regions.forEach(region=>{
                 let spawned=false
                 let loop=0
                 while(!spawned){
-                    let cit=[randin(district.set)]
-                    let set=district.set.filter(city=>cit[0]!=city&&distPos(cit[0],city)<600+loop*50)
+                    let cit=[randin(region.set)]
+                    let set=region.set.filter(city=>cit[0]!=city&&distPos(cit[0],city)<600+loop*50)
                     if(set.length>0){
                         cit.push(randin(set))
                         set=set.filter(city=>cit[0]!=city&&cit[1]!=city&&distPos(cit[0],city)<600+loop*50&&distPos(cit[1],city)<600+loop*50)
@@ -121,8 +151,12 @@ export class team{
                                 y:(cit[0].position.y+cit[1].position.y+cit[2].position.y)/3
                             }
                             if(!this.operation.units.some(unit=>distPos(unit,{position:loc})<100)){
-                                cit.forEach(city=>district.set.splice(district.set.indexOf(city),1))
-                                this.operation.units.push(new unit(this.operation,false,loc.x,loc.y,this.operation.id.unit,this.type,1,round(random(20,40)*options.difficulty)*constants.unitNum))
+                                cit.forEach(city=>region.set.splice(region.set.indexOf(city),1))
+                                if(options.size==0){
+                                    this.operation.units.push(new unit(this.operation,false,loc.x,loc.y,this.operation.id.unit,this.type,1,round(random(20,40)*options.difficulty)*constants.unitNum))
+                                }else{
+                                    this.operation.units.push(new unit(this.operation,false,loc.x,loc.y,this.operation.id.unit,this.type,2,round(random(60,120+random(0,60))*options.difficulty)*constants.unitNum))
+                                }
                                 spawned=true
                             }
                         }else{
@@ -131,9 +165,8 @@ export class team{
                     }
                 }
             })
-            let regions=types.region.map(region=>{return {name:region.name,set:[]}})
-            districts.forEach(district=>regions[findName(district.region,regions)].set.push(...district.set))
-            regions.forEach(region=>{
+            if(options.size==0){
+                let region=randin(regions)
                 let spawned=false
                 let loop=0
                 while(!spawned){
@@ -158,7 +191,7 @@ export class team{
                         }
                     }
                 }
-            })
+            }
         }
     }
     unitDestroyed(destroyed){
@@ -261,7 +294,7 @@ export class team{
             }else{
                 this.spawn.activation++
                 let num=min(this.cities.reduce((acc,city)=>acc+(city.type==1?0.5:1),0),this.spawn.activation)
-                this.spawn.strength=min(this.spawn.strength+(num-num**2/(options.large?80:40))*constants.unitNum*(options.large?5:10)*options.difficulty,round(100*(1+this.cities.reduce((acc,city)=>acc+(city.type==1?0.5:1),0)*0.05)*options.difficulty)*constants.unitNum)
+                this.spawn.strength=min(this.spawn.strength+(num-num**2/[20,40,80][options.size])*constants.unitNum*[20,10,5][options.size]*options.difficulty,round(100*(1+this.cities.reduce((acc,city)=>acc+(city.type==1?0.5:1),0)*0.05)*options.difficulty)*constants.unitNum)
                 if(this.spawn.strength>=this.spawn.next.value){
                     let success=false
                     let cit

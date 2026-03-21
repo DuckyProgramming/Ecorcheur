@@ -486,18 +486,19 @@ export class unit{
                     }else{
                         if(distPos(this,this.operation.units[0])<600&&this.operation.teams[this.team].spawn.aggress>0){
                             this.goal.mode=1
-                        }
-                        if(distGoal<=1){
-                            this.goal.time++
-                        }
-                        if(this.goal.city==-1||!this.goal.city.fade.trigger||this.goal.time>=30){
-                            this.goal.time=0
-                            if(this.operation.teams[this.team].cities.length>0){
-                                this.goal.city=randin(this.operation.teams[this.team].cities)
-                                this.goal.position.x=this.goal.city.position.x
-                                this.goal.position.y=this.goal.city.position.y+(this.goal.city.fortified.unit==-1?0:60)
-                            }else{
-                                this.goal.mode=0
+                        }else{
+                            if(distGoal<=1){
+                                this.goal.time++
+                            }
+                            if(this.goal.city==-1||!this.goal.city.fade.trigger||this.goal.time>=30){
+                                this.goal.time=0
+                                if(this.operation.teams[this.team].cities.length>0){
+                                    this.goal.city=randin(this.operation.teams[this.team].cities)
+                                    this.goal.position.x=this.goal.city.position.x
+                                    this.goal.position.y=this.goal.city.position.y+(this.goal.city.fortified.unit==-1?0:60)
+                                }else{
+                                    this.goal.mode=0
+                                }
                             }
                         }
                     }
@@ -509,7 +510,7 @@ export class unit{
                         this.operation.units[0].last.x=this.operation.units[0].position.x
                         this.operation.units[0].last.y=this.operation.units[0].position.y
                     }
-                    this.speed.max=options.large?1.5+this.time/7200:1.5+this.time/3600
+                    this.speed.max=options.size==2?1.5+this.time/7200:1.5+this.time/3600
                 break
             }
         }
@@ -521,7 +522,7 @@ export class unit{
                 if(
                     pix>=0&&floor(pix/8)<graphics.load.water.length&&
                     graphics.load.water[floor(pix/8)][pix%8]==0&&
-                    !this.operation.cities.some(cit=>distPos(cit,this)<(options.large?120:80))
+                    !this.operation.cities.some(cit=>distPos(cit,this)<[60,80,120][options.size])
                 ){
                     this.speed.water++
                     this.speed.lastWater=15

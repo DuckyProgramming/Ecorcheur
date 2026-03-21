@@ -43,6 +43,41 @@ export var types={
             ],city:[
                 [
                     [
+                        {name:`Geneva`,type:4,loc:[1821,2199],rule:`Geneva`,district:`Léman`},
+                    ],[
+                        {name:`Besançon`,type:2,loc:[1657,1375],rule:`Besançon`,district:`Franche-Comté`},
+                        {name:`Pontarlier`,type:2,loc:[1864,1595],rule:`Archbishop of Besançon`,district:`Franche-Comté`},
+                        {name:`Gray`,type:2,loc:[1396,1266],rule:`Andechs`,district:`Franche-Comté`},
+                        {name:`Dole`,type:2,loc:[1345,1574],rule:`Andechs`,district:`Franche-Comté`},
+                        {name:`Bern`,type:2,loc:[2465,1514],rule:`League of Cities`,district:`Helvetie`},
+                        {name:`Thun`,type:2,loc:[2576,1658],rule:`Zähringen`,district:`Helvetie`},
+                    ],[
+                        {name:`Lyon`,type:2,loc:[1137,2616],rule:`Lyon`,district:`Bresse`},
+                        {name:`Vienne`,type:2,loc:[1163,2822],rule:`Archbishop of Vienne`,district:`Dauphiné`},
+                        {name:`Grenoble`,type:2,loc:[1667,3002],rule:`Elder Albon`,district:`Dauphiné`},
+                        {name:`Albon`,type:2,loc:[1216,3072],rule:`Elder Albon`,district:`Dauphiné`},
+                    ],[
+                        {name:`Arles`,type:6,loc:[1192,4316],rule:`Archbishop of Arles`,district:`Provence`},
+                        {name:`Aix`,type:2,loc:[1667,4376],rule:`Archbishop of Arles`,district:`Provence`},
+                        {name:`Marseille`,type:2,loc:[1647,4566],rule:`Barcelona`,district:`Provence`},
+                    ],[
+                        {name:`Neuchâtel`,type:3,loc:[2172,1515],rule:`Fenis`,district:`Romandie`},
+                        {name:`Lausanne`,type:3,loc:[2047,1913],rule:`Archbishop of Besançon`,district:`Romandie`},
+                        {name:`Bourg`,type:3,loc:[1310,2243],rule:`Bâgé`,district:`Bresse`},
+                        {name:`Chambéry`,type:3,loc:[1751,2719],rule:`Elder Savoy`,district:`Alpes`},
+                        {name:`Nyons`,type:3,loc:[1397,3732],rule:`Rouergue`,district:`Drôme`},
+                        {name:`Forcalquier`,type:3,loc:[1826,4019],rule:`Sabran`,district:`Cottia`},
+                    ],[
+                        {name:`Basel`,type:5,loc:[2466,1021],rule:`League of Cities`,district:`Helvetie`},
+                        {name:`Lure`,type:5,loc:[1856,1023],rule:`Archbishop of Besançon`,district:`Franche-Comté`},
+                        {name:`Sion`,type:5,loc:[2476,2093],rule:`Valais`,district:`Helvetie`},
+                        {name:`Feurs`,type:5,loc:[805,2726],rule:`Junior Albon`,district:`Dauphiné`},
+                        {name:`Viviers`,type:5,loc:[1133,3643],rule:`Archbishop of Arles`,district:`Drôme`},
+                        {name:`Nice`,type:5,loc:[2689,4115],rule:`Elder Savoy`,district:`Cottia`},
+                    ],
+                    //guaranteed cities (small mode)
+                ],[
+                    [
                         {name:`Arles`,type:6,loc:[1192,4316],rule:`Archbishop of Arles`,district:`Provence`},
                     ],[
                         {name:`Geneva`,type:4,loc:[1821,2199],rule:`Geneva`,district:`Léman`},
@@ -163,7 +198,7 @@ export var types={
                     {name:`Hyères`,type:0,loc:[2110,4675],rule:`Barcelona`,district:`Provence`},
                     //chance cities
                 ],[
-                    {name:`Fougerolles`,type:1,loc:[1831,856],rule:`Archbishop of Besançon`,district:`Franche-Comté`},
+                    {name:`Fougerolles`,type:1,loc:[1831,858],rule:`Archbishop of Besançon`,district:`Franche-Comté`},
                     {name:`Vauvillers`,type:1,loc:[1651,858],rule:`Andechs`,district:`Franche-Comté`},
                     {name:`Faucogney`,type:1,loc:[1905,889],rule:`Andechs`,district:`Franche-Comté`},
                     {name:`Luxeuil`,type:1,loc:[1783,915],rule:`Archbishop of Besançon`,district:`Franche-Comté`},
@@ -776,7 +811,7 @@ export var types={
     ],
 }
 export var dev={water:false,view:false,district:false}
-export var options={strength:1,unitSize:1,scale:1,difficulty:1,allCity:false,large:false}
+export var options={strength:1,unitSize:1,scale:1,difficulty:1,allCity:false,size:1}
 export var graphics={main:0,load:{map:[],city:[],team:[],unit:[]}}
 export var constants={trig:[[],[]],init:false,unitNum:10}
 export var inputs={mouse:{base:{x:0,y:0},rel:{x:0,y:0},previous:{base:{x:0,y:0},rel:{x:0,y:0}}}}

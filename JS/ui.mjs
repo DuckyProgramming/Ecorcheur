@@ -247,7 +247,6 @@ export class ui{
                 layer.fill(120)
                 layer.rect(0,445,240,50,10)
                 layer.rect(0,565,240,50,10)
-                layer.fill(120,options.large?200:120,120)
                 layer.rect(0,505,240,50,10)
                 layer.fill(100)
                 layer.rect(0,445,3,50)
@@ -257,7 +256,7 @@ export class ui{
                 layer.rect(95,445,2.4,18)
                 layer.textSize(20)
                 layer.text(`Difficulty: ${options.difficulty}`,0,445)
-                layer.text(`Large Mode`,0,505)
+                layer.text(`Size: ${[`Small`,`Normal`,`Large`][options.size]}`,0,505)
                 layer.text(`Begin`,0,565)
                 layer.textSize(10)
                 layer.text(`#`,105,490)
@@ -707,7 +706,7 @@ export class ui{
                     options.difficulty=round(options.difficulty*10+1)/10
                 }
                 if(inPointBox(rel,boxify(0,505,240,50))){
-                    options.large=!options.large
+                    options.size=(options.size+1)%3
                 }
                 if(inPointBox(rel,boxify(0,565,240,50))){
                     this.operation.transitionManager.begin(`main`)
@@ -1011,7 +1010,7 @@ export class ui{
                     options.difficulty=round(options.difficulty*10+1)/10
                 }
                 if(key==`#`){
-                    options.large=!options.large
+                    options.size=(options.size+1)%3
                 }
                 if(key==`Enter`){
                     this.operation.transitionManager.begin(`main`)
