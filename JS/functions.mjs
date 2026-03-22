@@ -528,7 +528,7 @@ export function nameColor(name){
 export function checkCity(){
     print(`Checking Validity`)
     types.map.forEach(map=>map.city.forEach((chunk,index)=>{
-        if(index==0){
+        if(index==0||index==1){
             chunk.forEach(inner=>inner.forEach(enclose=>findName(typeof enclose.rule==`object`?enclose.rule[0]:enclose.rule,map.team)))
         }else{
             chunk.forEach(inner=>findName(typeof inner.rule==`object`?inner.rule[0]:inner.rule,map.team))
@@ -536,7 +536,7 @@ export function checkCity(){
     }))
     print(`Checking Order`)
     types.map.forEach(map=>map.city.forEach((chunk,index)=>{
-        if(index==0){
+        if(index==0||index==1){
             chunk.forEach(inner=>{
                 for(let a=1,la=inner.length;a<la;a++){
                     if(inner[a].loc[1]<inner[a-1].loc[1]||inner[a].loc[1]==inner[a-1].loc[1]&&inner[a].loc[0]<inner[a-1].loc[0]){
