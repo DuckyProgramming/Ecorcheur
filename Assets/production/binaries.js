@@ -37,7 +37,7 @@ async function main(){
     const bits=[]
     let lx=pixels[1][0]
     let ly=pixels[1][1]
-    /*[
+    /*let set=[
         [0,0],
 
         [-6,0],
