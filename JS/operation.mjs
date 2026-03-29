@@ -271,7 +271,7 @@ export class operation{
         if(dev.water){
             for(let a=0,la=360;a<la;a++){
                 for(let b=0,lb=540;b<lb;b++){
-                    let pix=a*10*5400+b*10
+                    let pix=a*10+b*10*3600
                     fill(graphics.load.water[floor(pix/8)][pix%8]*200)
                     rect(a,b,1)
                 }

@@ -518,7 +518,7 @@ export class unit{
             if(distGoal>1){
                 this.speed.activation=smoothAnim(this.speed.activation,true,0,1,5)
                 let mult=1
-                let pix=round(this.position.x/this.operation.scale)*graphics.load.map[this.operation.map][0].height+round(this.position.y/this.operation.scale)
+                let pix=round(this.position.x/this.operation.scale)+round(this.position.y/this.operation.scale)*graphics.load.map[this.operation.map][0].width
                 if(
                     pix>=0&&floor(pix/8)<graphics.load.water.length&&
                     graphics.load.water[floor(pix/8)][pix%8]==0&&
