@@ -75,6 +75,10 @@ export class ui{
     accept(){
         this.battle.player.value-=this.battle.result.casualties[0][0].number
         this.battle.enemy.value-=this.battle.result.casualties[1][0].number
+        this.operation.teams[this.battle.player.team].stats.kills+=this.battle.result.casualties[1][0].number
+        this.operation.teams[this.battle.player.team].stats.deaths+=this.battle.result.casualties[0][0].number
+        this.operation.teams[this.battle.enemy.team].stats.kills+=this.battle.result.casualties[0][0].number
+        this.operation.teams[this.battle.enemy.team].stats.deaths+=this.battle.result.casualties[1][0].number
         if(this.battle.player.value<=0){
             this.battle.player.fade.trigger=false
         }
@@ -609,6 +613,9 @@ export class ui{
                 layer.text(`Deniers:\n${this.operation.resources.money}`,0,40)
                 layer.text(`Food:\n${this.operation.resources.food} (-${round(this.operation.units[0].value/constants.unitNum)})`,0,100)
                 layer.text(`Time:`,0,145)
+                layer.textSize(20)
+                layer.text(`Kills: ${this.operation.teams[this.operation.units[0].team].stats.kills}`,0,215)
+                layer.text(`Losses: ${this.operation.teams[this.operation.units[0].team].stats.deaths}`,0,240)
                 layer.textSize(16)
                 layer.text(formatTime(max(0,this.operation.time.total)*2.5),0,190)
                 layer.stroke(0)
@@ -619,7 +626,7 @@ export class ui{
                     layer.fill(0)
                     layer.rect(-80+80*constrain(this.operation.time.total/this.operation.time.base,0,1),170,160*constrain(this.operation.time.total/this.operation.time.base,0,1),10,4)
                 }
-                tick+=125
+                tick+=175
 
                 layer.noStroke()
                 layer.fill(120)
@@ -633,20 +640,15 @@ export class ui{
 
                 layer.fill(120)
                 layer.rect(0,tick+25,160,40,10)
+                layer.fill(80)
+                layer.rect(0,tick+25,4,40)
                 layer.fill(0)
                 layer.textSize(15)
-                layer.text(`Save`,0,tick+25)
+                layer.text(`Save`,-40,tick+25)
+                layer.text(`Load`,40,tick+25)
                 layer.textSize(10)
-                layer.text(count,60,tick+15)
-                tick+=50
+                layer.text(count,-20,tick+15)
                 count++
-
-                layer.fill(120)
-                layer.rect(0,tick+25,160,40,10)
-                layer.fill(0)
-                layer.textSize(15)
-                layer.text(`Load`,0,tick+25)
-                layer.textSize(10)
                 layer.text(count,60,tick+15)
                 tick+=50
                 count++
@@ -983,16 +985,15 @@ export class ui{
             break
             case `map`:
                 rel={position:{x:mouse.position.x-layer.width+this.width*0.5,y:mouse.position.y}}
-                tick=200
+                tick=250
                 if(inPointBox(rel,boxify(0,tick+25,160,40))){
                     this.operation.transitionManager.begin(`main`)
                 }
                 tick+=50
-                if(inPointBox(rel,boxify(0,tick+25,160,40))){
+                if(inPointBox(rel,boxify(-40,tick+25,80,40))){
                     this.operation.saveCol()
                 }
-                tick+=50
-                if(inPointBox(rel,boxify(0,tick+25,160,40))){
+                if(inPointBox(rel,boxify(40,tick+25,80,40))){
                     this.operation.loadCol(`map`)
                 }
                 tick+=50

@@ -18,6 +18,7 @@ export class team{
                 strength:0,aggress:0
             }
         }
+        this.stats={kills:0,deaths:0}
     }
     save(){
         let composite={
@@ -28,6 +29,7 @@ export class team{
             cores:this.cores.map(core=>core.id),
             units:this.units.map(unit=>unit.id),
             spawn:this.spawn,
+            stats:this.stats,
         }
         return composite
     }
@@ -39,6 +41,7 @@ export class team{
         this.cores=composite.cores
         this.units=composite.units
         this.spawn=composite.spawn
+        this.stats=composite.stats
     }
     loadBar(){
         this.cities=this.cities.map(city=>this.operation.cities[findId(city,this.operation.cities)])
