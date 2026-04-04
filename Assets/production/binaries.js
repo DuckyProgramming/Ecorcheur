@@ -37,7 +37,7 @@ async function main(){
     const bits=[]
     let lx=pixels[1][0]
     let ly=pixels[1][1]
-    /*let set=[
+    let set=[
         [0,0],
 
         [-6,0],
@@ -62,8 +62,8 @@ async function main(){
         [0,10],
         [-5,8],
         [-8,5],
-    ]*/
-    let set=[
+    ]
+    /*let set=[
         [0,0],
 
         [-3,0],
@@ -88,7 +88,7 @@ async function main(){
         [0,5],
         [-3,4],
         [-4,3],
-    ]
+    ]*/
     let interior=(x,y)=>Math.min(Math.max(x,0),lx-1)+Math.min(Math.max(y,0),ly-1)*lx
     for(let a=0,la=pixels[0].length;a<la;a++){
         //if(pixels[a].x%2==0&&pixels[a].y%2==0){

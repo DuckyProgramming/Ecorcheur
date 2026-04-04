@@ -28,9 +28,9 @@ export function setupLayer(layer){
 	layer.textFont('Times New Roman')
 }
 export function displayMain(layer){
-    let scale=min(width/layer.width,height/layer.height)
-    image(layer,width/2,height/2,layer.width*scale,layer.height*scale)
-    updateMouse(graphics.main,scale)
+    graphics.scale=min(width/layer.width,height/layer.height)
+    image(layer,width/2,height/2,layer.width*graphics.scale,layer.height*graphics.scale)
+    updateMouse(graphics.main,graphics.scale)
 }
 export function setupConstants(){
 	constants.sqrt2=sqrt(2)
