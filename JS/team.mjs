@@ -11,7 +11,7 @@ export class team{
         this.cores=[]
         this.units=[]
         this.spawn={
-            activation:0,strength:0,health:0,next:{type:0,value:0},aggress:this.name==`Free Company`?1:0,
+            activation:0,strength:0,health:0,next:{type:0,value:0},aggress:this.name==`Free Company`||this.name==`Crusaders`?1:0,
             types:{garrisonIndex:0,patrol:0,field:0,boss:0},
             base:{
                 types:{patrol:0,field:[0,0]},
@@ -57,7 +57,7 @@ export class team{
         let upTick=this.cores.length==1&&types.team[this.type].quality<1?10:0
         this.cores.forEach((core,index)=>{
             possible.push(index)
-            this.operation.units.push(new unit(this.operation,false,core.position.x,core.position.y,this.operation.id.unit,this.type,0,round(random(2.5+upTick,10+upTick)*types.cityType[core.type].value*(core.fortified?1.25:1)*(1+this.spawn.base.strength*0.05)*options.difficulty)*constants.unitNum))
+            this.operation.units.push(new unit(this.operation,false,core.position.x,core.position.y,this.operation.id.unit,this.type,0,round(random(2.5+upTick,10+upTick)*types.cityType[core.type].value*(core.fortified?1.25:1)*(1+this.spawn.base.strength*0.05)*options.difficulty)*constants.unitNum,false))
             this.operation.id.unit++
             this.units.push(last(this.operation.units))
             if(core.fortified.trigger){
@@ -76,7 +76,7 @@ export class team{
                 }
             }
             possible.splice(remover,1)
-            this.operation.units.push(new unit(this.operation,false,cit[0].position.x,cit[0].position.y+60,this.operation.id.unit,this.type,1,round(random(5,20)*(1+this.spawn.base.strength*0.05)*options.difficulty)*constants.unitNum))
+            this.operation.units.push(new unit(this.operation,false,cit[0].position.x,cit[0].position.y+60,this.operation.id.unit,this.type,1,round(random(5,20)*(1+this.spawn.base.strength*0.05)*options.difficulty)*constants.unitNum,floor(random(0,5))==0))
             this.operation.id.unit++
             this.units.push(last(this.operation.units))
             last(this.operation.units).goal.nodes=[cit[0],cit[1]]
@@ -126,7 +126,7 @@ export class team{
                                 }
                                 if(!this.operation.units.some(unit=>distPos(unit,{position:loc})<100)){
                                     cit.forEach(city=>district.set.splice(district.set.indexOf(city),1))
-                                    this.operation.units.push(new unit(this.operation,false,loc.x,loc.y,this.operation.id.unit,this.type,1,round(random(20,40)*options.difficulty)*constants.unitNum))
+                                    this.operation.units.push(new unit(this.operation,false,loc.x,loc.y,this.operation.id.unit,this.type,1,round(random(20,40)*options.difficulty)*constants.unitNum,floor(random(0,5))==0))
                                     spawned=true
                                 }
                             }else{
@@ -156,9 +156,9 @@ export class team{
                             if(!this.operation.units.some(unit=>distPos(unit,{position:loc})<100)){
                                 cit.forEach(city=>region.set.splice(region.set.indexOf(city),1))
                                 if(options.size==0){
-                                    this.operation.units.push(new unit(this.operation,false,loc.x,loc.y,this.operation.id.unit,this.type,1,round(random(20,40)*options.difficulty)*constants.unitNum))
+                                    this.operation.units.push(new unit(this.operation,false,loc.x,loc.y,this.operation.id.unit,this.type,1,round(random(20,40)*options.difficulty)*constants.unitNum,floor(random(0,5))==0))
                                 }else{
-                                    this.operation.units.push(new unit(this.operation,false,loc.x,loc.y,this.operation.id.unit,this.type,2,round(random(60,120+random(0,60))*options.difficulty)*constants.unitNum))
+                                    this.operation.units.push(new unit(this.operation,false,loc.x,loc.y,this.operation.id.unit,this.type,2,round(random(60,120+random(0,60))*options.difficulty)*constants.unitNum,floor(random(0,5))==0))
                                 }
                                 spawned=true
                             }
@@ -186,7 +186,7 @@ export class team{
                             }
                             if(!this.operation.units.some(unit=>distPos(unit,{position:loc})<100)){
                                 cit.forEach(city=>region.set.splice(region.set.indexOf(city),1))
-                                this.operation.units.push(new unit(this.operation,false,loc.x,loc.y,this.operation.id.unit,this.type,2,round(random(60,120+random(0,60))*options.difficulty)*constants.unitNum))
+                                this.operation.units.push(new unit(this.operation,false,loc.x,loc.y,this.operation.id.unit,this.type,2,round(random(60,120+random(0,60))*options.difficulty)*constants.unitNum,floor(random(0,5))==0))
                                 spawned=true
                             }
                         }else{
@@ -199,7 +199,15 @@ export class team{
     }
     unitDestroyed(destroyed){
         this.units=this.units.filter(uni=>uni.id!=destroyed.id)
+        let cit
         switch(destroyed.type){
+            case -1:
+                //crusader
+                cit=[last(this.operation.cities.sort((a,b)=>a.position.x+a.position.y-b.position.x-b.position.y))]
+                this.operation.units.push(new unit(this.operation,false,cit[0].position.x,cit[0].position.y+60,this.operation.id.unit,this.type,2,round(random(30,60)*options.difficulty)*constants.unitNum,floor(random(0,5))==0))
+                this.operation.id.unit++
+                this.units.push(last(this.operation.units))
+            break
             case 0:
                 this.spawn.base.types.field[0]++
                 this.cities=this.cities.filter(cit=>cit.name!=destroyed.fortified.city.name)
@@ -207,25 +215,7 @@ export class team{
                 if(this.cities.length==0){
                     this.spawn.aggress=2
                 }else if(this.spawn.health<=this.cores.length*0.5&&this.spawn.types.boss==0){
-                    this.spawn.types.boss=1
-                    let possible=[]
-                    for(let a=0,la=6;a<la;a++){
-                        if(possible.length==0){
-                            this.cities.forEach((cit,index)=>{
-                                if(a==5||distPos(cit,this.operation.units[0])>[1200,600,300,150,50][a]){
-                                    possible.push(index)
-                                }
-                            })
-                        }else{
-                            break
-                        }
-                    }
-                    let cit=[this.cities[randin(possible)]]
-                    let value=round((this.spawn.base.strength*8+random(20,30))*options.difficulty)*constants.unitNum
-                    this.operation.units.push(new unit(this.operation,false,cit[0].position.x,cit[0].position.y+60,this.operation.id.unit,this.type,3,value))
-                    this.operation.id.unit++
-                    this.units.push(last(this.operation.units))
-                    this.spawn.strength-=value*0.5
+                    this.spawnBoss()
                 }
                 if(this.spawn.types.garrisonIndex%2==0){
                     this.spawn.base.types.patrol--
@@ -239,35 +229,41 @@ export class team{
             case 2:
                 this.spawn.health-=0.5
                 if(this.cities.length>0&&this.spawn.health<=this.cores.length*0.5-0.5&&this.spawn.types.boss==0){
-                    this.spawn.types.boss=1
-                    let possible=[]
-                    for(let a=0,la=6;a<la;a++){
-                        if(possible.length==0){
-                            this.cities.forEach((cit,index)=>{
-                                if(a==5||distPos(cit,this.operation.units[0])>[1200,600,300,150,50][a]){
-                                    possible.push(index)
-                                }
-                            })
-                        }else{
-                            break
-                        }
-                    }
-                    let cit=[this.cities[randin(possible)]]
-                    let value=round((this.spawn.base.strength*8+random(20,30))*options.difficulty)*constants.unitNum
-                    this.operation.units.push(new unit(this.operation,false,cit[0].position.x,cit[0].position.y+60,this.operation.id.unit,this.type,3,value))
-                    this.operation.id.unit++
-                    this.units.push(last(this.operation.units))
-                    this.spawn.strength-=value*0.5
+                    this.spawnBoss()
                 }
             break
             case 3:
                 this.spawn.aggress=2
+                if(this.name.includes(`Archbishop`)&&floor(random(0,2))==0){
+                    this.operation.teams[findName(`Crusader`,this.operation.teams)].unitDestroyed({type:-1})
+                }
             break
             case 4:
                 this.spawn.aggress=2
                 this.operation.teams.forEach(team=>team.spawn.aggress=team.spawn.base.aggress)
             break
         }
+    }
+    spawnBoss(){
+        this.spawn.types.boss=1
+        let possible=[]
+        for(let a=0,la=6;a<la;a++){
+            if(possible.length==0){
+                this.cities.forEach((cit,index)=>{
+                    if(a==5||distPos(cit,this.operation.units[0])>[1200,600,300,150,50][a]){
+                        possible.push(index)
+                    }
+                })
+            }else{
+                break
+            }
+        }
+        let cit=[this.cities[randin(possible)]]
+        let value=round((this.spawn.base.strength*8+random(20,30))*options.difficulty)*constants.unitNum
+        this.operation.units.push(new unit(this.operation,false,cit[0].position.x,cit[0].position.y+60,this.operation.id.unit,this.type,3,value,false))
+        this.operation.id.unit++
+        this.units.push(last(this.operation.units))
+        this.spawn.strength-=value*0.5
     }
     cityDestroyed(destroyed){
         this.cities=this.cities.filter(city=>city.id!=destroyed.id)
@@ -317,7 +313,7 @@ export class team{
                                         cit[1]=this.cities[possible[b]]
                                     }
                                 }
-                                this.operation.units.push(new unit(this.operation,false,cit[0].position.x,cit[0].position.y+60,this.operation.id.unit,this.type,1,this.spawn.next.value))
+                                this.operation.units.push(new unit(this.operation,false,cit[0].position.x,cit[0].position.y+60,this.operation.id.unit,this.type,1,this.spawn.next.value,floor(random(0,5))==0))
                                 this.operation.id.unit++
                                 this.units.push(last(this.operation.units))
                                 if(distPos(cit[0],this.operation.units[0])<600){
@@ -340,7 +336,7 @@ export class team{
                             })
                             if(possible.length>0){
                                 cit=[this.cities[randin(possible)]]
-                                this.operation.units.push(new unit(this.operation,false,cit[0].position.x,cit[0].position.y+60,this.operation.id.unit,cit[0].type==5?findName(`Free Company`,this.operation.teams):this.type,2,this.spawn.next.value))
+                                this.operation.units.push(new unit(this.operation,false,cit[0].position.x,cit[0].position.y+60,this.operation.id.unit,cit[0].type==5?findName(`Free Company`,this.operation.teams):this.type,2,this.spawn.next.value,floor(random(0,5))==0))
                                 if(cit[0].type==5){
                                     last(this.operation.units).goal.hire=this.type
                                 }

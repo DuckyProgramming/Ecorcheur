@@ -87,8 +87,8 @@ export class ui{
                 if(this.battle.enemy.value<=0){
                     this.battle.enemy.fade.trigger=false
                     this.operation.teams[this.battle.enemy.team].unitDestroyed(this.battle.enemy)
-                }
-                if(last(this.battle.result.winner)==1){
+                    this.moveTab(0)
+                }else if(last(this.battle.result.winner)==1){
                     if(random(0,1)<=1-this.battle.enemy.value/this.battle.enemy.base.value*[1,2,3,4,8][this.battle.enemy.type]){
                         this.battle.enemy.fade.trigger=false
                         this.operation.teams[this.battle.enemy.team].unitDestroyed(this.battle.enemy)
@@ -146,9 +146,9 @@ export class ui{
         this.battle.player=player
         this.battle.enemy=enemy
         this.operation.calc.sides[0].salient=player.retreat.speed>1?(player.speed.lastWater>0?2:1):0
-        this.operation.calc.sides[1].salient=enemy.retreat.speed>1?(enemy.speed.lastWater>0?2:1):0
+        this.operation.calc.sides[1].salient=(enemy.retreat.speed>1?(enemy.speed.lastWater>0?2:1):0)+(enemy.retreat.time>0?1:0)
         this.operation.calc.sides[0].force=[{team:player.team,type:0,number:player.value,dist:0}]
-        this.operation.calc.sides[1].force=[{team:enemy.team,type:0,number:enemy.value,dist:[this.operation.teams[enemy.team].name==`Royal Army`?0:4,0,2][this.operation.teams[enemy.team].spawn.aggress]+(enemy.retreat.time>0?2:0)}]
+        this.operation.calc.sides[1].force=[{team:enemy.team,type:0,number:enemy.value,dist:[this.operation.teams[enemy.team].name==`Royal Army`?0:4,0,2][this.operation.teams[enemy.team].spawn.aggress]}]
         switch(this.battle.circumstance){
             case 0:
                 this.operation.calc.sides[1].strategy=1
@@ -779,7 +779,7 @@ export class ui{
                             if(inPointBox(rel,boxify(0,tick+25,160,40))&&this.battle.storeEnemy.fortified.city.fortified.bribe>0&&this.operation.resources.money>=round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.enemy.value)){
                                 this.operation.resources.money-=round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.enemy.value)
                                 this.battle.enemy.fade.trigger=false
-                                this.operation.units.push(new unit(this.operation,false,this.battle.enemy.position.x,this.battle.enemy.position.y,this.operation.id.unit,this.operation.units[0].team,0,this.battle.enemy.value))
+                                this.operation.units.push(new unit(this.operation,false,this.battle.enemy.position.x,this.battle.enemy.position.y,this.operation.id.unit,this.operation.units[0].team,0,this.battle.enemy.value,false))
                                 this.battle.enemy.fortified.city.fortified.unit=last(this.operation.units)
                                 last(this.operation.units).fortified.city=this.battle.enemy.fortified.city
                                 if(this.battle.enemy.fortified.city.fortified.trigger){
@@ -829,7 +829,7 @@ export class ui{
                             if(inPointBox(rel,boxify(0,tick+25,160,40))&&this.battle.storeEnemy.fortified.city.fortified.bribe>0&&this.operation.resources.money>=round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.enemy.value)){
                                 this.operation.resources.money-=round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.enemy.value)
                                 this.battle.enemy.fade.trigger=false
-                                this.operation.units.push(new unit(this.operation,false,this.battle.enemy.position.x,this.battle.enemy.position.y,this.operation.id.unit,this.operation.units[0].team,0,this.battle.enemy.value))
+                                this.operation.units.push(new unit(this.operation,false,this.battle.enemy.position.x,this.battle.enemy.position.y,this.operation.id.unit,this.operation.units[0].team,0,this.battle.enemy.value,false))
                                 this.battle.enemy.fortified.city.fortified.unit=last(this.operation.units)
                                 last(this.operation.units).fortified.city=this.battle.enemy.fortified.city
                                 if(this.battle.enemy.fortified.city.fortified.trigger){
@@ -954,7 +954,7 @@ export class ui{
                                 if(cit.fortified.unit!=-1){
                                     cit.fortified.unit.value+=num
                                 }else{
-                                    this.operation.units.push(new unit(this.operation,false,cit.position.x,cit.position.y,this.operation.id.unit,this.operation.units[0].team,0,num))
+                                    this.operation.units.push(new unit(this.operation,false,cit.position.x,cit.position.y,this.operation.id.unit,this.operation.units[0].team,0,num,false))
                                     cit.fortified.unit=last(this.operation.units)
                                     last(this.operation.units).fortified.city=cit
                                     if(cit.fortified.trigger){
@@ -1074,7 +1074,7 @@ export class ui{
                             if(key==count.toString()&&this.battle.storeEnemy.fortified.city.fortified.bribe>0&&this.operation.resources.money>=round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.enemy.value)){
                                 this.operation.resources.money-=round(this.battle.storeEnemy.fortified.city.fortified.bribe*this.battle.enemy.value)
                                 this.battle.enemy.fade.trigger=false
-                                this.operation.units.push(new unit(this.operation,false,this.battle.enemy.position.x,this.battle.enemy.position.y,this.operation.id.unit,this.operation.units[0].team,0,this.battle.enemy.value))
+                                this.operation.units.push(new unit(this.operation,false,this.battle.enemy.position.x,this.battle.enemy.position.y,this.operation.id.unit,this.operation.units[0].team,0,this.battle.enemy.value,false))
                                 this.battle.enemy.fortified.city.fortified.unit=last(this.operation.units)
                                 last(this.operation.units).fortified.city=this.battle.enemy.fortified.city
                                 if(this.battle.enemy.fortified.city.fortified.trigger){
@@ -1259,7 +1259,7 @@ export class ui{
                                 if(cit.fortified.unit!=-1){
                                     cit.fortified.unit.value+=num
                                 }else{
-                                    this.operation.units.push(new unit(this.operation,false,cit.position.x,cit.position.y,this.operation.id.unit,this.operation.units[0].team,0,num))
+                                    this.operation.units.push(new unit(this.operation,false,cit.position.x,cit.position.y,this.operation.id.unit,this.operation.units[0].team,0,num,false))
                                     cit.fortified.unit=last(this.operation.units)
                                     last(this.operation.units).fortified.city=cit
                                     if(cit.fortified.trigger){

@@ -81,7 +81,7 @@ export class operation{
         }
         if(composite.units!=undefined){
             this.units=[]
-            composite.units.forEach(uni=>{this.units.push(new unit(this,false,0,0,0,0,0,0));last(this.units).load(uni)})
+            composite.units.forEach(uni=>{this.units.push(new unit(this,false,0,0,0,0,0,0,false));last(this.units).load(uni)})
         }
         if(composite.teams!=undefined){
             this.teams=[]
@@ -183,8 +183,8 @@ export class operation{
             this.addCity(set.splice(randindex(set),1)[0],floor(random(0,2))==0)
         }
         
-        this.time.total=options.size==0?7200:21600
-        this.time.base=options.size==0?7200:21600
+        this.time.total=[7200,14400,21600]
+        this.time.base=[7200,14400,21600]
         /*let groups=[]
         let leftover=[]
         for(let a=0,la=2;a<la;a++){
@@ -229,7 +229,7 @@ export class operation{
             interp=random(0.2,0.8)
             loc=mapVec(cit[0].position,cit[1].position,interp)
         }
-        this.units.splice(0,0,new unit(this,true,loc.x,loc.y,this.id.unit,this.ref.team[`Player`],2,20*constants.unitNum))
+        this.units.splice(0,0,new unit(this,true,loc.x,loc.y,this.id.unit,this.ref.team[`Player`],2,20*constants.unitNum,false))
         this.id.unit++
         this.zoom.position.x=loc.x
         this.zoom.position.y=loc.y
@@ -402,7 +402,8 @@ export class operation{
                         }
                         this.teams.forEach(team=>{team.spawn.base.aggress=team.spawn.aggress;team.spawn.aggress=max(1,team.spawn.aggress)})
                         this.units.push(new unit(this,false,pos.x,pos.y+60,this.id.unit,this.ref.team[`Royal Army`],4,
-                            ((this.teams.reduce((acc,team)=>acc+(team.spawn.aggress<2?team.spawn.base.strength:0),0)*6+50)*options.difficulty)*constants.unitNum
+                            ((this.teams.reduce((acc,team)=>acc+(team.spawn.aggress<2?team.spawn.base.strength:0),0)*6+50)*options.difficulty)*constants.unitNum,
+                            false
                         ))
                         this.id.unit++
                     }

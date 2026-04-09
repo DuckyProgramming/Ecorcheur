@@ -2,7 +2,7 @@ import {types,graphics,options,constants} from './variables.mjs'
 import {distPos,smoothAnim,moveTowardVec,inBoxBox,basicCollideBoxBox,last,randin,findId} from './functions.mjs'
 import {lsin,lcos} from './graphics.mjs'
 export class unit{
-    constructor(operation,player,x,y,id,team,type,value){
+    constructor(operation,player,x,y,id,team,type,value,cav){
         this.operation=operation
         this.player=player
         this.position={x:x,y:y}
@@ -10,6 +10,10 @@ export class unit{
         this.team=team
         this.type=type
         this.value=value
+        this.cav=cav
+        if(this.cav){
+            this.value=ceil(this.value/2/constants.unitNum)*constants.unitNum
+        }
         this.base={value:this.value}
         this.last={x:x,y:y}
         this.goal={
@@ -23,9 +27,9 @@ export class unit{
         this.retreat={speed:1,direction:0,time:0}
         this.remove=false
         this.fade={main:0,trigger:true}
-        this.speed={activation:0,max:[0,random(2.5,3),random(2.25,2.5),2,1.5][type],water:0,lastWater:0,stun:0,nudge:0}
+        this.speed={activation:0,max:[0,random(2.5,3),random(2.25,2.5),2,1.5][type]*(this.cav?2:1),water:0,lastWater:0,stun:0,nudge:0}
         this.time=0
-        this.img=[graphics.load.team[types.team[this.team].loadIndex],graphics.load.unit[this.type]]
+        this.img=[graphics.load.team[types.team[this.team].loadIndex],graphics.load.unit[this.type+(this.cav?5:0)]]
         this.width=0
         this.height=0
         this.fortified={trigger:false,city:0}
@@ -74,6 +78,7 @@ export class unit{
         this.team=composite.team
         this.type=composite.type
         this.value=composite.value
+        this.cavalry=composite.cavalry
         this.base=composite.base
         this.last=composite.last
         this.goal=composite.goal
@@ -198,7 +203,11 @@ export class unit{
                                 }
                                 switch(this.operation.teams[this.team].spawn.aggress){
                                     case 0: case 1:
-                                        if((this.value<=this.operation.units[0].value*0.5*this.goal.threshold&&!this.goal.victor||this.goal.damaged)&&this.operation.teams[this.team].name!=`Free Company`){
+                                        if(
+                                            (this.value<=this.operation.units[0].value*0.5*this.goal.threshold&&!this.goal.victor||this.goal.damaged)&&
+                                            this.operation.teams[this.team].name!=`Free Company`&&
+                                            this.operation.teams[this.team].name!=`Crusader`
+                                        ){
                                             this.goal.position.x=this.position.x*2-this.operation.units[0].position.x
                                             this.goal.position.y=this.position.y*2-this.operation.units[0].position.y
                                             this.retreat.time=5
@@ -252,7 +261,7 @@ export class unit{
                                     if(this.goal.city!=-1&&this.fade.trigger&&this.goal.city.fade.trigger&&this.goal.city.fortified.unit==-1&&distPos(this,this.goal.city)<1){
                                         this.fade.trigger=false
                                         this.operation.teams[this.team].unitDestroyed(this)
-                                        this.operation.units.push(new unit(this.operation,false,this.goal.city.position.x,this.goal.city.position.y,this.operation.id.unit,this.team,0,this.value))
+                                        this.operation.units.push(new unit(this.operation,false,this.goal.city.position.x,this.goal.city.position.y,this.operation.id.unit,this.team,0,this.value,false))
                                         this.operation.id.unit++
                                         this.operation.teams[this.team].units.push(last(this.operation.units))
                                         if(this.goal.city.fortified.trigger){
@@ -284,7 +293,11 @@ export class unit{
                                 }
                                 switch(this.operation.teams[this.team].spawn.aggress){
                                     case 1:
-                                        if((this.value<=this.operation.units[0].value*0.5*this.goal.threshold&&!this.goal.victor||this.goal.damaged)&&this.operation.teams[this.team].name!=`Free Company`){
+                                        if(
+                                            (this.value<=this.operation.units[0].value*0.5*this.goal.threshold&&!this.goal.victor||this.goal.damaged)&&
+                                            this.operation.teams[this.team].name!=`Free Company`&&
+                                            this.operation.teams[this.team].name!=`Crusader`
+                                        ){
                                             this.goal.position.x=this.position.x*2-this.operation.units[0].position.x
                                             this.goal.position.y=this.position.y*2-this.operation.units[0].position.y
                                             this.retreat.time=5
@@ -380,16 +393,16 @@ export class unit{
                         case 1:
                             if((
                                 this.operation.teams[this.team].spawn.aggress==2&&(this.value<=this.operation.units[0].value*0.5*this.goal.threshold&&!this.goal.victor||this.goal.damaged)&&
-                                this.operation.teams[this.team].name!=`Free Company`&&this.operation.teams[this.team].name!=`Royal Army`||
+                                    this.operation.teams[this.team].name!=`Royal Army`&&this.operation.teams[this.team].name!=`Free Company`&&this.operation.teams[this.team].name!=`Crusader`||
                                 this.value<=this.operation.units[0].value*0.5*this.goal.threshold&&this.goal.damaged&&!this.goal.victor&&
-                                this.operation.teams[this.team].name!=`Free Company`&&this.operation.teams[this.team].name!=`Royal Army`||
+                                    this.operation.teams[this.team].name!=`Royal Army`&&this.operation.teams[this.team].name!=`Free Company`&&this.operation.teams[this.team].name!=`Crusader`||
                                 this.operation.teams[this.goal.hire].spawn.aggress==2&&this.value<=this.operation.units[0].value*0.5*this.goal.threshold&&this.goal.damaged&&!this.goal.victor&&
-                                this.operation.teams[this.team].name==`Free Company`||
+                                    this.operation.teams[this.team].name==`Free Company`||
                                 this.operation.teams[this.team].spawn.aggress==2&&this.value<=this.operation.units[0].value*0.5*this.goal.threshold&&this.goal.damaged&&!this.goal.victor&&
-                                this.operation.teams[this.team].name==`Royal Army`
+                                    this.operation.teams[this.team].name==`Royal Army`
                             )){
                                 this.goal.mode=0
-                                if(this.operation.teams[this.team].name==`Free Company`||this.operation.teams[this.team].name==`Royal Army`){
+                                if(this.operation.teams[this.team].name==`Royal Army`||this.operation.teams[this.team].name==`Free Company`||this.operation.teams[this.team].name==`Crusader`){
                                     this.goal.city=-1
                                     for(let a=0,la=this.operation.cities.length;a<la;a++){
                                         if(
@@ -452,7 +465,7 @@ export class unit{
                             }else if(this.goal.city.fortified.unit==-1&&distPos(this,this.goal.city)<1&&this.fade.trigger){
                                 this.fade.trigger=false
                                 this.operation.teams[this.team].unitDestroyed(this)
-                                this.operation.units.push(new unit(this.operation,false,this.goal.city.position.x,this.goal.city.position.y,this.operation.id.unit,this.team,0,this.value))
+                                this.operation.units.push(new unit(this.operation,false,this.goal.city.position.x,this.goal.city.position.y,this.operation.id.unit,this.team,0,this.value,false))
                                 this.operation.id.unit++
                                 this.operation.teams[this.team].units.push(last(this.operation.units))
                                 if(this.goal.city.fortified.trigger){
