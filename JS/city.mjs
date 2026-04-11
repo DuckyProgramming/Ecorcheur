@@ -10,6 +10,9 @@ export class city{
         let rule=typeof data.rule==`object`?randin(data.rule):data.rule
         this.rule=this.operation.ref.team[rule]
         this.owner=this.operation.ref.team[rule]
+        if(this.rule==undefined){
+            print(`Core Fail: ${rule}`)
+        }
         this.district=this.operation.ref.district[data.district]
         this.fortified={trigger:fortified,unit:-1,sieged:-1,siegeActive:false,taken:false,bribe:floor(random(0,4))==0?0:(fortified?random(0.75,1.25):random(0.6,1))}
         this.fade={main:0,trigger:true,map:0}

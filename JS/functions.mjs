@@ -428,11 +428,11 @@ export function nameColor(name){
             return [108,173,184]
         case `Minor`:
             return [220,201,166]
-        case `Burghers`: case `Alsace`: case `League of Cities`: case `Cheb`: case `Riga`: case `Geneva`: case `Lyon`: case `Besançon`:
+        case `Burghers`: case `Alsace`: case `League of Cities`: case `Cheb`: case `Riga`:
             return [218,24,30]
         case `Geneva`:
             return [225,44,83]
-        case `Lyon`:
+        case `Lyon`: case `Nice`:
             return [238,77,37]
         case `Besançon`:
             return [245,31,50]

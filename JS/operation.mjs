@@ -183,8 +183,8 @@ export class operation{
             this.addCity(set.splice(randindex(set),1)[0],floor(random(0,2))==0)
         }
         
-        this.time.total=[7200,14400,21600]
-        this.time.base=[7200,14400,21600]
+        this.time.total=[7200,14400,21600][options.size]
+        this.time.base=[7200,14400,21600][options.size]
         /*let groups=[]
         let leftover=[]
         for(let a=0,la=2;a<la;a++){
