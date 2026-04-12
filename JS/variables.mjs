@@ -2,7 +2,7 @@ export var listing={
     city:[
         `city`,`village`,`elector`,`circleCapital`,`capital`,`militaryCapital`,`electorCapital`,`fortified`,
     ],team:[
-        `lillebonne`,`montjoie`,`raron`,`chalon`,`queyras`,`leuggern`,`besancon`,`nice`,`geneva`,`orange`,
+        `lillebonne`,`montjoie`,`raron`,`chalon`,`escartons`,`leuggern`,`besancon`,`nice`,`geneva`,`orange`,
         `fenis`,`valais`,`montfaucon`,`gruyeres`,`mirabel`,`laufenburg`,`league of cities`,`genevois`,`forez`,`albon`,
         `zahringen`,`sabran`,`arduinici`,`poitiers`,`rouergue`,`grandson`,`savoy`,`andechs`,`barcelona`,`ecclesiastical`,
         `ecclesiastical2`,`ecclesiastical3`,`arles`,`free company`,`crusader`,`player`,
@@ -883,7 +883,7 @@ export var types={
                 {name:`Laufenburg`,term:`laufenburg`,quality:1},
                 {name:`Orange`,term:`orange`,quality:1},
                 {name:`Fenis`,term:`fenis`,quality:1},
-                {name:`Escartons`,term:`queyras`,quality:1.1},
+                {name:`Escartons`,term:`escartons`,quality:1.1},
                 {name:`Valais`,term:`valais`,quality:1},
                 {name:`Montfaucon`,term:`montfaucon`,quality:1},
                 {name:`Gruyères`,term:`gruyeres`,quality:1},
