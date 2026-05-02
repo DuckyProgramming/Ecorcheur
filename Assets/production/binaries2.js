@@ -40,32 +40,6 @@ async function main(){
     let set=[
         [0,0],
 
-        [-6,0],
-        [-4,-4],
-        [0,-6],
-        [4,-4],
-        [6,0],
-        [4,4],
-        [0,6],
-        [-4,4],
-        
-        [0,0],
-        [-10,0],
-        [-8,-5],
-        [-5,-8],
-        [0,-10],
-        [5,-8],
-        [8,-5],
-        [10,0],
-        [8,5],
-        [5,8],
-        [0,10],
-        [-5,8],
-        [-8,5],
-    ]
-    /*let set=[
-        [0,0],
-
         [-3,0],
         [-2,-2],
         [0,-3],
@@ -88,7 +62,7 @@ async function main(){
         [0,5],
         [-3,4],
         [-4,3],
-    ]*/
+    ]
     let interior=(x,y)=>Math.min(Math.max(x,0),lx-1)+Math.min(Math.max(y,0),ly-1)*lx
     for(let a=0,la=pixels[0].length;a<la;a++){
         //if(pixels[a].x%2==0&&pixels[a].y%2==0){
@@ -114,8 +88,8 @@ async function main(){
     }
 
     const buffer=Buffer.from(byteArray);
-    fs.writeFileSync(`water.bin`,buffer);
-    console.log(`Wrote ${byteArray.length} bytes to water.bin`);
+    fs.writeFileSync(`water2.bin`,buffer);
+    console.log(`Wrote ${byteArray.length} bytes to water2.bin`);
 }
 
 main()
