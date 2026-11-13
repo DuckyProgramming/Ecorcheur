@@ -953,7 +953,8 @@ export class ui{
                                 let num=min(this.select.num,this.operation.units[0].value-constants.unitNum)
                                 if(cit.fortified.unit!=-1){
                                     cit.fortified.unit.value+=num
-                                }else{
+                                }else if(num>0){
+                                //}else{
                                     this.operation.units.push(new unit(this.operation,false,cit.position.x,cit.position.y,this.operation.id.unit,this.operation.units[0].team,0,num,false))
                                     cit.fortified.unit=last(this.operation.units)
                                     last(this.operation.units).fortified.city=cit
@@ -1258,7 +1259,8 @@ export class ui{
                                 let num=min(this.select.num,this.operation.units[0].value-constants.unitNum)
                                 if(cit.fortified.unit!=-1){
                                     cit.fortified.unit.value+=num
-                                }else{
+                                }else if(num>0){
+                                //}else{
                                     this.operation.units.push(new unit(this.operation,false,cit.position.x,cit.position.y,this.operation.id.unit,this.operation.units[0].team,0,num,false))
                                     cit.fortified.unit=last(this.operation.units)
                                     last(this.operation.units).fortified.city=cit
